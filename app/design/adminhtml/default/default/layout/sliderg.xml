@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_sliderg_edit>
+        <reference name="head">
+            <action method="addJs"><script>sliderg/adminhtml/product.js</script></action>
+            <action method="addJs"><script>sliderg/adminhtml/jsuploader.js</script></action>
+            <action method="addJs"><script>sliderg/adminhtml/uploader.js</script></action>
+        </reference>
+    </adminhtml_sliderg_edit>
+    <adminhtml_sliderg_add>
+        <reference name="head">
+            <action method="addJs"><script>sliderg/adminhtml/product.js</script></action>
+        </reference>
+    </adminhtml_sliderg_add>
+</layout>

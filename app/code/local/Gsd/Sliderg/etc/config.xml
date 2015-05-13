@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gsd_Sliderg>
+            <version>0.1.0</version>
+        </Gsd_Sliderg>
+    </modules>
+    <global>
+        <models>
+            <sliderg>
+                <class>Gsd_Sliderg_Model</class>
+                <resourceModel>sliderg_resource</resourceModel>
+            </sliderg>
+            <sliderg_resource>
+                <class>Gsd_Sliderg_Model_Resource</class>
+                <entities>
+                    <slider>
+                        <table>sliderg_slider</table>
+                    </slider>
+                    <images>
+                        <table>sliderg_images</table>
+                    </images>
+                </entities>
+            </sliderg_resource>
+        </models>
+        <blocks>
+            <sliderg>
+                <class>Gsd_Sliderg_Block</class>
+            </sliderg>
+        </blocks>
+        <helpers>
+            <sliderg>
+                <class>Gsd_Sliderg_Helper</class>
+            </sliderg>
+        </helpers>
+        <!--<resources>
+            <gsd_sliderg_setup>
+                <setup>
+                    <module>Gsd_Sliderg</module>
+                </setup>
+            </gsd_sliderg_setup>
+        </resources>-->
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Gsd_Sliderg before="Mage_Adminhtml">Gsd_Sliderg_Adminhtml</Gsd_Sliderg>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <sliderg>
+                    <file>sliderg.xml</file>
+                </sliderg>
+            </updates>
+        </layout>
+    </adminhtml>
+</config>
