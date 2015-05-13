@@ -19,6 +19,12 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'required' => true,
             'name' => 'title',
         ));
+        $fieldset->addField('code', 'text', array(
+            'label' => $this->__('Code'),
+            'class' => 'required-entry',
+            'required' => true,
+            'name' => 'code',
+        ));
         $fieldset->addField('enable', 'select', array(
             'label' => $this->__('Enable'),
             'name' => 'enable',
@@ -44,6 +50,12 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'config' => $wysiwygConfig,
             'required' => false,
             'wysiwyg' => true
+        ));
+
+        $fieldset = $form->addFieldset('slider_setting', array('legend' => $this->__("Setting")));
+        $fieldset->addField('column_count', 'text', array(
+            'label' => $this->__('Column Count'),
+            'name' => 'column_count',
         ));
 
         $form->setValues($data);

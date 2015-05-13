@@ -60,22 +60,19 @@ class Gsd_Sliderg_Adminhtml_SlidergController extends Mage_Adminhtml_Controller_
                     $model->setId($id);
                 }
                 $model->save();
-
                 if (!$model->getId()) {
-                    Mage::throwException($this->__('Error saving slider details'));
+                    Mage::getSingleton('adminhtml/session')->addError($this->__('Error saving slider details'));
                 }
-
-                Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Details was successfully saved.'));
-
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
-
+                else {
+                    Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Details was successfully saved.'));
+                    Mage::getSingleton('adminhtml/session')->setFormData(false);
+                }
                 // The following line decides if it is a "save" or "save and continue"
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 } else {
                     $this->_redirect('*/*/');
                 }
-
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 if ($model && $model->getId()) {

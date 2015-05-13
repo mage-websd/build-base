@@ -82,6 +82,7 @@ Product.Igallery.prototype = {
             newImage.url = response.url;
             newImage.file = response.file;
             newImage.label = response.label;
+            newImage.name_origin = response.name_origin;
             newImage.urlbanner = '';
             newImage.descriptionbanner = '';
             newImage.position = this.getNextPosition();

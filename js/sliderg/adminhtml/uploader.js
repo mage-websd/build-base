@@ -143,10 +143,10 @@ Uploader.prototype = {
         
             Element.insert($(that.htmlIdBlocks), {top: that.createTemplate(that).evaluate(that.getValues(that))});                                       
             that.addUploadBlock(that.getValues(that));
-            
+
             var file = Object();
             file.id = that.fileIdPrefix + (that.id - 1);
-            file.name = this.value;
+            file.name = this.value.split(/(\\|\/)/g).pop();
             file.status = that.statusNew;
             file.creator = null;
             file.size = 0;

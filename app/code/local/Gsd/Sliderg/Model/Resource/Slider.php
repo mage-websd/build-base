@@ -26,6 +26,21 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
         return $this->__loadThumbnailImageForFrontend($object);
     }
 
+    public function save(Mage_Core_Model_Abstract $object)
+    {
+        if(!$object->getId()) {
+            $code = $object->getData('code');
+            $collection = Mage::getModel('sliderg/slider')->getCollection()
+                ->addFieldToFilter('code', $code)
+                ->addFieldToSelect('slider_id');
+            if ($collection->count() > 0) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('Code is exists'));
+                return false;
+            }
+        }
+        return parent::save($object);
+    }
+
     /**
      *
      * @param Mage_Core_Model_Abstract $object
@@ -138,14 +153,14 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
                             //$_adapter->delete($_imageTable, $_adapter->quoteInto('image_id = ?', $_item['value_id'], 'INTEGER'));
                         } else {
                             $_data = array(
+                                'slider_id' => $object->getId(),
+                                'name_origin' => $_item['name_origin'],
                                 'name_rename'     => $_item['label'],
                                 'path_media'      => $_item['file'],
+                                'description' => $_item['descriptionbanner'],
+                                'url' => $_item['urlbanner'],
                                 'position'  => $_item['position'],
                                 'enable'  => !$_item['disabled'],
-                                'slider_id' => $object->getId(),
-                                'url' => $_item['urlbanner'],
-                                'description' => $_item['descriptionbanner'],
-                                'name_origin' => $_item['name_origin'],
                             );
                             $_adapter->insert($_imageTable, $_data);
                         }

@@ -10,13 +10,32 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("
-DROP TABLE IF EXISTS `sliderg_slider`;
-CREATE TABLE IF NOT EXISTS `sliderg_slider` (
-  `id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL
-);
-ALTER TABLE `sliderg_slider` ADD PRIMARY KEY (`id`);
+
+CREATE TABLE IF NOT EXISTS `sliderg_slider`(
+  `slider_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text CHARACTER SET latin1 NOT NULL,
+  `enable` tinyint(1) NOT NULL DEFAULT '1',
+  `column_count` int(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`slider_id`),
+  UNIQUE KEY `UNIQUE_CODE` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+
+CREATE TABLE IF NOT EXISTS `sliderg_images` (
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `slider_id` int(11) NOT NULL,
+  `name_origin` varchar(255) NOT NULL,
+  `name_rename` varchar(255) NOT NULL,
+  `path_media` text NOT NULL,
+  `description` text NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `position` int(5) NOT NULL,
+  `enable` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`image_id`),
+  KEY `FOREIGNKEY_SLIDER_IMAGES` (`slider_id`),
+  CONSTRAINT `FOREIGNKEY_SLIDER_IMAGES` FOREIGN KEY (`slider_id`) REFERENCES `sliderg_slider` (`slider_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1
 ");
 
 $installer->endSetup();

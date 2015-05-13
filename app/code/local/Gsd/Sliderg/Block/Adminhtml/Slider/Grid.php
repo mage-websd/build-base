@@ -34,6 +34,12 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Grid extends Mage_Adminhtml_Block_Widge
             'index' => 'title',
             'width' => '200px',
         ));
+        $this->addColumn('code', array(
+            'header' => $this->__('Code'),
+            'align' => 'left',
+            'index' => 'code',
+            'width' => '200px',
+        ));
         $this->addColumn('enable', array(
             'header' => $this->__('Enable'),
             'align' => 'left',
