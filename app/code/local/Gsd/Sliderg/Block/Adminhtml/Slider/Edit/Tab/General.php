@@ -19,11 +19,18 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'required' => true,
             'name' => 'title',
         ));
+        $afterHtml = '';
+        if(Mage::registry('slider_data') && Mage::registry('slider_data')->getId()) {
+            $code = Mage::registry('slider_data')->getCode();
+            $afterHtml = '<div><small>insert code \'<b>{{block type="sliderg/slider" name="your_block_name" slider_id="'.$code.'"}}</b>\' in content<br/>'.
+                'or \'<b>&lt;block type="sliderg/slider" name="your_block_name"&gt;&lt;action method="setSliderId"&gt;&lt;slider_id>'.$code.'&lt;/slider_id&gt;&lt;/action&gt;&lt;/block></b>\' in xml to show slider</small></div>';
+        }
         $fieldset->addField('code', 'text', array(
             'label' => $this->__('Code'),
             'class' => 'required-entry',
             'required' => true,
             'name' => 'code',
+            'after_element_html' => $afterHtml,
         ));
         $fieldset->addField('enable', 'select', array(
             'label' => $this->__('Enable'),

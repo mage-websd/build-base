@@ -33,13 +33,13 @@
                 <class>Gsd_Sliderg_Helper</class>
             </sliderg>
         </helpers>
-        <!--<resources>
+        <resources>
             <gsd_sliderg_setup>
                 <setup>
                     <module>Gsd_Sliderg</module>
                 </setup>
             </gsd_sliderg_setup>
-        </resources>-->
+        </resources>
     </global>
 
     <admin>
@@ -63,4 +63,23 @@
             </updates>
         </layout>
     </adminhtml>
+
+    <frontend>
+        <routers>
+            <sliderg>
+                <use>standard</use>
+                <args>
+                    <module>Gsd_Sliderg</module>
+                    <frontName>sliderg</frontName>
+                </args>
+            </sliderg>
+        </routers>
+        <layout>
+            <updates>
+                <sliderg>
+                    <file>gsd_sliderg.xml</file>
+                </sliderg>
+            </updates>
+        </layout>
+    </frontend>
 </config>

@@ -1,0 +1,16 @@
+<layout>
+    <sliderg_index_index>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="sliderg/slider" name="sliderg_slider">
+                <action method="setSliderId">
+                    <slider_id>home_top</slider_id>
+                </action>
+            </block>
+        </reference>
+    </sliderg_index_index>
+</layout>

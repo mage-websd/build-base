@@ -16,4 +16,9 @@ class Gsd_Sliderg_Model_Resource_Images_Collection extends Mage_Core_Model_Resou
         $this->getSelect()->where('main_table.enable = ?', $status);
         return $this;
     }
+
+    public function addSliderIdFilter($sliderId) {
+        $this->getSelect()->where('main_table.slider_id = ?', $sliderId);
+        return $this;
+    }
 }

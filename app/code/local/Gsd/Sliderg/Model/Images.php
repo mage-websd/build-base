@@ -35,6 +35,19 @@ class Gsd_Sliderg_Model_Images extends Mage_Core_Model_Abstract
         $this->_init('sliderg/images');
     }
 
+    public function getId()
+    {
+        $this->getImageId();
+    }
+
+    /**
+     * @return mixed
+     * get url of image link to
+     */
+    public function getUrlBanner()
+    {
+        return $this->getData('url');
+    }
     /**
      * @return My_Igallery_Model_Banner_Image
      */
@@ -365,8 +378,12 @@ class Gsd_Sliderg_Model_Images extends Mage_Core_Model_Abstract
      * @see Varien_Image_Adapter_Abstract
      * @return My_Igallery_Model_Banner_Image
      */
-    public function resize()
+    public function resize($width=null,$height=null)
     {
+        if($width && $height) {
+            $this->getImageProcessor()->resize($width, $height);
+            return $this;
+        }
         if (is_null($this->getWidth()) && is_null($this->getHeight())) {
             return $this;
         }
@@ -459,11 +476,12 @@ class Gsd_Sliderg_Model_Images extends Mage_Core_Model_Abstract
 
     /**
      * @return string
+     * get url image file
      */
     public function getUrl()
     {
         $baseDir = Mage::helper('sliderg')->getBaseMediaPath();
-        $path = str_replace($baseDir . DS, "", $this->_newFile);
+        $path = str_replace($baseDir, '', $this->_newFile);
         return Mage::helper('sliderg')->getBaseMediaUrl() . str_replace(DS, '/', $path);
     }
 

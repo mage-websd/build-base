@@ -146,11 +146,9 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
                 $_adapter = $this->_getWriteAdapter();
                 $_adapter->beginTransaction();
                 try {
-                    $condition = $this->_getWriteAdapter()->quoteInto('slider_id = ?', $object->getId());
-                    $this->_getWriteAdapter()->delete($_imageTable, $condition);
                     foreach ($_imageList as &$_item) {
                         if (isset($_item['removed']) and $_item['removed'] == '1') {
-                            //$_adapter->delete($_imageTable, $_adapter->quoteInto('image_id = ?', $_item['value_id'], 'INTEGER'));
+                            $_adapter->delete($_imageTable, $_adapter->quoteInto('image_id = ?', $_item['value_id'], 'INTEGER'));
                         } else {
                             $_data = array(
                                 'slider_id' => $object->getId(),
@@ -162,7 +160,12 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
                                 'position'  => $_item['position'],
                                 'enable'  => !$_item['disabled'],
                             );
-                            $_adapter->insert($_imageTable, $_data);
+                            if(isset($_item['value_id']) && $_item['value_id']) {
+                                $_adapter->update($_imageTable, $_data, "image_id = {$_item['value_id']}");
+                            }
+                            else {
+                                $_adapter->insert($_imageTable, $_data);
+                            }
                         }
                     }
                     $_adapter->commit();
