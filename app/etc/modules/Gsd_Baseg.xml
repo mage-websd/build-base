@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Gsd_Base>
+        <Gsd_Baseg>
             <active>true</active>
             <codePool>local</codePool>
-        </Gsd_Base>
+        </Gsd_Baseg>
     </modules>
 </config>

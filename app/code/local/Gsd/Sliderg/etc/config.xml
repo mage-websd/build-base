@@ -20,6 +20,9 @@
                     <images>
                         <table>sliderg_images</table>
                     </images>
+                    <config>
+                        <table>sliderg_config</table>
+                    </config>
                 </entities>
             </sliderg_resource>
         </models>
@@ -77,7 +80,7 @@
         <layout>
             <updates>
                 <sliderg>
-                    <file>gsd_sliderg.xml</file>
+                    <file>sliderg.xml</file>
                 </sliderg>
             </updates>
         </layout>

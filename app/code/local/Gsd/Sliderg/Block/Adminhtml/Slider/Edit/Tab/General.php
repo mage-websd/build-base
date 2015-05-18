@@ -59,12 +59,6 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'wysiwyg' => true
         ));
 
-        $fieldset = $form->addFieldset('slider_setting', array('legend' => $this->__("Setting")));
-        $fieldset->addField('column_count', 'text', array(
-            'label' => $this->__('Column Count'),
-            'name' => 'column_count',
-        ));
-
         $form->setValues($data);
         return parent::_prepareForm();
     }

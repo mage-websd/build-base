@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS `{$tableSlider}`(
   `code` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text CHARACTER SET latin1 NOT NULL,
   `enable` tinyint(1) NOT NULL DEFAULT '1',
-  `column_count` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`slider_id`),
   UNIQUE KEY `UNIQUE_CODE` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -38,6 +37,18 @@ CREATE TABLE IF NOT EXISTS `{$tableImages}` (
   KEY `FOREIGNKEY_SLIDER_IMAGES` (`slider_id`),
   CONSTRAINT `FOREIGNKEY_SLIDER_IMAGES` FOREIGN KEY (`slider_id`) REFERENCES `sliderg_slider` (`slider_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+
+CREATE TABLE `sliderg_config` (
+ `config_id` int(11) NOT NULL AUTO_INCREMENT,
+ `slider_id` int(11) NOT NULL,
+ `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+ `value` text COLLATE utf8_unicode_ci,
+ PRIMARY KEY (`config_id`),
+ UNIQUE KEY `UNI_CONFIG` (`slider_id`,`name`),
+ CONSTRAINT `FK_SLIDER_CONFIG` FOREIGN KEY (`slider_id`) REFERENCES `sliderg_slider` (`slider_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+
+
 ");
 
 $installer->endSetup();

@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <menu>
-        <gsd translate="title" module="adminhtml">
-            <title>Manager Addition</title>
-            <sort_order>10</sort_order>
+        <gsd>
             <children>
                 <slider>
                     <title>Manage Slider</title>

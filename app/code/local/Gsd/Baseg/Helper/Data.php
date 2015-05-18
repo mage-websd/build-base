@@ -2,10 +2,10 @@
 /**
  * Created by PhpStorm.
  * User: giangsoda
- * Date: 14/05/2015
- * Time: 23:22
+ * Date: 18/05/2015
+ * Time: 13:34
  */ 
-class Gsd_Base_Helper_Data extends Mage_Core_Helper_Abstract {
+class Gsd_Baseg_Helper_Data extends Mage_Core_Helper_Abstract {
     public function translateCode($code)
     {
         $processor = Mage::getSingleton('core/email_template_filter');

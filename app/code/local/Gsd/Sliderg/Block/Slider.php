@@ -121,6 +121,10 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
             $this->_slider = null;
             $this->_sliderId = null;
         }
+        elseif(!$this->_slider->getEnable()) {
+            $this->_slider = null;
+            $this->_sliderId = null;
+        }
         else {
             $this->_sliderId = $this->_slider->getId();
         }

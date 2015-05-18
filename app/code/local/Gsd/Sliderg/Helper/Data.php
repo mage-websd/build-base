@@ -34,7 +34,10 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         return Mage::getBaseUrl('media') . $this->getPathMedia() . 'tmp/';
     }
-
+    public function getPrefixConfigInput()
+    {
+        return 'config_';
+    }
     //const XML_PATH_BASE = 'igallery/gallery/';
     /*
      * Get image url of a banner

@@ -105,8 +105,8 @@ class Gsd_Sliderg_Adminhtml_SlidergController extends Mage_Adminhtml_Controller_
                 $this->_redirect('*/*/');
             }
         }
+        $model->loadConfig();
         Mage::register('slider_data', $model);
-
         $this->_title($this->__('Edit slider '.$model->getTitle()));
         $this->_initLayout();
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);

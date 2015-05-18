@@ -1,0 +1,12 @@
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs" ifconfig="baseg/js/jquery_enable">
+                <script>jquery/jquery-1.11.1.min.js</script>
+            </action>
+            <action method="addJs" ifconfig="baseg/js/jquery_enable">
+                <script>jquery/jquery-noconflict.js</script>
+            </action>
+        </reference>
+    </default>
+</layout>

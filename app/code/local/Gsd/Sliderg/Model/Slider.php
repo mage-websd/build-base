@@ -37,4 +37,16 @@ class Gsd_Sliderg_Model_Slider extends Mage_Core_Model_Abstract
         }
         return $this->getData('thumbnail_image');
     }
+
+    public function loadConfig()
+    {
+        return $this->_getResource()->loadConfig($this);
+    }
+
+    public function getConfigArray() {
+        return $this->_getResource()->getConfigArray($this);
+    }
+    public function getConfig() {
+        return $this->_getResource()->getConfig($this);
+    }
 }

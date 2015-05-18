@@ -15,8 +15,14 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tabs extends Mage_Adminhtml_Block_
             'content' => $this->getLayout()->createBlock('sliderg/adminhtml_slider_edit_tab_general')->toHtml(),
         ));
 
+        $this->addTab('form_section1', array(
+            'label' => $this->__('Setting'),
+            'title' => $this->__('Setting'),
+            'content' => $this->getLayout()->createBlock('sliderg/adminhtml_slider_edit_tab_setting')->toHtml(),
+        ));
+
         if(Mage::registry('slider_data') && Mage::registry('slider_data')->getId()) {
-            $this->addTab('form_section1', array(
+            $this->addTab('form_section2', array(
                 'label' => $this->__('Images'),
                 'title' => $this->__('Images'),
                 'content' => $this->getLayout()->createBlock('sliderg/adminhtml_slider_edit_tab_images')->toHtml(),

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <gsd translate="title" module="adminhtml">
+            <title>Gsd Manager</title>
+            <sort_order>100</sort_order>
+            <children>
+                <baseg_setting>
+                    <title>Gsd Setting</title>
+                    <action>adminhtml/system_config/edit/section/baseg/</action>
+                    <sort_order>2</sort_order>
+                </baseg_setting>
+            </children>
+        </gsd>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <gsd translate="title">
+                        <title>Gsd Manager</title>
+                        <children>
+                            <baseg_setting translate="title">
+                                <title>Gsd Setting</title>
+                            </baseg_setting>
+                        </children>
+                    </gsd>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>
