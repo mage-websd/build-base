@@ -12,6 +12,11 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('slider_setting', array('legend' => $this->__("Setting")));
+        $fieldset->addField('type', 'text', array(
+            'label' => $this->__('Slider type'),
+            'name' => $prefix.'type',
+        ));
+
         $fieldset->addField('column_count', 'text', array(
             'label' => $this->__('Column Count'),
             'name' => $prefix.'column_count',

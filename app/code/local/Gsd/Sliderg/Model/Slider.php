@@ -46,7 +46,7 @@ class Gsd_Sliderg_Model_Slider extends Mage_Core_Model_Abstract
     public function getConfigArray() {
         return $this->_getResource()->getConfigArray($this);
     }
-    public function getConfig() {
-        return $this->_getResource()->getConfig($this);
+    public function getConfig($configName=null) {
+        return $this->_getResource()->getConfig($this,$configName);
     }
 }

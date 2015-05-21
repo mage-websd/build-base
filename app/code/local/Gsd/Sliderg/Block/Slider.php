@@ -4,11 +4,13 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
     protected $_sliderId;
     protected $_slider;
     protected $_collection;
+    protected $_type;
 
     public function __construct()
     {
         return null;
     }
+
     public function _beforeToHtml()
     {
         if(!Mage::helper('sliderg')->isModuleEnabled()){
@@ -17,16 +19,24 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
         if(!$this->_sliderId) {
             return null;
         }
+        $this->_type =  $this->_slider->getConfig('type');
+        if(!$this->_type) {
+            $this->_type = 'slicebox';
+        }
         parent::_beforeToHtml();
         if(!$this->getTemplate()) {
-            $this->setTemplate('sliderg/general.phtml');
+            $template = $this->helper('sliderg')->getTemplateFile($this->_type);
+            $this->setTemplate($template);
         }
+
         return $this;
     }
-    public function getTest()
+
+    public function getSkinFile()
     {
-        return $this->_slider;
+        return $this->helper('sliderg')->getSkinFile($this->_type);
     }
+
     public function getCollection() {
         return $this->_getCollection();
     }
@@ -50,6 +60,8 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
             //}
         return $this->_collection;
     }
+
+
 
     /**
      * Wrapper for standart strip_tags() function with extra functionality for html entities
@@ -101,17 +113,6 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
      * more information of slider
      */
 
-    protected $_columnCount;
-    public function getColumnCount() {
-        if($this->_columnCount) {
-            return $this->_columnCount;
-        }
-        if($this->_slider->getColumnCount()) {
-            $this->_columnCount = $this->_slider->getColumnCount();
-            return $this->_slider->getColumnCount();
-        }
-        return 1;
-    }
 
     public function setSliderId($sliderId)
     {

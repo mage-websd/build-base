@@ -1,0 +1,132 @@
+<?php
+$collection = $this->getCollection();
+$_helper = $this->helper('sliderg');
+echo $this->getSkinFile();
+$prefixId = '-' . md5(mt_rand());
+if ($collection->count() > 0) {
+    ?>
+    <div class="sb-box">
+        <ul id="sb-slider<?php echo $prefixId; ?>" class="sb-slider">
+            <?php
+            foreach ($collection as $image) {
+                $size = $_helper->getImageSize($image, 300, 300);
+                ?>
+                <li>
+                    <a href="<?php echo $this->helper('baseg')->translateCode($image->getUrlBanner()); ?>">
+                        <img
+                            src="<?php echo $this->helper('sliderg/image')->init($image->getPathMedia())->resize($size->getWidth(), $size->getHeight()); ?>"/>
+                    </a>
+
+                    <div class="sb-description">
+                        <p><?php echo $image->getDescription(); ?></p>
+                    </div>
+                </li>
+            <?php }//end foreach collection image ?>
+        </ul>
+
+        <div id="shadow<?php echo $prefixId; ?>" class="shadow"></div>
+
+        <div id="nav-arrows<?php echo $prefixId; ?>" class="nav-arrows">
+            <a href="#" class="next">Next</a>
+            <a href="#" class="prev">Previous</a>
+        </div>
+
+        <div id="nav-dots<?php echo $prefixId; ?>" class="nav-dots">
+            <?php for ($i = 0; $i < $collection->count(); $i++) {
+                echo '<span></span>';
+            }
+            ?>
+        </div>
+    </div>
+    <script>
+        jQuery(document).ready(function ($) {
+            var Page = (function () {
+                var $navArrows = $('#nav-arrows<?php echo $prefixId;?>').hide(),
+                    $navDots = $('#nav-dots<?php echo $prefixId;?>').hide(),
+                    $nav = $navDots.children('span'),
+                    $shadow = $('#shadow<?php echo $prefixId;?>').hide(),
+                    slicebox = $('#sb-slider<?php echo $prefixId;?>').slicebox({
+                        onReady: function () {
+                            $navArrows.show();
+                            $navDots.show();
+                            $shadow.show();
+
+                        },
+                        onBeforeChange: function (pos) {
+                            $nav.removeClass('nav-dot-current');
+                            $nav.eq(pos).addClass('nav-dot-current');
+                        },
+                        orientation: 'r', //v,h,r
+                        cuboidsRandom: true,
+                        disperseFactor: 30,
+                        perspective: 1200,
+                        cuboidsCount: 5, //number slicer
+                        cuboidsRandom: false,
+                        maxCuboidsCount: 5,
+                        // each cuboid will move x pixels left / top (depending on orientation).
+                        // The middle cuboid doesn't move. the middle cuboid's neighbors will
+                        // move disperseFactor pixels
+                        disperseFactor: 0,
+
+                        // color of the hidden sides
+                        colorHiddenSides: '#222',
+
+                        // the animation will start from left to right. The left most
+                        // cuboid will be the first one to rotate
+                        // this is the interval between each rotation in ms
+                        sequentialFactor: 150,
+
+                        // animation speed
+                        // this is the speed that takes "1" cuboid to rotate
+                        speed: 600,
+
+                        // transition easing
+                        easing: 'ease',
+
+                        // if true the slicebox will start the animation automatically
+                        autoplay: true,
+
+                        // time (ms) between each rotation, if autoplay is true
+                        interval: 3000,
+
+                        // the fallback will just fade out / fade in the items
+                        // this is the time fr the fade effect
+                        fallbackFadeSpeed: 300,
+
+                        // callbacks
+                        //onBeforeChange : function( position ) { return false; },
+                        onAfterChange: function (position) {
+                            return false;
+                        }
+                    }),
+                    init = function () {
+                        initEvents();
+                    },
+                    initEvents = function () {
+                        // add navigation events
+                        $navArrows.children('.next').on('click', function () {
+                            slicebox.next();
+                            return false;
+                        });
+                        $navArrows.children('.prev').on('click', function () {
+                            slicebox.previous();
+                            return false;
+                        });
+                        $nav.each(function (i) {
+                            $(this).on('click', function (event) {
+                                var $dot = $(this);
+                                if (!slicebox.isActive()) {
+                                    $nav.removeClass('nav-dot-current');
+                                    $dot.addClass('nav-dot-current');
+                                }
+                                slicebox.jump(i + 1);
+                                return false;
+                            });
+                        });
+                    };
+                return {init: init};
+            })();
+            Page.init();
+        });
+    </script>
+<?php }//endif count images ?>

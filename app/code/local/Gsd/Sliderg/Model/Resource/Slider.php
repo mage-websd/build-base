@@ -65,9 +65,19 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
-    public function getConfig($object)
+    public function getConfig($object,$configName=null)
     {
-        $configArray = $this->getConfigArray($object);
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('sliderg/config'))
+            ->where('slider_id = ?', $object->getId());
+        if($configName && is_string($configName)) {
+            $select->reset(Zend_Db_Select::COLUMNS);
+            $select = $select
+                ->columns('value')
+                ->where(' name = ? ',$configName);
+            return $this->_getReadAdapter()->fetchOne($select);
+        }
+        $configArray = $this->_getReadAdapter()->fetchAll($select);
         $data = array();
         if(count($configArray) > 0) {
             foreach($configArray as $config) {
