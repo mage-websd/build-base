@@ -241,6 +241,9 @@ class Gsd_Sliderg_Model_Resource_Slider extends Mage_Core_Model_Resource_Db_Abst
                 $data = array();
                 //get config data
                 foreach ($object->getData() as $key => $value) {
+                    if(!$value) {
+                        continue;
+                    }
                     if ($prefix == substr($key, 0, strlen($prefix))) {
                         $key = substr($key, strlen($prefix));
                         $data[$key] = array('name'=>$key,'value'=>$value);

@@ -1,0 +1,148 @@
+<?php
+$collection = $this->getCollection();
+if ($collection->count() > 0) {
+    $_helper = $this->helper('sliderg');
+    $prefixId = '-' . md5(mt_rand());
+    $config = $this->getConfig();
+    $width = $config->getData('width');
+    $height = $config->getData('height');
+    ?>
+    <div class="swiper-container swiper<?php echo $prefixId; ?> <?php echo $this->getCode(); ?>">
+        <div class="swiper-wrapper">
+            <?php
+            foreach ($collection as $image) {
+                if(!$this->helper('sliderg')->isExistsImage($image->getPathMedia())) {
+                    continue;
+                }
+                if($width && $height) {
+                    $size = $_helper->getImageSize($image, $width, $height);
+                }
+                elseif ($width) {
+                    $size = $_helper->getImageSize($image, $width);
+                }
+                else {
+                    $size = $_helper->getImageSize($image);
+                }
+                ?>
+                <div class="swiper-slide">
+                    <?php if($image->getUrlBanner()){ ?>
+                    <a href="<?php echo $this->helper('baseg')->translateCode($image->getUrlBanner()); ?>">
+                    <?php }//endif check url banner ?>
+                        <img src="<?php echo $this->helper('sliderg/image')->init($image->getPathMedia())->resize($size->getWidth(), $size->getHeight()); ?>"/>
+                    <?php if($image->getUrlBanner()){ echo '</a>';}?>
+                    <div class="sl-description">
+                        <p><?php echo $image->getDescription(); ?></p>
+                    </div>
+                </div>
+            <?php }//end foreach collection image ?>
+        </div>
+        <?php if($config->getData('pagination_enable') == 'true') {?><div class="swiper-pagination swiper-pagination<?php echo $prefixId ?>"></div><?php }?>
+        <?php if($config->getData('navigation_enable') == 'true') {?><div class="swiper-button-next swiper-button-next<?php echo $prefixId ?>"></div>
+        <div class="swiper-button-prev swiper-button-prev<?php echo $prefixId ?>"></div><?php }?>
+    </div>
+    <script>
+        jQuery(document).ready(function ($) {
+            <?php
+                if($config->getData('setting_more_before')) {
+                    echo $config->getData('setting_more_before');
+                }
+            ?>
+            var swiperMain = new Swiper('.swiper<?php echo $prefixId ?>', {
+                <?php if($config->getData('pagination_enable') == 'true') {
+                    echo 'pagination: ".swiper-pagination'.$prefixId.'",';
+                }?>
+                <?php if($config->getData('navigation_enable') == 'true') {
+                    echo 'nextButton: ".swiper-button-next'.$prefixId.'",';
+                    echo 'prevButton: ".swiper-button-prev'.$prefixId.'",';
+                }?>
+                <?php
+                    if($config->getData('effect')) {
+                        echo 'effect: "'.$config->getData('effect').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('grab_cursor')) {
+                        echo 'grabCursor: "'.$config->getData('grab_cursor').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('direction')) {
+                        echo 'direction: "'.$config->getData('direction').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('pagination_clickable')) {
+                        echo 'paginationClickable: "'.$config->getData('pagination_clickable').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('loop')) {
+                        echo 'loop: "'.$config->getData('loop').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('space_between')) {
+                        echo 'spaceBetween: "'.$config->getData('space_between').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('slides_per_view')) {
+                        echo 'slidesPerView: "'.$config->getData('slides_per_view').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('centered_slides')) {
+                        echo 'centeredSlides: "'.$config->getData('centered_slides').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('mousewheel_control')) {
+                        echo 'mousewheelControl: "'.$config->getData('mousewheel_control').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('autoplay')) {
+                        echo 'autoplay: "'.$config->getData('autoplay').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('autoplay_disable_on_interaction')) {
+                        echo 'autoplayDisableOnInteraction: "'.$config->getData('autoplay_disable_on_interaction').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('free_mode')) {
+                        echo 'freeMode: "'.$config->getData('free_mode').'",';
+                    }
+                ?>
+                <?php
+                    if($config->getData('keyboard_control')) {
+                        echo 'keyboardControl: "'.$config->getData('keyboard_control').'",';
+                    }
+                    else {
+                        echo 'keyboardControl: true';
+                    }
+                ?>
+                <?php
+                    if($config->getData('setting_more_inner')) {
+                        echo ','.$config->getData('setting_more_inner');
+                    }
+                ?>
+            });
+            <?php
+                if($config->getData('setting_more_after')) {
+                    echo $config->getData('setting_more_after');
+                }
+            ?>
+            /*var galleryThumbs = new Swiper('.gallery-thumbs', {
+                spaceBetween: 10,
+                centeredSlides: true,
+                slidesPerView: 'auto',
+                touchRatio: 0.2,
+                slideToClickedSlide: true
+            });
+            swiperMain.params.control = galleryThumbs;
+            galleryThumbs.params.control = swiperMain;*/
+        });
+    </script>
+<?php }//endif count images ?>

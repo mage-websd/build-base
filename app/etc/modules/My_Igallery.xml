@@ -28,7 +28,7 @@
 <config>
     <modules>
         <My_Igallery>
-            <active>true</active>
+            <active>false</active>
             <codePool>community</codePool>
         </My_Igallery>
     </modules>

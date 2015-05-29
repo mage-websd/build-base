@@ -1,6 +1,9 @@
 <layout>
     <default>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type><name>css/allpage.css</name>
+            </action>
             <action method="addJs" ifconfig="baseg/js/jquery_enable">
                 <script>jquery/jquery-1.11.1.min.js</script>
             </action>

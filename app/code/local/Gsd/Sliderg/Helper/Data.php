@@ -38,6 +38,13 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         return 'config_';
     }
+    public function isExistsImage($image)
+    {
+        if(file_exists($this->getBaseMediaPath().$image)) {
+            return true;
+        }
+        return false;
+    }
     //const XML_PATH_BASE = 'igallery/gallery/';
     /*
      * Get image url of a banner
@@ -90,8 +97,17 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
                     $html .= '<link rel="stylesheet" type="text/css" href="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/css/slicebox.css" />';
                     $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/js/modernizr.custom.46884.js"></script>';
                     $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/js/jquery.slicebox.js"></script>';
-                    Mage::register('sliderg_skin_file_slicebox',1);
+                    Mage::register('sliderg_skin_file_slicebox',true);
                 }
+                break;
+            /*case 'swiper':
+                if(!Mage::registry('sliderg_skin_file_swiper')) {
+                    $html .= '<link rel="stylesheet" type="text/css" href="' . Mage::getBaseUrl('js') . 'sliderg/swiper/css/swiper.min.css" />';
+                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/swiper/js/swiper.min.js"></script>';
+                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/swiper/js/swiper.jquery.min.js"></script>';
+                    Mage::register('sliderg_skin_file_swiper',true);
+                }
+                break;*/
         }
         return $html;
     }
@@ -102,6 +118,10 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
         switch($type) {
             case 'slicebox':
                 $html = 'sliderg/slicebox.phtml';
+                break;
+            case 'swiper':
+                $html = 'sliderg/swiper.phtml';
+                break;
         }
         return $html;
     }

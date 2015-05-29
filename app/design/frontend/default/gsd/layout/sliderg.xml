@@ -1,4 +1,18 @@
 <layout>
+    <default>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type><name>sliderg/swiper/css/swiper.min.css</name>
+            </action>
+            <!--<action method="addJs">
+                <script>sliderg/swiper/js/swiper.min.js</script>
+            </action>-->
+            <action method="addJs">
+                <script>sliderg/swiper/js/swiper.jquery.min.js</script>
+            </action>
+        </reference>
+    </default>
+
     <sliderg_index_index>
         <reference name="root">
             <action method="setTemplate">

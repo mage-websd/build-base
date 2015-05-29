@@ -11,6 +11,7 @@ $installer->startSetup();
 
 $tableSlider = $installer->getTable('sliderg/slider');
 $tableImages = $installer->getTable('sliderg/images');
+$tableConfig = $installer->getTable('sliderg/config');
 $installer->run("
 
 CREATE TABLE IF NOT EXISTS `{$tableSlider}`(
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `{$tableImages}` (
   CONSTRAINT `FOREIGNKEY_SLIDER_IMAGES` FOREIGN KEY (`slider_id`) REFERENCES `sliderg_slider` (`slider_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
-CREATE TABLE `sliderg_config` (
+CREATE TABLE IF NOT EXISTS `{$tableConfig}` (
  `config_id` int(11) NOT NULL AUTO_INCREMENT,
  `slider_id` int(11) NOT NULL,
  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -46,8 +47,7 @@ CREATE TABLE `sliderg_config` (
  PRIMARY KEY (`config_id`),
  UNIQUE KEY `UNI_CONFIG` (`slider_id`,`name`),
  CONSTRAINT `FK_SLIDER_CONFIG` FOREIGN KEY (`slider_id`) REFERENCES `sliderg_slider` (`slider_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
-
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 ");
 

@@ -23,12 +23,12 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
         if(!$this->_type) {
             $this->_type = 'slicebox';
         }
+        echo $this->getSkinFile();
         parent::_beforeToHtml();
         if(!$this->getTemplate()) {
             $template = $this->helper('sliderg')->getTemplateFile($this->_type);
             $this->setTemplate($template);
         }
-
         return $this;
     }
 
@@ -41,6 +41,10 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
         return $this->_getCollection();
     }
 
+    public function getConfig()
+    {
+        return $this->_slider->getConfig();
+    }
     protected function _getCollection() {
         if ($this->_collection) {
             return $this->_collection;
@@ -49,8 +53,13 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
         $this->_collection = Mage::getModel('sliderg/images')
             ->getCollection()->addEnableFilter()
             ->setOrder('position', Varien_Data_Collection::SORT_ORDER_ASC)
-            ->setOrder('name_rename', Varien_Data_Collection::SORT_ORDER_ASC);
-        $this->_collection->addSliderIdFilter($this->_sliderId);
+            ->setOrder('name_rename', Varien_Data_Collection::SORT_ORDER_ASC)
+            ->addSliderIdFilter($this->_sliderId);
+        $max = $this->_slider->getConfig('sliders_max_view');
+        if($max && $max > 0) {
+            $this->_collection->setPageSize($max);
+        }
+
 
             //$imageLimit = (int)Mage::getStoreConfig(self::XML_PATH_IMAGE_LIMIT);
             //$this->_collection->setPageSize($imageLimit)->setCurPage(1);
@@ -118,6 +127,7 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
     {
         $this->_sliderId = $sliderId;
         $this->_slider = $this->_getModel()->load($sliderId,'code');
+        $this->setCode($this->_sliderId);
         if(!$this->_slider->getId()) {
             $this->_slider = null;
             $this->_sliderId = null;

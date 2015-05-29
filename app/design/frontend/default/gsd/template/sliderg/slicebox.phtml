@@ -1,15 +1,25 @@
 <?php
 $collection = $this->getCollection();
-$_helper = $this->helper('sliderg');
-echo $this->getSkinFile();
-$prefixId = '-' . md5(mt_rand());
 if ($collection->count() > 0) {
-    ?>
+    $_helper = $this->helper('sliderg');
+    $prefixId = '-' . md5(mt_rand());
+    $config = $this->getConfig();
+    $width = $config->getData('width');
+    $height = $config->getData('height');
+?>
     <div class="sb-box">
-        <ul id="sb-slider<?php echo $prefixId; ?>" class="sb-slider">
+        <ul id="sb-slider<?php echo $prefixId; ?>" class="sb-slider sb-slider<?php echo $prefixId; ?>">
             <?php
             foreach ($collection as $image) {
-                $size = $_helper->getImageSize($image, 300, 300);
+                if($width && $height) {
+                    $size = $_helper->getImageSize($image, $width, $height);
+                }
+                elseif ($width) {
+                    $size = $_helper->getImageSize($image, $width);
+                }
+                else {
+                    $size = $_helper->getImageSize($image);
+                }
                 ?>
                 <li>
                     <a href="<?php echo $this->helper('baseg')->translateCode($image->getUrlBanner()); ?>">
@@ -56,42 +66,7 @@ if ($collection->count() > 0) {
                             $nav.removeClass('nav-dot-current');
                             $nav.eq(pos).addClass('nav-dot-current');
                         },
-                        orientation: 'r', //v,h,r
-                        cuboidsRandom: true,
-                        disperseFactor: 30,
-                        perspective: 1200,
-                        cuboidsCount: 5, //number slicer
-                        cuboidsRandom: false,
-                        maxCuboidsCount: 5,
-                        // each cuboid will move x pixels left / top (depending on orientation).
-                        // The middle cuboid doesn't move. the middle cuboid's neighbors will
-                        // move disperseFactor pixels
-                        disperseFactor: 0,
-
-                        // color of the hidden sides
-                        colorHiddenSides: '#222',
-
-                        // the animation will start from left to right. The left most
-                        // cuboid will be the first one to rotate
-                        // this is the interval between each rotation in ms
-                        sequentialFactor: 150,
-
-                        // animation speed
-                        // this is the speed that takes "1" cuboid to rotate
-                        speed: 600,
-
-                        // transition easing
-                        easing: 'ease',
-
-                        // if true the slicebox will start the animation automatically
-                        autoplay: true,
-
-                        // time (ms) between each rotation, if autoplay is true
-                        interval: 3000,
-
-                        // the fallback will just fade out / fade in the items
-                        // this is the time fr the fade effect
-                        fallbackFadeSpeed: 300,
+                        <?php if($config->getData('setting_more')) {echo $config->getData('setting_more').',';} ?>
 
                         // callbacks
                         //onBeforeChange : function( position ) { return false; },
