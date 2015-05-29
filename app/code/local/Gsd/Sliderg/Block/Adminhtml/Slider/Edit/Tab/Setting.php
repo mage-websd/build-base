@@ -45,62 +45,37 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $fieldset->addField('effect', 'select', array(
             'label' => $this->__('Effect'),
             'name' => $prefix.'effect',
-            'options' => array(
-                '' => '----',
-                'cube' => 'Cube',
-                'coverflow' => 'Coverflow'
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_effect')->toOptionArray(),
         ));
         $fieldset->addField('grab_cursor', 'select', array(
             'label' => $this->__('Grab cursor'),
             'name' => $prefix.'grab_cursor',
-            'options' => array(
-                '' => '----',
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('direction', 'select', array(
             'label' => $this->__('Direction'),
             'name' => $prefix.'direction',
-            'options' => array(
-                '' => '----',
-                'vertical' => 'Vertical',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_direction')->toOptionArray(),
         ));
         $fieldset->addField('pagination_enable', 'select', array(
             'label' => $this->__('Pagination enable'),
             'name' => $prefix.'pagination_enable',
-            'options' => array(
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('pagination_clickable', 'select', array(
             'label' => $this->__('Pagination clickable'),
             'name' => $prefix.'pagination_clickable',
-            'options' => array(
-                '' => '----',
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('navigation_enable', 'select', array(
             'label' => $this->__('Navigation enable'),
             'name' => $prefix.'navigation_enable',
-            'options' => array(
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('loop', 'select', array(
             'label' => $this->__('Loop'),
             'name' => $prefix.'loop',
-            'options' => array(
-                '' => '----',
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('space_between', 'text', array(
             'label' => $this->__('Space between every sliders'),
@@ -110,29 +85,17 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $fieldset->addField('centered_slides', 'select', array(
             'label' => $this->__('Centered slides'),
             'name' => $prefix.'centered_slides',
-            'options' => array(
-                '' => '----',
-                'false' => 'False',
-                'true' => 'True',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('keyboard_control', 'select', array(
             'label' => $this->__('Keyboard control'),
             'name' => $prefix.'keyboard_control',
-            'options' => array(
-                '' => '----',
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('mousewheel_control', 'select', array(
             'label' => $this->__('Mousewheel control'),
             'name' => $prefix.'mousewheel_control',
-            'options' => array(
-                '' => '----',
-                'true' => 'True',
-                'false' => 'False',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('autoplay', 'text', array(
             'label' => $this->__('Auto play (ms)'),
@@ -142,20 +105,12 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $fieldset->addField('autoplay_disable_on_interaction', 'select', array(
             'label' => $this->__('Autoplay disable on interaction'),
             'name' => $prefix.'autoplay_disable_on_interaction',
-            'options' => array(
-                '' => '----',
-                'false' => 'False',
-                'true' => 'True',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('free_mode', 'select', array(
             'label' => $this->__('Free mode'),
             'name' => $prefix.'free_mode',
-            'options' => array(
-                '' => '----',
-                'false' => 'False',
-                'true' => 'True',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
         $fieldset->addField('setting_more_before', 'textarea', array(
             'label' => $this->__('Setting more before'),

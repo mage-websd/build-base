@@ -22,7 +22,7 @@
         <reference name="content">
             <block type="sliderg/slider" name="sliderg_slider">
                 <action method="setSliderId">
-                    <slider_id>home_top</slider_id>
+                    <slider_id>slider_1</slider_id>
                 </action>
             </block>
         </reference>
