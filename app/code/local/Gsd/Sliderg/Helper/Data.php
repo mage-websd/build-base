@@ -6,9 +6,18 @@
  * Time: 5:04 PM
  */ 
 class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
+
     public function isModuleEnable()
     {
-        return true;
+        return $this->isModuleOutputEnabled('Gsd_Sliderg');
+    }
+    public function isSliderEnable()
+    {
+        return $this->isModuleEnable() && Mage::getStoreConfig('sliderg/general/enable');
+    }
+    public function isProductsEnable()
+    {
+        return $this->isModuleEnable() && Mage::getStoreConfig('sliderg/general/enable_products');
     }
 
     public function getPathMedia()
@@ -121,6 +130,19 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
                 break;
             case 'swiper':
                 $html = 'sliderg/swiper.phtml';
+                break;
+        }
+        return $html;
+    }
+    public function getTemplateFileProducts($type)
+    {
+        $html ='';
+        switch($type) {
+            case 'slicebox':
+                $html = 'sliderg/products/list.phtml';
+                break;
+            case 'swiper':
+                $html = 'sliderg/products/list.phtml';
                 break;
         }
         return $html;

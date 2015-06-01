@@ -5,23 +5,16 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
     protected $_slider;
     protected $_collection;
     protected $_type;
-
-    public function __construct()
-    {
-        return null;
-    }
+    protected $_sliderMaxViewDefault = 5;
 
     public function _beforeToHtml()
     {
-        if(!Mage::helper('sliderg')->isModuleEnabled()){
-            return null;
-        }
         if(!$this->_sliderId) {
             return null;
         }
         $this->_type =  $this->_slider->getConfig('type');
         if(!$this->_type) {
-            $this->_type = 'slicebox';
+            $this->_type = 'swiper';
         }
         echo $this->getSkinFile();
         parent::_beforeToHtml();
@@ -49,24 +42,15 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
         if ($this->_collection) {
             return $this->_collection;
         }
-
         $this->_collection = Mage::getModel('sliderg/images')
             ->getCollection()->addEnableFilter()
             ->setOrder('position', Varien_Data_Collection::SORT_ORDER_ASC)
             ->setOrder('name_rename', Varien_Data_Collection::SORT_ORDER_ASC)
             ->addSliderIdFilter($this->_sliderId);
-        $max = $this->_slider->getConfig('sliders_max_view');
-        if($max && $max > 0) {
-            $this->_collection->setPageSize($max);
-        }
-
-
-            //$imageLimit = (int)Mage::getStoreConfig(self::XML_PATH_IMAGE_LIMIT);
-            //$this->_collection->setPageSize($imageLimit)->setCurPage(1);
-            //$isRandom = (int)Mage::getStoreConfig(self::XML_PATH_IS_RANDOM);
-            //if ($isRandom) {
-            //    $this->_collection->getSelect()->order(new Zend_Db_Expr('RAND()'));
-            //}
+        $max = $this->_slider->getConfig('sliders_max_view') ? $this->_slider->getConfig('sliders_max_view') : $this->_sliderMaxViewDefault;
+        $this->_collection->setPageSize($max);
+        //$this->_collection->getSelect()->order(new Zend_Db_Expr('RAND()'));
+        $this->setCollection($this->_collection);
         return $this->_collection;
     }
 
@@ -125,20 +109,24 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
 
     public function setSliderId($sliderId)
     {
+        if(!Mage::helper('sliderg')->isSliderEnable()){
+            $this->_slider = null;
+            $this->_sliderId = null;
+            return null;
+        }
         $this->_sliderId = $sliderId;
         $this->_slider = $this->_getModel()->load($sliderId,'code');
-        $this->setCode($this->_sliderId);
         if(!$this->_slider->getId()) {
             $this->_slider = null;
             $this->_sliderId = null;
+            return null;
         }
-        elseif(!$this->_slider->getEnable()) {
+        if(!$this->_slider->getEnable()) {
             $this->_slider = null;
             $this->_sliderId = null;
+            return null;
         }
-        else {
-            $this->_sliderId = $this->_slider->getId();
-        }
+        $this->_sliderId = $this->_slider->getId();
         return $this;
     }
     public function getSliderId()
@@ -148,6 +136,10 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
     public function getSlider()
     {
         return $this->_slider;
+    }
+    public function getCode()
+    {
+        return $this->_slider->getCode();
     }
 
     protected function _getModel()

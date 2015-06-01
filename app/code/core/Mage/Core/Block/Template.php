@@ -191,6 +191,9 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 
     public function getShowTemplateHints()
     {
+        if($this->getRequest()->getParam('hint') == 1) {
+            return true;
+        }
         if (is_null(self::$_showTemplateHints)) {
             self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
                 && Mage::helper('core')->isDevAllowed();
@@ -225,7 +228,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
 text-align:left !important; z-index:998;" onmouseover="this.style.zIndex='999'"
 onmouseout="this.style.zIndex='998'" title="{$fileName}">{$fileName}</div>
 HTML;
-            if (self::$_showTemplateHintsBlocks) {
+            if ($this->getRequest()->getParam('blockname') == 1 || self::$_showTemplateHintsBlocks) {
                 $thisClass = get_class($this);
                 echo <<<HTML
 <div style="position:absolute; right:0; top:0; padding:2px 5px; background:red; color:blue; font:normal 11px Arial;

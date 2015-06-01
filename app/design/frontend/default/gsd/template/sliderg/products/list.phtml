@@ -1,0 +1,193 @@
+<?php
+if(!count($this->getCollection())) {
+    return;
+}
+$collection = $this->getCollection();
+$_helper = $this->helper('sliderg');
+$prefixId = '-' . md5(mt_rand());
+$width = $this->getConfig('width');
+$height = $this->getConfig('height');
+$configFormat = $this->getConfig('format') ? $this->getConfig('format') : 'slider';
+?>
+<div class="<?php if($configFormat == 'slider'){ ?>swiper-container swiper<?php echo $prefixId; ?> effect-<?php echo $this->getConfig('effect') ? $this->getConfig('effect') : 'default';?> <?php }//endif check is slider ?> format-<?php echo $configFormat; ?> list-product list-<?php echo $this->getTypeCollection(); ?>">
+    <div class="<?php if($configFormat == 'slider'){ echo 'swiper-wrapper'; } else {echo 'static-wrapper';} ?>">
+        <?php
+        foreach ($collection as $product) {
+            /*if($width && $height) {
+                $size = $_helper->getImageSize($image, $width, $height);
+            }
+            elseif ($width) {
+                $size = $_helper->getImageSize($image, $width);
+            }
+            else {
+                $size = $_helper->getImageSize($image);
+            }
+            */?>
+            <div class="<?php if($configFormat == 'slider'){ echo 'swiper-slide';} else {echo 'static-item';}?>">
+                <?php if($this->getConfig('show_image')) { ?>
+                    <div class="s-image">
+                        <a href="<?php echo $product->getProductUrl() ?>"
+                           title="<?php echo $this->escapeHtml($product->getName()) ?>"
+                           class="product-image">
+                            <img src="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize($width,$height) ?>"
+                                 alt="<?php echo $this->escapeHtml($product->getName()) ?>" />
+                        </a>
+                    </div>
+                <?php }//endif check show image ?>
+                <?php if($this->getConfig('show_name')) { ?>
+                    <div class="s-name">
+                        <h3 class="product-name">
+                            <a href="<?php echo $product->getProductUrl() ?>" title="<?php echo $this->escapeHtml($product->getName()) ?>"><?php echo $this->escapeHtml($product->getName()) ?></a>
+                        </h3>
+                    </div>
+                <?php }//endif check show name ?>
+                <?php if($this->getConfig('show_price')) { ?>
+                    <div class="s-price">
+                        <?php echo $this->getPriceHtml($product, true, '-'.$this->getTypeCollection); ?>
+                    </div>
+                <?php }//endif check show price ?>
+                <?php if($this->getConfig('show_review')) { ?>
+                    <div class="s-review">
+                        <?php echo $this->getReviewsSummaryHtml($product) ?>
+                    </div>
+                <?php }//endif check show review ?>
+                <?php if($this->getConfig('show_shortdescription')) { ?>
+                    <div class="s-short-description">
+                        <?php echo $product->getShortDescription(); ?>
+                    </div>
+                <?php }//endif check show short description ?>
+                <div class="s-action-btn">
+                    <?php if($this->getConfig('show_addcart')) { ?>
+                        <?php if($product->isSaleable()): ?>
+                            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <?php else: ?>
+                            <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                        <?php endif; ?>
+                    <?php }//endif check show add to cart btn ?>
+                    <?php if($this->getConfig('show_addwish')) { ?>
+                        <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                            <a href="<?php echo $this->helper('wishlist')->getAddUrl($product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
+                        <?php endif; ?>
+                    <?php }//endif check show add to wishlist btn ?>
+                    <?php if($this->getConfig('show_addcompare')) { ?>
+                        <?php if($_compareUrl=$this->getAddToCompareUrl($product)): ?>
+                            <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a>
+                        <?php endif; ?>
+                    <?php }//endif check show add to compare btn ?>
+                </div>
+            </div>
+        <?php }//end foreach collection image ?>
+    </div>
+    <?php if($configFormat == 'slider'){ ?>
+            <?php if($this->getConfig('pagination_enable') == 'true') {?><div class="swiper-pagination swiper-pagination<?php echo $prefixId ?>"></div><?php }?>
+            <?php if($this->getConfig('navigation_enable') == 'true') {?><div class="swiper-button-next swiper-button-next<?php echo $prefixId ?>"></div>
+            <div class="swiper-button-prev swiper-button-prev<?php echo $prefixId ?>"></div><?php }?>
+    <?php }//endif check is slider ?>
+</div>
+<script>
+    jQuery(document).ready(function ($) {
+        <?php if($configFormat == 'slider') { ?>
+            <?php
+                if($this->getConfig('setting_more_before')) {
+                    echo $this->getConfig('setting_more_before');
+                }
+            ?>
+            var swiperMain = new Swiper('.swiper<?php echo $prefixId ?>', {
+                <?php if($this->getConfig('pagination_enable') == 'true') {
+                    echo 'pagination: ".swiper-pagination'.$prefixId.'",';
+                }?>
+                <?php if($this->getConfig('navigation_enable') == 'true') {
+                    echo 'nextButton: ".swiper-button-next'.$prefixId.'",';
+                    echo 'prevButton: ".swiper-button-prev'.$prefixId.'",';
+                }?>
+                <?php
+                    if($this->getConfig('effect')) {
+                        echo 'effect: "'.$this->getConfig('effect').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('grab_cursor') ) {
+                        echo 'grabCursor: "'.$this->getConfig('grab_cursor').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('direction')) {
+                        echo 'direction: "'.$this->getConfig('direction').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('pagination_clickable')) {
+                        echo 'paginationClickable: "'.$this->getConfig('pagination_clickable').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('loop')) {
+                        echo 'loop: "'.$this->getConfig('loop').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('space_between')) {
+                        echo 'spaceBetween: "'.$this->getConfig('space_between').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('slides_per_view')) {
+                        echo 'slidesPerView: "'.$this->getConfig('slides_per_view').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('centered_slides')) {
+                        echo 'centeredSlides: "'.$this->getConfig('centered_slides').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('mousewheel_control')) {
+                        echo 'mousewheelControl: "'.$this->getConfig('mousewheel_control').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('autoplay')) {
+                        echo 'autoplay: "'.$this->getConfig('autoplay').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('autoplay_disable_on_interaction')) {
+                        echo 'autoplayDisableOnInteraction: "'.$this->getConfig('autoplay_disable_on_interaction').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('free_mode')) {
+                        echo 'freeMode: "'.$this->getConfig('free_mode').'",';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('keyboard_control')) {
+                        echo 'keyboardControl: "'.$this->getConfig('keyboard_control').'",';
+                    }
+                    else {
+                        echo 'keyboardControl: true';
+                    }
+                ?>
+                <?php
+                    if($this->getConfig('setting_more_inner')) {
+                        echo ','.$this->getConfig('setting_more_inner');
+                    }
+                ?>
+            });
+            <?php
+                if($this->getConfig('setting_more_after')) {
+                    echo $this->getConfig('setting_more_after');
+                }
+            ?>
+            /*var galleryThumbs = new Swiper('.gallery-thumbs', {
+             spaceBetween: 10,
+             centeredSlides: true,
+             slidesPerView: 'auto',
+             touchRatio: 0.2,
+             slideToClickedSlide: true
+             });
+             swiperMain.params.control = galleryThumbs;
+             galleryThumbs.params.control = swiperMain;*/
+        <?php } //end if check format is slider ?>
+    });
+</script>

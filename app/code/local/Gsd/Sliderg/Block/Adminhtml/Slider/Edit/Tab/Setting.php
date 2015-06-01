@@ -12,13 +12,15 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('slider_setting', array('legend' => $this->__("Setting")));
+        $fieldset->addField('format', 'select', array(
+            'label' => $this->__('Format'),
+            'name' => $prefix.'format',
+            'values' => Mage::getSingleton('sliderg/source_setting_format')->toOptionArray(),
+        ));
         $sliderType = $fieldset->addField('type', 'select', array(
             'label' => $this->__('Slider type'),
             'name' => $prefix.'type',
-            'options'   => array(
-                'slicebox'=>'Slicer Box',
-                'swiper'=>'Swiper',
-            ),
+            'values' => Mage::getSingleton('sliderg/source_setting_type')->toOptionArray(),
         ));
 
         $fieldset->addField('width', 'text', array(
