@@ -7,8 +7,10 @@ if ($collection->count() > 0) {
     $width = $config->getData('width');
     $height = $config->getData('height');
     $configFormat = $config['format'] ? $config['format'] : 'slider';
+    /*$sizeWidthArray = array();
+    $sizeHeightArray = array();*/
     ?>
-    <div class="<?php if($configFormat == 'slider'){ ?>swiper-container swiper<?php echo $prefixId; ?> effect-<?php echo $config['effect'] ? $config['effect'] : 'default';?> <?php }//endif check is slider ?> list-image code-<?php echo $this->getCode(); ?> format-<?php echo $configFormat; ?>">
+    <div class="swiper<?php echo $prefixId; ?> <?php if($configFormat == 'slider'){ ?>swiper-container effect-<?php echo $config['effect'] ? $config['effect'] : 'default';?> <?php }//endif check is slider ?> list-image code-<?php echo $this->getCode(); ?> format-<?php echo $configFormat; ?>">
         <div class="<?php if($configFormat == 'slider'){ echo 'swiper-wrapper'; } else {echo 'static-wrapper';} ?>">
             <?php
             foreach ($collection as $image) {
@@ -20,9 +22,12 @@ if ($collection->count() > 0) {
                 }
                 elseif ($width) {
                     $size = $_helper->getImageSize($image, $width);
+                    /*$sizeHeightArray[] = $size->getHeight();*/
                 }
                 else {
                     $size = $_helper->getImageSize($image);
+                    /*$sizeHeightArray[] = $size->getHeight();
+                    $sizeWidthArray[] = $size->getWidth();*/
                 }
                 ?>
                 <div class="<?php if($configFormat == 'slider'){ echo 'swiper-slide';} else {echo 'static-item';}?>">
@@ -43,6 +48,33 @@ if ($collection->count() > 0) {
             <div class="swiper-button-prev swiper-button-prev<?php echo $prefixId ?>"></div><?php }?>
         <?php }//endif check is slider ?>
     </div>
+    <?php /*
+        //find max height, width
+        $maxWidth = $maxHeight = '';
+        if($width){
+            $maxWidth = $width;
+        }
+        else {
+            $maxWidth = max($sizeWidthArray);
+        }
+        if($height) {
+            $maxHeight = $height;
+        }
+        else {
+            $maxHeight = max($sizeHeightArray);
+        }
+        if($perView = (int)$config->getData('sliders_per_view')) {
+            if($perView > 1) {
+                $marginSlider = (float)$config->getData('space_between');
+                if ($config->getData('direction') == 'vertical') {
+                    $maxHeight = $maxHeight * $perView + $marginSlider * ($perView - 1);
+                } else {
+                    $maxWidth = $maxWidth * $perView + $marginSlider * ($perView - 1);
+                }
+            }
+        }
+*/
+    ?>
     <script>
         jQuery(document).ready(function ($) {
             <?php if($configFormat == 'slider') : ?>
@@ -86,12 +118,12 @@ if ($collection->count() > 0) {
                     ?>
                     <?php
                         if($config->getData('space_between')) {
-                            echo 'spaceBetween: "'.$config->getData('space_between').'",';
+                            echo 'spaceBetween: '.$config->getData('space_between').',';
                         }
                     ?>
                     <?php
-                        if($config->getData('slides_per_view')) {
-                            echo 'slidesPerView: "'.$config->getData('slides_per_view').'",';
+                        if($config->getData('sliders_per_view')) {
+                            echo 'slidesPerView: '.$config->getData('sliders_per_view').',';
                         }
                     ?>
                     <?php
@@ -106,7 +138,7 @@ if ($collection->count() > 0) {
                     ?>
                     <?php
                         if($config->getData('autoplay')) {
-                            echo 'autoplay: "'.$config->getData('autoplay').'",';
+                            echo 'autoplay: '.$config->getData('autoplay').',';
                         }
                     ?>
                     <?php

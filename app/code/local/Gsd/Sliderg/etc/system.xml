@@ -4,7 +4,7 @@
             <label>Setting Slider</label>
             <tab>gsd</tab>
             <frontend_type>text</frontend_type>
-            <sort_order>10</sort_order>
+            <sort_order>20</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
@@ -55,11 +55,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </format>
+                        <title>
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
                         <show_image>
                             <label>Show Image</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>20</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -68,7 +76,7 @@
                             <label>Show Name</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -77,7 +85,7 @@
                             <label>Show short description</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -86,7 +94,7 @@
                             <label>Show Price</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
+                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -95,7 +103,7 @@
                             <label>Show review</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -104,7 +112,7 @@
                             <label>Show add cart button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -113,7 +121,7 @@
                             <label>Show add wishlist button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>80</sort_order>
+                            <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -122,7 +130,7 @@
                             <label>Show add compare button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>90</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -131,7 +139,7 @@
                             <label>Slider Type</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_type</source_model>
-                            <sort_order>100</sort_order>
+                            <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -139,7 +147,7 @@
                         <width>
                             <label>Width</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>110</sort_order>
+                            <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -148,7 +156,7 @@
                         <height>
                             <label>Height</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>120</sort_order>
+                            <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -182,7 +190,7 @@
                             <show_in_store>1</show_in_store>
                         </effect>
                         <grab_cursor>
-                            <label>Grab cursor</label>
+                            <label>Grab Cursor</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_truefalse</source_model>
                             <sort_order>170</sort_order>
@@ -319,291 +327,10 @@
                     </fields>
                 </upsell>
 
-                <crosssel translate="label" module="sliderg">
-                    <label>Cross sell Product list slider</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>20</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <format>
-                            <label>Format</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_format</source_model>
-                            <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </format>
-                        <show_image>
-                            <label>Show Image</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_image>
-                        <show_name>
-                            <label>Show Name</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_name>
-                        <show_shortdescription>
-                            <label>Show short description</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_shortdescription>
-                        <show_price>
-                            <label>Show Price</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_price>
-                        <show_review>
-                            <label>Show review</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_review>
-                        <show_addcart>
-                            <label>Show add cart button</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_addcart>
-                        <show_addwish>
-                            <label>Show add wishlist button</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>80</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_addwish>
-                        <show_addcompare>
-                            <label>Show add compare button</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>90</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </show_addcompare>
-                        <type>
-                            <label>Slider Type</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_type</source_model>
-                            <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </type>
-                        <width>
-                            <label>Width</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>110</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <validate>validate-number</validate>
-                        </width>
-                        <height>
-                            <label>Height</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <validate>validate-number</validate>
-                        </height>
-                        <sliders_per_view>
-                            <label>Per View</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <validate>validate-number</validate>
-                        </sliders_per_view>
-                        <sliders_max_view>
-                            <label>Max view</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <validate>validate-number</validate>
-                        </sliders_max_view>
-                        <effect>
-                            <label>Effect</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_effect</source_model>
-                            <sort_order>160</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </effect>
-                        <grab_cursor>
-                            <label>Grab cursor</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>170</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </grab_cursor>
-                        <direction>
-                            <label>Grab cursor</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_direction</source_model>
-                            <sort_order>180</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </direction>
-                        <pagination_enable>
-                            <label>Pagination enable</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>190</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </pagination_enable>
-                        <pagination_clickable>
-                            <label>Pagination Clickable</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>200</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </pagination_clickable>
-                        <navigation_enable>
-                            <label>Navigation enable</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>210</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </navigation_enable>
-                        <loop>
-                            <label>Loop</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>220</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </loop>
-                        <space_between>
-                            <label>Space between every slider</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number</validate>
-                            <sort_order>230</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </space_between>
-                        <centered_slides>
-                            <label>Centerd Sldiers</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>240</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </centered_slides>
-                        <keyboard_controll>
-                            <label>Keyboard Control</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>250</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </keyboard_controll>
-                        <mousewheel_control>
-                            <label>Mouse control</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>260</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </mousewheel_control>
-                        <autoplay>
-                            <label>Auto play(ms)</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number</validate>
-                            <sort_order>270</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </autoplay>
-                        <autoplay_disable_on_interaction>
-                            <label>Autoplay disable on interaction</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>280</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </autoplay_disable_on_interaction>
-                        <free_mode>
-                            <label>Free mode</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>sliderg/source_setting_truefalse</source_model>
-                            <sort_order>290</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </free_mode>
-                        <setting_more_before>
-                            <label>Setting more before</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>300</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </setting_more_before>
-                        <setting_more_inner>
-                            <label>Setting more inner</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>310</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </setting_more_inner>
-                        <setting_more_after>
-                            <label>Setting more after</label>
-                            <frontend_type>textarea</frontend_type>
-                            <sort_order>320</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                        </setting_more_after>
-                    </fields>
-                </crosssel>
-
                 <related translate="label" module="sliderg">
                     <label>Related Product list slider</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>20</sort_order>
+                    <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -617,11 +344,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </format>
+                        <title>
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
                         <show_image>
                             <label>Show Image</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>20</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -630,7 +365,7 @@
                             <label>Show Name</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -639,7 +374,7 @@
                             <label>Show short description</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -648,7 +383,7 @@
                             <label>Show Price</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
+                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -657,7 +392,7 @@
                             <label>Show review</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -666,7 +401,7 @@
                             <label>Show add cart button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -675,7 +410,7 @@
                             <label>Show add wishlist button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>80</sort_order>
+                            <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -684,7 +419,7 @@
                             <label>Show add compare button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>90</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -693,7 +428,7 @@
                             <label>Slider Type</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_type</source_model>
-                            <sort_order>100</sort_order>
+                            <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -701,7 +436,7 @@
                         <width>
                             <label>Width</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>110</sort_order>
+                            <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -710,7 +445,7 @@
                         <height>
                             <label>Height</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>120</sort_order>
+                            <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -744,7 +479,7 @@
                             <show_in_store>1</show_in_store>
                         </effect>
                         <grab_cursor>
-                            <label>Grab cursor</label>
+                            <label>Grab Cursor</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_truefalse</source_model>
                             <sort_order>170</sort_order>
@@ -753,7 +488,7 @@
                             <show_in_store>1</show_in_store>
                         </grab_cursor>
                         <direction>
-                            <label>Grab cursor</label>
+                            <label>Direction</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_direction</source_model>
                             <sort_order>180</sort_order>
@@ -884,7 +619,7 @@
                 <random translate="label" module="sliderg">
                     <label>Random Product list slider</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>20</sort_order>
+                    <sort_order>40</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -898,11 +633,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </format>
+                        <title>
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
                         <show_image>
                             <label>Show Image</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>20</sort_order>
+                            <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -911,7 +654,7 @@
                             <label>Show Name</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
+                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -920,7 +663,7 @@
                             <label>Show short description</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
+                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -929,7 +672,7 @@
                             <label>Show Price</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
+                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -938,7 +681,7 @@
                             <label>Show review</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -947,7 +690,7 @@
                             <label>Show add cart button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -956,7 +699,7 @@
                             <label>Show add wishlist button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>80</sort_order>
+                            <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -965,7 +708,7 @@
                             <label>Show add compare button</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>90</sort_order>
+                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -974,7 +717,7 @@
                             <label>Slider Type</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_type</source_model>
-                            <sort_order>100</sort_order>
+                            <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -982,7 +725,7 @@
                         <width>
                             <label>Width</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>110</sort_order>
+                            <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -991,7 +734,7 @@
                         <height>
                             <label>Height</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>120</sort_order>
+                            <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -1025,7 +768,7 @@
                             <show_in_store>1</show_in_store>
                         </effect>
                         <grab_cursor>
-                            <label>Grab cursor</label>
+                            <label>Grab Cursor</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_truefalse</source_model>
                             <sort_order>170</sort_order>
@@ -1034,7 +777,7 @@
                             <show_in_store>1</show_in_store>
                         </grab_cursor>
                         <direction>
-                            <label>Grab cursor</label>
+                            <label>Direction</label>
                             <frontend_type>select</frontend_type>
                             <source_model>sliderg/source_setting_direction</source_model>
                             <sort_order>180</sort_order>
@@ -1161,6 +904,295 @@
                         </setting_more_after>
                     </fields>
                 </random>
+
+                <crosssel translate="label" module="sliderg">
+                    <label>Crosssel Product list slider</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <format>
+                            <label>Format</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_format</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </format>
+                        <title>
+                            <label>Title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </title>
+                        <show_image>
+                            <label>Show Image</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_image>
+                        <show_name>
+                            <label>Show Name</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_name>
+                        <show_shortdescription>
+                            <label>Show short description</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_shortdescription>
+                        <show_price>
+                            <label>Show Price</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_price>
+                        <show_review>
+                            <label>Show review</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_review>
+                        <show_addcart>
+                            <label>Show add cart button</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_addcart>
+                        <show_addwish>
+                            <label>Show add wishlist button</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_addwish>
+                        <show_addcompare>
+                            <label>Show add compare button</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_addcompare>
+                        <type>
+                            <label>Slider Type</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_type</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+                        <width>
+                            <label>Width</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-number</validate>
+                        </width>
+                        <height>
+                            <label>Height</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-number</validate>
+                        </height>
+                        <sliders_per_view>
+                            <label>Per View</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-number</validate>
+                        </sliders_per_view>
+                        <sliders_max_view>
+                            <label>Max view</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <validate>validate-number</validate>
+                        </sliders_max_view>
+                        <effect>
+                            <label>Effect</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_effect</source_model>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </effect>
+                        <grab_cursor>
+                            <label>Grab Cursor</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </grab_cursor>
+                        <direction>
+                            <label>Direction</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_direction</source_model>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </direction>
+                        <pagination_enable>
+                            <label>Pagination enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pagination_enable>
+                        <pagination_clickable>
+                            <label>Pagination Clickable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pagination_clickable>
+                        <navigation_enable>
+                            <label>Navigation enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </navigation_enable>
+                        <loop>
+                            <label>Loop</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </loop>
+                        <space_between>
+                            <label>Space between every slider</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>230</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </space_between>
+                        <centered_slides>
+                            <label>Centerd Sldiers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>240</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </centered_slides>
+                        <keyboard_controll>
+                            <label>Keyboard Control</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>250</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </keyboard_controll>
+                        <mousewheel_control>
+                            <label>Mouse control</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>260</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </mousewheel_control>
+                        <autoplay>
+                            <label>Auto play(ms)</label>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>270</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </autoplay>
+                        <autoplay_disable_on_interaction>
+                            <label>Autoplay disable on interaction</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>280</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </autoplay_disable_on_interaction>
+                        <free_mode>
+                            <label>Free mode</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>sliderg/source_setting_truefalse</source_model>
+                            <sort_order>290</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </free_mode>
+                        <setting_more_before>
+                            <label>Setting more before</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>300</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </setting_more_before>
+                        <setting_more_inner>
+                            <label>Setting more inner</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>310</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </setting_more_inner>
+                        <setting_more_after>
+                            <label>Setting more after</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>320</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                        </setting_more_after>
+                    </fields>
+                </crosssel>
             </groups>
         </sliderg>
     </sections>

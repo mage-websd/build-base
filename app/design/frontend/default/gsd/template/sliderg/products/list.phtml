@@ -9,7 +9,9 @@ $width = $this->getConfig('width');
 $height = $this->getConfig('height');
 $configFormat = $this->getConfig('format') ? $this->getConfig('format') : 'slider';
 ?>
-<div class="<?php if($configFormat == 'slider'){ ?>swiper-container swiper<?php echo $prefixId; ?> effect-<?php echo $this->getConfig('effect') ? $this->getConfig('effect') : 'default';?> <?php }//endif check is slider ?> format-<?php echo $configFormat; ?> list-product list-<?php echo $this->getTypeCollection(); ?>">
+
+<h3><?php echo $this->getConfig('title'); ?></h3>
+<div class="swiper<?php echo $prefixId; ?> <?php if($configFormat == 'slider'){ ?>swiper-container effect-<?php echo $this->getConfig('effect') ? $this->getConfig('effect') : 'default';?> <?php }//endif check is slider ?> format-<?php echo $configFormat; ?> list-product list-<?php echo $this->getTypeCollection(); ?> <?php echo $this->getConfig('class');?>">
     <div class="<?php if($configFormat == 'slider'){ echo 'swiper-wrapper'; } else {echo 'static-wrapper';} ?>">
         <?php
         foreach ($collection as $product) {
@@ -84,6 +86,7 @@ $configFormat = $this->getConfig('format') ? $this->getConfig('format') : 'slide
             <div class="swiper-button-prev swiper-button-prev<?php echo $prefixId ?>"></div><?php }?>
     <?php }//endif check is slider ?>
 </div>
+
 <script>
     jQuery(document).ready(function ($) {
         <?php if($configFormat == 'slider') { ?>
@@ -127,12 +130,12 @@ $configFormat = $this->getConfig('format') ? $this->getConfig('format') : 'slide
                 ?>
                 <?php
                     if($this->getConfig('space_between')) {
-                        echo 'spaceBetween: "'.$this->getConfig('space_between').'",';
+                        echo 'spaceBetween: '.$this->getConfig('space_between').',';
                     }
                 ?>
                 <?php
-                    if($this->getConfig('slides_per_view')) {
-                        echo 'slidesPerView: "'.$this->getConfig('slides_per_view').'",';
+                    if($this->getConfig('sliders_per_view')) {
+                        echo 'slidesPerView: '.$this->getConfig('sliders_per_view').',';
                     }
                 ?>
                 <?php
@@ -147,7 +150,7 @@ $configFormat = $this->getConfig('format') ? $this->getConfig('format') : 'slide
                 ?>
                 <?php
                     if($this->getConfig('autoplay')) {
-                        echo 'autoplay: "'.$this->getConfig('autoplay').'",';
+                        echo 'autoplay: '.$this->getConfig('autoplay').',';
                     }
                 ?>
                 <?php

@@ -131,6 +131,9 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
             case 'swiper':
                 $html = 'sliderg/swiper.phtml';
                 break;
+            default:
+                $html = 'sliderg/swiper.phtml';
+                break;
         }
         return $html;
     }
@@ -142,6 +145,9 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
                 $html = 'sliderg/products/list.phtml';
                 break;
             case 'swiper':
+                $html = 'sliderg/products/list.phtml';
+                break;
+            default:
                 $html = 'sliderg/products/list.phtml';
                 break;
         }

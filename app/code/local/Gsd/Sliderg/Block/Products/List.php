@@ -113,7 +113,7 @@ class Gsd_Sliderg_Block_Products_List extends Mage_Catalog_Block_Product_Abstrac
             );
             $this->_addProductAttributesAndPrices($this->_collection);
         }
-//        Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
+        //Mage::getSingleton('catalog/product_status')->addSaleableFilterToCollection($this->_itemCollection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_collection);
         $maxNumber = $this->getConfig('sliders_max_view') ? $this->getConfig('sliders_max_view') : $this->_sliderMaxViewDefault;
         $this->_collection->setPageSize($maxNumber);
@@ -126,13 +126,17 @@ class Gsd_Sliderg_Block_Products_List extends Mage_Catalog_Block_Product_Abstrac
 
     public function callRandom()
     {
-        $collection = Mage::getResourceModel('catalog/product_collection');
-        Mage::getModel('catalog/layer')->prepareProductCollection($collection);
-        $collection->getSelect()->order('rand()');
-        $collection->addStoreFilter();
+        $this->_collection = Mage::getResourceModel('catalog/product_collection')
+            ->addAttributeToSelect('*');
+        //Mage::getModel('catalog/layer')->prepareProductCollection($collection);
+        $this->_collection->getSelect()->order('rand()');
+        $this->_collection->addStoreFilter();
         $maxNumber = $this->getConfig('sliders_max_view') ? $this->getConfig('sliders_max_view') : $this->_sliderMaxViewDefault;
         $this->_collection->setPageSize($maxNumber);
-        $this->_collection = $collection;
+        $this->_collection->load();
+        foreach ($this->_collection as $product) {
+            $product->setDoNotUseCategoryId(true);
+        }
         return $this;
     }
 
@@ -195,7 +199,10 @@ class Gsd_Sliderg_Block_Products_List extends Mage_Catalog_Block_Product_Abstrac
         return $this;
     }
     public function getConfig($path3)
-    {
+    {//show_shortdescription
+        if($this->getData($path3)) {
+            return $this->getData($path3);
+        }
         return Mage::getStoreConfig("sliderg/{$this->_typeCollection}/{$path3}");
     }
     public function setType($type='swiper') {
