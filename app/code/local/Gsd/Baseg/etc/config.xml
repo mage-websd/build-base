@@ -20,6 +20,15 @@
                 </baseg>
             </updates>
         </layout>
+        <routers>
+            <baseg>
+                <use>standard</use>
+                <args>
+                    <module>Gsd_Baseg</module>
+                    <frontName>baseg</frontName>
+                </args>
+            </baseg>
+        </routers>
     </frontend>
     <adminhtml>
         <acl>
