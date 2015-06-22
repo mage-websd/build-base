@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gsd_Filterg>
+            <version>0.1.0</version>
+        </Gsd_Filterg>
+    </modules>
+    <global>
+        <blocks>
+            <filterg>
+                <class>Gsd_Filterg_Block</class>
+            </filterg>
+        </blocks>
+        <helpers>
+            <filterg>
+                <class>Gsd_Filterg_Helper</class>
+            </filterg>
+        </helpers>
+    </global>
+    <frontend>
+        <routers>
+            <catalog>
+                <args>
+                    <modules>
+                        <filterg before="Mage_Catalog">Gsd_Filterg_Catalog</filterg>
+                    </modules>
+                </args>
+            </catalog>
+        </routers>
+    </frontend>
+</config>

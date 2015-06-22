@@ -1,6 +1,7 @@
 <?php
+
 $collection = $this->getCollection();
-if ($collection->count() > 0) {
+if (count($collection) > 0) {
     $_helper = $this->helper('sliderg');
     $prefixId = '-' . md5(mt_rand());
     $config = $this->getConfig();

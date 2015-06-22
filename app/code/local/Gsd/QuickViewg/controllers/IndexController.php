@@ -1,5 +1,4 @@
 <?php
-//require Mage::getModuleDir('controllers','Mage_Catalog').DS.'ProductController.php';
 class Gsd_QuickViewg_IndexController extends Mage_Core_Controller_Front_Action //Mage_Catalog_ProductController
 {
     public function indexAction()
