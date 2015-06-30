@@ -1,6 +1,7 @@
 <?php
 
-class AW_Blog_Manage_BlogController extends Mage_Adminhtml_Controller_Action
+require_once(Mage::getModuleDir('controllers','AW_Blog').DS.'Manage'.DS.'AdminabstractController.php');
+class AW_Blog_Manage_BlogController extends AW_Blog_Manage_AdminabstractController
 {
     public function preDispatch()
     {
@@ -14,11 +15,7 @@ class AW_Blog_Manage_BlogController extends Mage_Adminhtml_Controller_Action
 
     protected function _initAction()
     {
-        $this
-            ->loadLayout()
-            ->_setActiveMenu('blog/posts')
-        ;
-
+        parent::_initAction();
         return $this;
     }
 

@@ -1,15 +1,9 @@
 <?xml version="1.0"?>
 <config>
-    <tabs>
-        <awall translate="label" module="blog">
-            <label>aheadWorks Extensions</label>
-            <sort_order>300</sort_order>
-        </awall>
-    </tabs>
     <sections>
         <blog translate="label" module="blog">
-            <label>Blog</label>
-            <tab>awall</tab>
+            <label>AW Blog</label>
+            <tab>gsd</tab>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>
             <show_in_default>1</show_in_default>

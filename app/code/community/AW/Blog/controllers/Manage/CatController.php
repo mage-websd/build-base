@@ -1,6 +1,6 @@
 <?php
-
-class AW_Blog_Manage_CatController extends Mage_Adminhtml_Controller_Action
+require_once(Mage::getModuleDir('controllers','AW_Blog').DS.'Manage'.DS.'AdminabstractController.php');
+class AW_Blog_Manage_CatController extends AW_Blog_Manage_AdminabstractController
 {
     protected function _isAllowed()
     {
@@ -9,9 +9,8 @@ class AW_Blog_Manage_CatController extends Mage_Adminhtml_Controller_Action
 
     protected function _initAction()
     {
+        parent::_initAction();
         $this
-            ->loadLayout()
-            ->_setActiveMenu('blog/cat')
             ->_addBreadcrumb(
                 Mage::helper('adminhtml')->__('Category Manager'), Mage::helper('adminhtml')->__('Category Manager')
             );

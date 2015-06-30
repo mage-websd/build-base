@@ -1,6 +1,6 @@
 <?php
-
-class AW_Blog_Manage_CommentController extends Mage_Adminhtml_Controller_Action
+require_once(Mage::getModuleDir('controllers','AW_Blog').DS.'Manage'.DS.'AdminabstractController.php');
+class AW_Blog_Manage_CommentController extends AW_Blog_Manage_AdminabstractController
 {
     public function preDispatch()
     {
@@ -14,12 +14,10 @@ class AW_Blog_Manage_CommentController extends Mage_Adminhtml_Controller_Action
 
     protected function _initAction()
     {
-        $this
-            ->loadLayout()
-            ->_setActiveMenu('blog/comment')
-            ->_addBreadcrumb(
-                Mage::helper('adminhtml')->__('Comment Manager'), Mage::helper('adminhtml')->__('Comment Manager')
-            );
+        parent::_initAction();
+        $this->_addBreadcrumb(
+            Mage::helper('adminhtml')->__('Comment Manager'), Mage::helper('adminhtml')->__('Comment Manager')
+        );
         $this->displayTitle('Comments');
 
         return $this;
