@@ -9,6 +9,11 @@ class AW_Blog_Model_Cat extends Mage_Core_Model_Abstract
         $this->_init('blog/cat');
     }
 
+    public function getId()
+    {
+        return $this->getCatId();
+    }
+
     public function load($id, $field = null)
     {
         return parent::load($id, $field);
@@ -38,5 +43,14 @@ class AW_Blog_Model_Cat extends Mage_Core_Model_Abstract
             $content = $processor->filter($content);
         }
         return $content;
+    }
+
+    public function getLevel()
+    {
+        return $this->_getResource()->getLevel($this);
+    }
+    public function getPath()
+    {
+        return $this->_getResource()->getPath($this);
     }
 }

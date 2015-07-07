@@ -103,4 +103,26 @@ class AW_Blog_Model_Mysql4_Cat extends Mage_Core_Model_Mysql4_Abstract
         }
         return $select;
     }
+
+    public function getLevel($object)
+    {
+        $_countLevel = 0;
+        $objectParent = $object;
+        while($objectParent->getParentId() != 0) {
+            $_countLevel++;
+            $objectParent = Mage::getModel('blog/cat')->load($objectParent->getParentId());
+        }
+        return $_countLevel;
+    }
+    public function getPath($object)
+    {
+        $_path = array();
+        $objectParent = $object;
+        $_path[] = $objectParent->getCatId();
+        while($objectParent->getParentId() != 0) {
+            $_path[] = $objectParent->getParentId();
+            $objectParent = Mage::getModel('blog/cat')->load($objectParent->getParentId());
+        }
+        return array_reverse($_path);
+    }
 }

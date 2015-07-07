@@ -22,6 +22,15 @@ class AW_Blog_Block_Manage_Blog_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Ta
         );
 
         $this->addTab(
+            'media_section',
+            array(
+                'label'   => Mage::helper('blog')->__('Media'),
+                'title'   => Mage::helper('blog')->__('Media'),
+                'content' => $this->getLayout()->createBlock('blog/manage_blog_edit_tab_media')->toHtml(),
+            )
+        );
+
+        $this->addTab(
             'options_section',
             array(
                  'label'   => Mage::helper('blog')->__('Advanced Options'),

@@ -1,43 +1,122 @@
 <?php
 $_product = $this->getProduct();
 $_helper = $this->helper('catalog/output');
+$prefixId = '-' . md5(mt_rand());
+$_helperZoom = $this->helper('zoomg');
+$width = $_helperZoom->getConfig('width');
+$height = $_helperZoom->getConfig('height');
+$configFormat = $_helperZoom->getConfig('format') ? $this->getConfig('format') : 'slider';
 ?>
-<?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-    <p class="product-image product-image-zoom">
-        <?php
-        $_img = '<img class="product-image-zoom" id="image" '.
-            ' src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(200).'" '.
-            ' data-zoom-image="'.$this->helper('catalog/image')->init($_product, 'image').'"'.
-            ' alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-        ?>
-    </p>
-<?php else: ?>
-    <p class="product-image">
-        <?php
-        $_img = '<img class="product-image-zoom" '.
-            ' src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" '.
-            ' data-zoom-image="'.$this->helper('catalog/image')->init($_product, 'image').'"'.
-            ' alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
-        echo $_helper->productAttribute($_product, $_img, 'image');
-        ?>
-    </p>
-<?php endif; ?>
+<?php /*
+    <div class="swiper-container gallery-top swiper-gallery-top<?php echo $prefixId; ?>">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <?php
+                    $_img = '<img'.
+                        ' src="'.$this->helper('catalog/image')->init($_product, 'image')->resize(265).'" '.
+                        ' data-zoom-image="'.$this->helper('catalog/image')->init($_product, 'image').'"'.
+                        ' alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" />';
+                    echo $_helper->productAttribute($_product, $_img, 'image');
+                ?>
+            </div>
+            <?php if (count($this->getGalleryImages()) > 0): ?>
+                <?php foreach ($this->getGalleryImages() as $_image): ?>
+                    <div class="swiper-slide">
+                        <img
+                             src="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile())->resize(265); ?>"
+                             width="265" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>"
+                             data-zoom-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()); ?>"'  />
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <!-- Add Arrows -->
+        <div class="swiper-button-next-top<?php echo $prefixId; ?> swiper-button-next swiper-button-next-top"></div>
+        <div class="swiper-button-prev-top<?php echo $prefixId; ?> swiper-button-prev swiper-button-prev-top"></div>
+    </div>
+
 <?php if (count($this->getGalleryImages()) > 0): ?>
-    <div class="more-views">
-        <h2><?php echo $this->__('More Views') ?></h2>
-        <ul>
-            <?php foreach ($this->getGalleryImages() as $_image): ?>
-                <li>
-                    <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" /></a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+    <div class="swiper-container gallery-thumbs swiper-gallery-thumbs<?php echo $prefixId; ?>">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <?php
+                $_img = '<img'.
+                    ' src="'.$this->helper('catalog/image')->init($_product, 'thumbnail')->resize(56).'" '.
+                    ' alt="'.$this->escapeHtml($this->getImageLabel()).'" title="'.$this->escapeHtml($this->getImageLabel()).'" '.
+                    ' width="56" height="56" />';
+                echo $_helper->productAttribute($_product, $_img, 'image');
+                ?>
+            </div>
+            <?php if (count($this->getGalleryImages()) > 0): ?>
+                <?php foreach ($this->getGalleryImages() as $_image): ?>
+                    <div class="swiper-slide">
+                        <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>" width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+                    </div>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </div>
+        <div class="swiper-button-next-gallery<?php echo $prefixId; ?> swiper-button-next swiper-button-next-gallery"></div>
+        <div class="swiper-button-prev-gallery<?php echo $prefixId; ?> swiper-button-prev swiper-button-prev-gallery"></div>
+    </div>
+<?php endif; ?>
+*/ ?>
+<div class="product-image-outer">
+    <div class="product-image-inner">
+          <img class="product-image-zoom"
+              src="<?php echo $this->helper('catalog/image')->init($_product, 'image')->resize(265); ?>"
+              data-zoom-image="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>"
+              alt="<?php echo $this->escapeHtml($this->getImageLabel()); ?>"
+              title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>" />
+    </div>
+</div>
+<?php if (count($this->getGalleryImages()) > 0): ?>
+    <div id="product-gallery" class="swiper-container gallery-thumbs swiper-gallery-thumbs<?php echo $prefixId; ?>">
+        <div class="swiper-wrapper">
+                <?php foreach ($this->getGalleryImages() as $_image): ?>
+                    <div class="swiper-slide">
+                        <a href="#" data-zoom-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()); ?>"
+                           data-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile())->resize(265); ?>">
+                            <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>"
+                                width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>"
+                            />
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+        </div>
+        <div class="swiper-button-next-gallery<?php echo $prefixId; ?> swiper-button-next swiper-button-next-gallery"></div>
+        <div class="swiper-button-prev-gallery<?php echo $prefixId; ?> swiper-button-prev swiper-button-prev-gallery"></div>
     </div>
 <?php endif; ?>
 
 <script>
 jQuery(document).ready(function($) {
-    $(".product-image-zoom").elevateZoom({scrollZoom : true});
+    <?php /*var galleryTop = new Swiper('.swiper-gallery-top<?php echo $prefixId; ?>', {
+        nextButton: '.swiper-button-next-top<?php echo $prefixId; ?>',
+        prevButton: '.swiper-button-prev-top<?php echo $prefixId; ?>',
+        loop: true,
+        onSlideChangeEnd(galleryTop){
+            activeIndex = galleryTop.activeIndex + 1;
+            $('.swiper-gallery-top<?php echo $prefixId; ?> .swiper-wrapper .swiper-slide img').removeClass('product-image-zoom');
+            $('.swiper-gallery-top<?php echo $prefixId; ?> .swiper-wrapper .swiper-slide:nth-child('+activeIndex+') img').addClass('product-image-zoom');
+            $(".product-image-zoom").elevateZoom({scrollZoom : true});
+        }
+    }); */ ?>
+    var galleryThumbs = new Swiper('.swiper-gallery-thumbs<?php echo $prefixId; ?>', {
+        nextButton: '.swiper-button-next-gallery<?php echo $prefixId; ?>',
+        prevButton: '.swiper-button-prev-gallery<?php echo $prefixId; ?>',
+        centeredSlides: true,
+        spaceBetween: 10,
+        slidesPerView: 3,
+        slideToClickedSlide: true,
+        loop: true
+    });
+    $(".product-image-zoom").elevateZoom({
+        cursor: 'pointer',
+        galleryActiveClass: 'active',
+        imageCrossfade: true,
+        //loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
+        gallery:'product-gallery'
+    });
+
 });
 </script>

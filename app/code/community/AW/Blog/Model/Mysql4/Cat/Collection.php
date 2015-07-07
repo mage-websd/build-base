@@ -60,4 +60,18 @@ class AW_Blog_Model_Mysql4_Cat_Collection extends Mage_Core_Model_Mysql4_Collect
         ;
         return $this;
     }
+
+    public function getChildren($_category)
+    {
+        $_categoryId = $_category;
+        if(is_object($_category)) {
+            $_categoryId = $_category->getCatId();
+        }
+        $this
+            ->getSelect()
+            ->where("main_table.parent_id = '{$_categoryId}'")
+            ->order('sort_order','asc')
+        ;
+        return $this;
+    }
 }

@@ -25,7 +25,10 @@ class AW_Blog_Model_Mysql4_Post extends Mage_Core_Model_Mysql4_Abstract
             Mage::throwException(Mage::helper('blog')->__('Post Identifier cannot consist only of numbers.'));
         }
 
-        return $this;
+        $object->setImage(Mage::helper('baseg/upload')->image('image','blog'));
+        $object->setThumbnail(Mage::helper('baseg/upload')->image('thumbnail','blog'));
+
+        return parent::_beforeSave($object);
     }
 
     public function getIsUniqueIdentifier(Mage_Core_Model_Abstract $object)
@@ -77,7 +80,6 @@ class AW_Blog_Model_Mysql4_Post extends Mage_Core_Model_Mysql4_Abstract
             $storeArray['cat_id'] = $store;
             $this->_getWriteAdapter()->insert($this->getTable('post_cat'), $storeArray);
         }
-
 
         return parent::_afterSave($object);
     }

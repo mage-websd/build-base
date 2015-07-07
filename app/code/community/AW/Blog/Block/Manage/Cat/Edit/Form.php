@@ -67,6 +67,13 @@ class AW_Blog_Block_Manage_Cat_Edit_Form extends Mage_Adminhtml_Block_Widget_For
             );
         }
 
+        $fieldset->addField('parent_id', 'select', array(
+            'label' => $this->__('Parent Category'),
+            'name' =>'parent_id',
+            'values' => Mage::getSingleton('blog/source_setting_categories')->toOptionArray($this->getRequest()->getParam('id')),
+            //'values' => Mage::getSingleton('blog/mysql4_cat_collection')->toOptionArray(),
+        ));
+
         $fieldset->addField(
             'meta_keywords',
             'editor',
