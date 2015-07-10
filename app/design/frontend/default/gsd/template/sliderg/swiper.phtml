@@ -8,10 +8,15 @@ if (count($collection) > 0) {
     $width = $config->getData('width');
     $height = $config->getData('height');
     $configFormat = $config['format'] ? $config['format'] : 'slider';
-    /*$sizeWidthArray = array();
-    $sizeHeightArray = array();*/
+    $htmlWidhthHeight = '';
+    if($config->getData('width_slider')) {
+        $htmlWidhthHeight .= 'width: '. $config->getData('width_slider').';';
+    }
+    if($config->getData('height_slider')) {
+        $htmlWidhthHeight .= 'height: '. $config->getData('height_slider').';';
+    }
     ?>
-    <div class="swiper<?php echo $prefixId; ?> <?php if($configFormat == 'slider'){ ?>swiper-container effect-<?php echo $config['effect'] ? $config['effect'] : 'default';?> <?php }//endif check is slider ?> list-image code-<?php echo $this->getCode(); ?> format-<?php echo $configFormat; ?>">
+    <div class="swiper<?php echo $prefixId; ?> <?php if($configFormat == 'slider'){ ?>swiper-container effect-<?php echo $config['effect'] ? $config['effect'] : 'default';?> <?php }//endif check is slider ?> list-image code-<?php echo $this->getCode(); ?> format-<?php echo $configFormat; ?>" style="<?php echo $htmlWidhthHeight; ?>">
         <div class="<?php if($configFormat == 'slider'){ echo 'swiper-wrapper'; } else {echo 'static-wrapper';} ?>">
             <?php
             foreach ($collection as $image) {
@@ -150,6 +155,51 @@ if (count($collection) > 0) {
                     <?php
                         if($config->getData('free_mode')) {
                             echo 'freeMode: "'.$config->getData('free_mode').'",';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('slides_per_column')) {
+                            echo 'slidesPerColumn: '.$config->getData('slides_per_column').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('slides_per_column_fill')) {
+                            echo 'slidesPerColumnFill: "'.$config->getData('slides_per_column_fill').'",';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('slides_per_group')) {
+                            echo 'slidesPerGroup: '.$config->getData('slides_per_group').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('speed')) {
+                            echo 'speed: '.$config->getData('speed').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('simulate_touch')) {
+                            echo 'simulateTouch: '.$config->getData('simulate_touch').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('preload_images')) {
+                            echo 'preloadImages: '.$config->getData('preload_images').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('lazy_loading')) {
+                            echo 'lazyLoading: '.$config->getData('lazy_loading').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('lazy_loading_in_prev_next')) {
+                            echo 'lazyLoadingInPrevNext: '.$config->getData('lazy_loading_in_prev_next').',';
+                        }
+                    ?>
+                    <?php
+                        if($config->getData('lazy_loading_on_transition_start')) {
+                            echo 'lazyLoadingOnTransitionStart: '.$config->getData('lazy_loading_on_transition_start').',';
                         }
                     ?>
                     <?php

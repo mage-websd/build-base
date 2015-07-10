@@ -11,6 +11,11 @@
                 <class>Gsd_Baseg_Helper</class>
             </baseg>
         </helpers>
+        <blocks>
+            <baseg>
+                <class>Gsd_Baseg_Block</class>
+            </baseg>
+        </blocks>
     </global>
     <frontend>
         <layout>

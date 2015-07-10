@@ -1,4 +1,4 @@
-.swiper-container{width:100%;height:100%;max-width:500px;max-height:500px}
+/*.swiper-container{width:100%;height:100%;max-width:500px;max-height:500px}*/
 .ajax-loading-wrapper{width:100%;position:fixed;height:100%;top:0;left:0;background-color:#000;opacity:.5;z-index:9999999999;display:none}
 .ajax-loading-wrapper .ajax-loading{width:50px;margin:0 auto;margin-top:50px}
 .gallery-top{height:80%;width:100%}

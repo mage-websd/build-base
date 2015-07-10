@@ -7,16 +7,30 @@
             <action method="addJs" ifconfig="baseg/js/jquery_enable">
                 <script>jquery/jquery-noconflict.js</script>
             </action>
-            <action method="addJs">
-                <script>bootstrap-3.3.5/js/bootstrap.min.js</script>
+            <action method="addItem">
+                <type>skin_css</type>
+                <file>bootstrap-3.3.5/css/bootstrap.min.css</file>
             </action>
             <action method="addItem">
-                <type>js_css</type><file>bootstrap-3.3.5/css/bootstrap.min.css</file>
+                <type>skin_js</type>
+                <file>bootstrap-3.3.5/js/bootstrap.min.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/allpage.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/allpage.js</name>
             </action>
         </reference>
         <reference name="content">
-            <block type="core/template" name="data_base_url" template="baseg/base_url.phtml" before="-" />
-            <block type="core/template" name="ajax_loading" template="baseg/ajax_loading.phtml" before="-" />
+            <block type="core/template" name="data_base_url" template="baseg/base_url.phtml" before="-"/>
+            <block type="core/template" name="ajax_loading" template="baseg/ajax_loading.phtml" before="-"/>
+        </reference>
+        <remove name="catalog.topnav" />
+        <reference name="top.menu">
+            <block type="baseg/page_topmenu" name="menu_two_mobile" template="page/html/topmenu_mobile.phtml"/>
         </reference>
     </default>
 </layout>

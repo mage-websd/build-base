@@ -114,6 +114,59 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
             'name' => $prefix.'free_mode',
             'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
         ));
+        $fieldset->addField('width_slider', 'text', array(
+            'label' => $this->__('Width Slider'),
+            'name' => $prefix.'width_slider',
+        ));
+        $fieldset->addField('height_slider', 'text', array(
+            'label' => $this->__('Height Slider'),
+            'name' => $prefix.'height_slider',
+        ));
+        $fieldset->addField('slides_per_column', 'text', array(
+            'label' => $this->__('slides Per Column'),
+            'name' => $prefix.'slides_per_column',
+            'class' => 'validate-number',
+        ));
+        $fieldset->addField('slides_per_column_fill', 'select', array(
+            'label' => $this->__('slides per column fill'),
+            'name' => $prefix.'slides_per_column_fill',
+            'values' => Mage::getSingleton('sliderg/source_setting_fill')->toOptionArray(),
+        ));
+        $fieldset->addField('slides_per_group', 'text', array(
+            'label' => $this->__('slides Per Group'),
+            'name' => $prefix.'slides_per_group',
+            'class' => 'validate-number',
+        ));
+        $fieldset->addField('speed', 'text', array(
+            'label' => $this->__('Speed'),
+            'name' => $prefix.'speed',
+            'class' => 'validate-number',
+        ));
+        $fieldset->addField('simulate_touch', 'select', array(
+            'label' => $this->__('Simulate Touch'),
+            'name' => $prefix.'simulate_touch',
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
+        ));
+        $fieldset->addField('preload_images', 'select', array(
+            'label' => $this->__('Preload Images'),
+            'name' => $prefix.'preload_images',
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
+        ));
+        $fieldset->addField('lazy_loading', 'select', array(
+            'label' => $this->__('Lazy Loading'),
+            'name' => $prefix.'lazy_loading',
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
+        ));
+        $fieldset->addField('lazy_loading_in_prev_next', 'select', array(
+            'label' => $this->__('lazy Loading In Prev Next'),
+            'name' => $prefix.'lazy_loading_in_prev_next',
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
+        ));
+        $fieldset->addField('lazy_loading_on_transition_start', 'select', array(
+            'label' => $this->__('lazy Loading On Transition Start'),
+            'name' => $prefix.'lazy_loading_on_transition_start',
+            'values' => Mage::getSingleton('sliderg/source_setting_truefalse')->toOptionArray(),
+        ));
         $fieldset->addField('setting_more_before', 'textarea', array(
             'label' => $this->__('Setting more before'),
             'name' => $prefix.'setting_more_before',

@@ -74,8 +74,11 @@ $configFormat = $_helperZoom->getConfig('format') ? $this->getConfig('format') :
         <div class="swiper-wrapper">
                 <?php foreach ($this->getGalleryImages() as $_image): ?>
                     <div class="swiper-slide">
-                        <a href="#" data-zoom-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()); ?>"
-                           data-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile())->resize(265); ?>">
+                        <a 
+                            class="" href="#" 
+                            data-zoom-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile()); ?>"
+                            data-image="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_image->getFile())->resize(265); ?>"
+                        >
                             <img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(56); ?>"
                                 width="56" height="56" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>"
                             />
@@ -90,17 +93,6 @@ $configFormat = $_helperZoom->getConfig('format') ? $this->getConfig('format') :
 
 <script>
 jQuery(document).ready(function($) {
-    <?php /*var galleryTop = new Swiper('.swiper-gallery-top<?php echo $prefixId; ?>', {
-        nextButton: '.swiper-button-next-top<?php echo $prefixId; ?>',
-        prevButton: '.swiper-button-prev-top<?php echo $prefixId; ?>',
-        loop: true,
-        onSlideChangeEnd(galleryTop){
-            activeIndex = galleryTop.activeIndex + 1;
-            $('.swiper-gallery-top<?php echo $prefixId; ?> .swiper-wrapper .swiper-slide img').removeClass('product-image-zoom');
-            $('.swiper-gallery-top<?php echo $prefixId; ?> .swiper-wrapper .swiper-slide:nth-child('+activeIndex+') img').addClass('product-image-zoom');
-            $(".product-image-zoom").elevateZoom({scrollZoom : true});
-        }
-    }); */ ?>
     var galleryThumbs = new Swiper('.swiper-gallery-thumbs<?php echo $prefixId; ?>', {
         nextButton: '.swiper-button-next-gallery<?php echo $prefixId; ?>',
         prevButton: '.swiper-button-prev-gallery<?php echo $prefixId; ?>',
@@ -110,13 +102,20 @@ jQuery(document).ready(function($) {
         slideToClickedSlide: true,
         loop: true
     });
-    $(".product-image-zoom").elevateZoom({
-        cursor: 'pointer',
-        galleryActiveClass: 'active',
-        imageCrossfade: true,
-        //loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
-        gallery:'product-gallery'
-    });
-
+    <?php if($_helperZoom->isEnable()) : ?>
+        $(".product-image-zoom").elevateZoom({
+            cursor: 'pointer',
+            galleryActiveClass: 'active',
+            imageCrossfade: true,
+            //loadingIcon: 'http://www.elevateweb.co.uk/spinner.gif'
+            gallery:'product-gallery'
+        });
+    <?php else: ?>
+        $(document).on('click','#product-gallery a',function() {
+            productImage = $(this).data('image');
+            $('.product-img-box img.product-image-zoom').attr('src',productImage);
+            return false;
+        });
+    <?php endif; ?>
 });
 </script>
