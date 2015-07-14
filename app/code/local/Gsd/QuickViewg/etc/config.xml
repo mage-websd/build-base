@@ -40,4 +40,33 @@
             </quickviewg>
         </routers>
     </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <quickviewg>
+                                            <title>Quick view ajax</title>
+                                        </quickviewg>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <quickviewg>
+            <general>
+                <enable>1</enable>
+            </general>
+        </quickviewg>
+    </default>
 </config>

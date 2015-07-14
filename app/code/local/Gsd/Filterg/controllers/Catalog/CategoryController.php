@@ -114,6 +114,9 @@ class Gsd_Filterg_Catalog_CategoryController extends Mage_Catalog_CategoryContro
      */
     public function viewAction()
     {
+        if(!Mage::helper('filterg')->isEnable()) {
+            return parent::viewAction();
+        }
         if($this->getRequest()->isXmlHttpRequest()){ //Check if it was an AJAX request
             $response = array();
             if ($category = $this->_initCatagory()) {
@@ -151,14 +154,14 @@ class Gsd_Filterg_Catalog_CategoryController extends Mage_Catalog_CategoryContro
                 $this->generateLayoutXml()->generateLayoutBlocks(); //Generate new blocks
                 //$viewpanel = $this->getLayout()->getBlock('catalog.leftnav')->toHtml(); // Generate New Layered Navigation Menu
                 $productList = $this->getLayout()->getBlock('product_list')->toHtml(); // Generate product list
-                $response['status'] = true;
+                $response['status'] = 1;
                 //$response['viewpanel']=$viewpanel;
-                $response['productList'] = $productList;
-
+                $response['data']['.category-products-wrapper'] = $productList;
                 // apply custom layout (page) template once the blocks are generated
             }elseif (!$this->getResponse()->isRedirect()) {
                 $this->_forward('noRoute');
-                $response['status'] = false;
+                $response['status'] = 0;
+                $response['message'] = 'Error';
             }
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
             return;

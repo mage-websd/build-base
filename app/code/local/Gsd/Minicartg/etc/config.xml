@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gsd_Minicartg>
+            <version>0.1.0</version>
+        </Gsd_Minicartg>
+    </modules>
+    <global>
+        <blocks>
+            <minicartg>
+                <class>Gsd_Minicartg_Block</class>
+            </minicartg>
+        </blocks>
+        <helpers>
+            <minicartg>
+                <class>Gsd_Minicartg_Helper</class>
+            </minicartg>
+        </helpers>
+    </global>
+    <frontend>
+        <layout>
+            <updates>
+                <minicartg>
+                    <file>minicartg.xml</file>
+                </minicartg>
+            </updates>
+        </layout>
+    </frontend>
+</config>

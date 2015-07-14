@@ -8,6 +8,6 @@
 class Gsd_QuickViewg_Helper_Data extends Mage_Core_Helper_Abstract {
     public function isEnable()
     {
-        return $this->isModuleOutputEnabled('Gsd_QuickViewg');
+        return $this->isModuleOutputEnabled('Gsd_QuickViewg') && Mage::getStoreConfig('quickviewg/general/enable');
     }
 }

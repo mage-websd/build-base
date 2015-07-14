@@ -1,0 +1,7 @@
+<layout>
+    <default>
+        <reference name="content">
+            <block type="core/template" name="data_filter_catalog" template="filterg/enable_module.phtml" before="-"/>
+        </reference>
+    </default>
+</layout>

@@ -27,5 +27,41 @@
                 </args>
             </catalog>
         </routers>
+        <layout>
+            <updates>
+                <filterg>
+                    <file>filterg.xml</file>
+                </filterg>
+            </updates>
+        </layout>
     </frontend>
+    <adminhtml>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <filterg>
+                                            <title>Filter Catalog Ajax</title>
+                                        </filterg>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+
+    <default>
+        <filterg>
+            <general>
+                <enable>1</enable>
+            </general>
+        </filterg>
+    </default>
 </config>

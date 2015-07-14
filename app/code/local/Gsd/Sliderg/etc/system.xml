@@ -1,7 +1,7 @@
 <config>
     <sections>
         <sliderg translate="label" module="sliderg">
-            <label>Setting Slider</label>
+            <label>Slider</label>
             <tab>gsd</tab>
             <frontend_type>text</frontend_type>
             <sort_order>20</sort_order>

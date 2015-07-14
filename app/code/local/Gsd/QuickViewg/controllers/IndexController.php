@@ -3,30 +3,33 @@ class Gsd_QuickViewg_IndexController extends Mage_Core_Controller_Front_Action /
 {
     public function indexAction()
     {
+        if(!Mage::helper('quickviewg')->isEnable()) {
+            return '';
+        }
         if($this->getRequest()->isXmlHttpRequest()) {
-            $respon = array();
+            $response = array();
             $productId = $this->getRequest()->getParam('id');
             if(!$productId) {
-                $respon['status'] = 0;
+                $response['status'] = 0;
             }
             else {
                 $product = Mage::getModel('catalog/product')->load($productId);
                 if(!$product->getId()) {
-                    $respon['status'] = 0;
+                    $response['status'] = 0;
                 }
                 else {
-                    $respon['status'] = 1;
+                    $response['status'] = 1;
                 }
             }
-            if(!$respon['status']) {
-                $respon['data'] = $this->__('Not found product!');
+            if(!$response['status']) {
+                $response['data'] = $this->__('Not found product!');
             }
             else {
                 Mage::unregister('product');
                 Mage::unregister('current_product');
                 Mage::register('product',$product);
                 Mage::register('current_product',$product);
-                $this->loadLayout(false);
+                $this->loadLayout();
                 $design = Mage::getSingleton('catalog/design');
                 $settings = $design->getDesignSettings($product);
 
@@ -54,8 +57,7 @@ class Gsd_QuickViewg_IndexController extends Mage_Core_Controller_Front_Action /
                 $this->renderLayout();
                 return;
             }
-            //echo Mage::helper('core')->jsonEncode($respon);
-            echo $respon['data'];
+            echo $response['data'];
             return;
         }
         $this->_redirect('/');

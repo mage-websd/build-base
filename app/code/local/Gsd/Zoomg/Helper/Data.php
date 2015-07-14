@@ -11,7 +11,11 @@ class Gsd_Zoomg_Helper_Data extends Mage_Core_Helper_Abstract {
         return $this->isModuleOutputEnabled('Gsd_QuickViewg') && Mage::getStoreConfig('zoomg/general/enable');
     }
 
-    public function getConfig($path)
+    public function getGeneralConfig($path)
+    {
+        return Mage::getStoreConfig('zoomg/general/'.$path);
+    }
+    public function getGalleryConfig($path)
     {
         return Mage::getStoreConfig('zoomg/gallery/'.$path);
     }

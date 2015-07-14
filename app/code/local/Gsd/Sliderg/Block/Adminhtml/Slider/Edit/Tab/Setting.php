@@ -175,9 +175,11 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
             'label' => $this->__('Setting more inner'),
             'name' => $prefix.'setting_more_inner',
         ));
-        $fieldset->addField('setting_more_after', 'textarea', array(
+        $fieldset->addField('setting_more_after', 'editor', array(
             'label' => $this->__('Setting more after'),
             'name' => $prefix.'setting_more_after',
+            'wysiwyg'   => true,
+            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig(),
         ));
         $settingHintSb = $fieldset->addField('setting_more_hint_slicebox', 'textarea', array(
             'label' => $this->__('Setting more hint'),
