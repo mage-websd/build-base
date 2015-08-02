@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Emosys_ReviewCustomerg>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Emosys_ReviewCustomerg>
+    </modules>
+</config>

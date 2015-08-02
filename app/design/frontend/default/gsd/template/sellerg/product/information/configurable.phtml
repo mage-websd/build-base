@@ -1,0 +1,10 @@
+<?php
+$_product = $this->getProduct();
+if(!$_product) {
+	return;
+}
+?>
+<h4 class="tab-title"><?php
+	echo $this->__('Add associated for product: %s',$_product->getName());
+	?></h4>
+<?php echo $this->getChildHtml('seller_product_associated');

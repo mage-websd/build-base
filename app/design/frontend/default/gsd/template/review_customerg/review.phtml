@@ -1,0 +1,48 @@
+<h1>Review</h1>
+<?php echo $this->getRatingCustomerPerCent(137); ?>
+<div class="form-review-customer">
+    <form action="<?php echo $this->getUrl('reviewg/customer/add'); ?>" method="post" id="form-review-customer">
+        <?php echo $this->getBlockHtml('formkey'); ?>
+        <input type="hidden" name="customer_id" value="137" />
+        <input type="hidden" name="current_url" value="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" />
+        <?php $_ratings = $this->getRating(); ?>
+        <?php if(count($_ratings)){ ?>
+            <div class="rating form-list">
+                <ul class="rating-head rating-list">
+                    <li class="rating-title"></li>
+                    <?php for($i = 1 ; $i < 6 ; $i++) { ?>
+                        <li class="rating-value"><?php echo $i.' '.$this->__('Start'); ?></li>
+                    <?php }//end for input checkbox ?>
+                </ul>
+                <?php foreach($_ratings as $_rating) { ?>
+                <ul class="form-input rating-list">
+                    <li class="rating-title"><?php echo $_rating->getRatingName(); ?></li>
+                        <?php for($i = 1 ; $i < 6 ; $i++) { ?>
+                            <li class="rating-value"><input type="radio" name="rating_id_<?php echo $_rating->getId(); ?>" value="<?php echo $i; ?>"/></li>
+                        <?php }//end for input checkbox ?>
+                </ul>
+                <?php }//end foreach rating ?>
+            </div>
+        <?php }//end if count rating ?>
+        <div class="review form-list">
+            <div class="form-input">
+                <label class="required"><em>*</em><?php echo $this->__('Name:'); ?></label>
+                <input name="name" value="" class="input-text required-entry"/>
+            </div>
+            <div class="form-input">
+                <label class="required"><em>*</em><?php echo $this->__('Summary:'); ?></label>
+                <input name="summary" value="" class="input-text required-entry"/>
+            </div>
+            <div class="form-input">
+                <label class="required"><em>*</em><?php echo $this->__('Message:'); ?></label>
+                <textarea name="message"></textarea>
+            </div>
+        </div>
+        <div class="form-list buttons-set">
+            <input type="submit" name="submit" value="Submit" class="btn btn-submit-review"/>
+        </div>
+    </form>
+</div>
+<script>
+    new VarienForm('form-review-customer');
+</script>

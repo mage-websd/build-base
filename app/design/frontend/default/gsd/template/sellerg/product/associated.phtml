@@ -1,0 +1,85 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<?php $_collection = $this->getCollection(); ?>
+<?php $_catalogHelper = $this->helper('catalog/image'); ?>
+<?php $_size = 100; ?>
+<h3><?php echo $this->__('Add Associated product') ?></h3>
+<?php echo $this->getPagerHtml(); ?>
+<?php if($_collection->getSize()): ?>
+<?php $_associatedProduct = $this->getAsaociatedProducts(); ?>
+<table class="data-table" id="my-products-table">
+    <col width="1" />
+    <col width="1" />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th class="mp-check"><?php echo $this->__('Check') ?></th>
+            <th class="mp-id"><?php echo $this->__('#') ?></th>
+            <th class="mp-image"><?php echo $this->__('Image') ?></th>
+            <th class="mp-name"><?php echo $this->__('Name') ?></th>
+            <th class="mp-color"><?php echo $this->__('Color') ?></th>
+            <th class="mp-size"><?php echo $this->__('Size') ?></th>
+            <th class="mp-price"><span class="nobr"><?php echo $this->__('Price') ?></span></th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php $_odd = ''; ?>
+        <?php foreach ($_collection as $_product): ?>
+        <tr>
+            <td class="mp-check" for="product-<?php echo $_product->getId(); ?>">
+                <input type="checkbox" name="associal[]" value="<?php echo $_product->getId(); ?>" id="product-<?php echo $_product->getId(); ?>"<?php if(in_array($_product->getId(),$_associatedProduct)) {echo ' checked';} ?>>
+            </td>
+            <td class="mp-id"><?php echo $_product->getId() ?></td>
+            <td class="mp-image"><a href="<?php echo $_product->getProductUrl(); ?>"><img src="<?php echo $_catalogHelper->init($_product, 'small_image')->resize($_size, $_size); ?>" /></a></td>
+            <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span></td>
+            <td class="mp-color"><span class="nobr"><?php 
+            if($_product->getData('color')) {
+                $_attrbiuteVaulue = $_product->getResource()->getAttribute('color');
+                echo $_attrbiuteVaulue->getFrontend()->getValue($_product);
+            }
+            ?></span></td>
+            <td class="mp-size"><span class="nobr"><?php 
+            if($_product->getData('size')) {
+                $_attrbiuteVaulue = $_product->getResource()->getAttribute('size');
+                echo $_attrbiuteVaulue->getFrontend()->getValue($_product);
+            }
+            ?></span></td>
+            <td class="mp-price"><?php echo $_product->getPrice() ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('my-products-table');</script>
+<?php echo $this->getPagerHtml(); ?>
+<?php else: ?>
+    <p><?php echo $this->__('You have no product to display.'); ?></p>
+<?php endif ?>

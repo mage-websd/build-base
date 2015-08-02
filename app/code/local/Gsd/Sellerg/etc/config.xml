@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gsd_Sellerg>
+            <version>0.1.0</version>
+        </Gsd_Sellerg>
+    </modules>
+    <global>
+        <models>
+            <sellerg>
+                <class>Gsd_Sellerg_Model</class>
+            </sellerg>
+        </models>
+        <blocks>
+            <sellerg>
+                <class>Gsd_Sellerg_Block</class>
+            </sellerg>
+        </blocks>
+        <helpers>
+            <sellerg>
+                <class>Gsd_Sellerg_Helper</class>
+            </sellerg>
+        </helpers>
+
+        <resources>
+            <gsd_sellerg_setup>
+                <setup>
+                    <module>Gsd_Sellerg</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                </setup>
+            </gsd_sellerg_setup>
+        </resources>
+    </global>
+    <frontend>
+        <routers>
+            <sellerg>
+                <use>standard</use>
+                <args>
+                    <module>Gsd_Sellerg</module>
+                    <frontName>sellerg</frontName>
+                </args>
+            </sellerg>
+        </routers>
+        <layout>
+            <updates>
+                <sellerg>
+                    <file>sellerg.xml</file>
+                </sellerg>
+            </updates>
+        </layout>
+    </frontend>
+
+
+</config>

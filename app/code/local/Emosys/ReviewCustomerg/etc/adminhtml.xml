@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <menu>
+        <customer>
+            <children>
+                <reviewg>
+                    <title>Reviews Customer</title>
+                    <action>review_customerg/reviewg_customer/</action>
+                    <sort_order>50</sort_order>
+                </reviewg>
+            </children>
+        </customer>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <customer>
+                        <children>
+                            <reviewg translate="title">
+                                <title>Reviews Customer</title>
+                            </reviewg>
+                        </children>
+                    </customer>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

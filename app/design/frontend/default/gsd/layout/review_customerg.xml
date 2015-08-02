@@ -1,0 +1,7 @@
+<layout>
+    <review_customerg_customer_index>
+        <reference name="content">
+            <block type="review_customerg/review" name="review_customer" />
+        </reference>
+    </review_customerg_customer_index>
+</layout>

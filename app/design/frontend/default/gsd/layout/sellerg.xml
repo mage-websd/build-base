@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <customer_account>
+        <reference name="left">
+            <block type="customer/account_navigation" name="seller_account_navigation" after="customer_account_navigation" template="sellerg/account/navigation.phtml">
+                <action method="addLink" translate="label" module="sellerg"><name>product_list</name><path>sellerg/product</path><label>Product List</label></action>
+                <action method="addLink" translate="label" module="sellerg"><name>product_sell</name><path>sellerg/product/add</path><label>Product Add</label></action>
+            </block>
+        </reference>
+    </customer_account>
+
+    <sellerg_product_index translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="customer_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/2columns-left.phtml</template>
+            </action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="sellerg/product_list" name="seller_product_list" template="sellerg/product/list.phtml"/>
+        </reference>
+    </sellerg_product_index>
+
+<!--
+Seller product add layout
+-->
+
+    <sellerg_product_add translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="customer_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="sellerg/product_edit" name="seller_product_add" template="sellerg/product/edit.phtml">
+                <block type="sellerg/product_edit" name="seller_product_general" template="sellerg/product/information/general.phtml" />
+                <block type="sellerg/product_edit" name="seller_product_images" template="sellerg/product/information/images.phtml" />
+                <block type="sellerg/product_edit" name="seller_product_categories" template="sellerg/product/information/categories.phtml" />
+                <block type="sellerg/product_edit" name="seller_product_associated" template="sellerg/product/information/associated.phtml" />
+            </block>
+        </reference>
+    </sellerg_product_add>
+
+    <sellerg_product_edit translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="customer_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="sellerg/product_edit" name="seller_product_edit" template="sellerg/product/edit.phtml">
+                <block type="sellerg/product_edit" name="seller_product_general"
+                       template="sellerg/product/information/general.phtml"/>
+                <block type="sellerg/product_edit" name="seller_product_images"
+                       template="sellerg/product/information/images.phtml"/>
+                <block type="sellerg/product_edit" name="seller_product_categories"
+                       template="sellerg/product/information/categories.phtml"/>
+                <block type="sellerg/product_edit" name="seller_product_configurable"
+                       template="sellerg/product/information/configurable.phtml">
+                    <block type="sellerg/product_associated" name="seller_product_associated"
+                           template="sellerg/product/information/associated.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </sellerg_product_edit>
+
+    <seller_product_configurable translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="seller/product_add" name="seller_product_configurable" template="seller/product/configurable.phtml">
+                <block type="seller/product_associated" name="seller_product_list_associated" template="seller/product/associated.phtml">
+                </block>
+            </block>
+        </reference>
+    </seller_product_configurable>
+
+    <!-- <seller_retailer_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="left">
+            <block type="seller/layer" name="seller_leftnav" after="currency" template="catalog/layer/view.phtml"/>
+        </reference>
+        <reference name="content">
+            <block type="catalogsale/view" name="categorysale.products" template="catalog/product/sale.phtml">
+                <block type="catalog/product_list" name="sale_product_list" template="catalog/product/list.phtml">
+                    <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
+                        <block type="page/html_pager" name="product_list_toolbar_pager"/>
+                    </block>
+                    <action method="addColumnCountLayoutDepend">
+                        <layout>empty</layout>
+                        <count>6</count>
+                    </action>
+                    <action method="addColumnCountLayoutDepend">
+                        <layout>one_column</layout>
+                        <count>5</count>
+                    </action>
+                    <action method="addColumnCountLayoutDepend">
+                        <layout>two_columns_left</layout>
+                        <count>4</count>
+                    </action>
+                    <action method="addColumnCountLayoutDepend">
+                        <layout>two_columns_right</layout>
+                        <count>4</count>
+                    </action>
+                    <action method="addColumnCountLayoutDepend">
+                        <layout>three_columns</layout>
+                        <count>3</count>
+                    </action>
+                    <action method="setToolbarBlockName">
+                        <name>product_list_toolbar</name>
+                    </action>
+                </block>
+                <action method="setListCollection"/>
+            </block>
+        </reference>
+    </seller_retailer_index> -->
+</layout>

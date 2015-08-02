@@ -5,3 +5,7 @@
 .gallery-thumbs{height:20%;box-sizing:border-box;padding:10px 0}
 .gallery-thumbs .swiper-slide{width:25%;height:100%}
 .mini-cart-header .block-content{display:none}
+.tabs>li{float:left;padding:10px;border:1px solid}
+.tabs>li.active{border-bottom:none}
+.padder{border:1px solid;clear:both}
+.form-categories .category-tree{text-align:left}
