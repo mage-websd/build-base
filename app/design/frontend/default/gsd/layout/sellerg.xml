@@ -68,21 +68,6 @@ Seller product add layout
         </reference>
     </sellerg_product_edit>
 
-    <seller_product_configurable translate="label">
-        <label>Seller Dashboard</label>
-        <update handle="seller_account"/>
-        <!-- Mage_Customer -->
-        <reference name="root">
-            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
-        </reference>
-        <reference name="my.account.wrapper">
-            <block type="seller/product_add" name="seller_product_configurable" template="seller/product/configurable.phtml">
-                <block type="seller/product_associated" name="seller_product_list_associated" template="seller/product/associated.phtml">
-                </block>
-            </block>
-        </reference>
-    </seller_product_configurable>
-
     <!-- <seller_retailer_index>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>

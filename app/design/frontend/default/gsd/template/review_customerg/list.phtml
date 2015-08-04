@@ -1,0 +1,38 @@
+<?php
+$_listReview = $this->getCollection();
+if (count($_listReview)) :
+    ?>
+    <?php echo $this->getPagerHtml(); ?>
+    <div class="customer-review-list">
+        <?php foreach ($_listReview as $_review) : ?>
+            <div class="review-item review-<?php echo $_review->getData('review_id'); ?>">
+                <div class="review-item-top">
+                    <div class="review-rating">
+                        <div class="rating-box">
+                            <div class="rating"
+                                 style="width:<?php echo $this->getRatingReviewPercent($_review->getData('review_id')); ?>%;"></div>
+                        </div>
+                    </div>
+                    <div class="review-info">
+                        <div class="review-name">
+                            <span><?php echo $this->__('Reviewer:'); ?></span>
+                            <span><?php echo $_review->getData('name'); ?></span>
+                        </div>
+                        <div class="review-summary">
+                            <span><?php echo $this->__('Summary:'); ?></span>
+                            <span><?php echo $_review->getData('summary'); ?></span>
+                        </div>
+                        <div class="review-date">
+                            <span><?php echo $this->__('Post at:'); ?></span>
+                            <span><?php echo $_review->getData('created_at'); ?></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-message">
+                    <span><?php echo $this->__('Message:'); ?></span>
+                    <span><?php echo $_review->getData('message'); ?></span>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>

@@ -55,13 +55,13 @@
                     </modules>
                 </args>
             </adminhtml>-->
-            <review_customerg>
+            <review_customerg_admin>
                 <use>admin</use>
                 <args>
                     <module>Emosys_ReviewCustomerg_Adminhtml</module>
                     <frontName>adming</frontName>
                 </args>
-            </review_customerg>
+            </review_customerg_admin>
         </routers>
     </admin>
 

@@ -39,7 +39,7 @@ class Emosys_ReviewCustomerg_CustomerController extends Mage_Core_Controller_Fro
                     Mage::getSingleton('core/session')->addError($this->__('Error saving review details'));
                 }
                 else {
-                    Mage::getSingleton('core/session')->addSuccess($this->__('Details was successfully saved.'));
+                    Mage::getSingleton('core/session')->addSuccess($this->__('Review was successfully submit.'));
                 }
                 // The following line decides if it is a "save" or "save and continue"
             } catch (Exception $e) {
@@ -49,6 +49,17 @@ class Emosys_ReviewCustomerg_CustomerController extends Mage_Core_Controller_Fro
             return;
         }
         return;
+    }
+
+    public function listAction()
+    {
+        $id = $this->getRequest()->getParam('id');
+        if(!$id) {
+            $this->_redirectReview();
+            return;
+        }
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     protected function _redirectReview()

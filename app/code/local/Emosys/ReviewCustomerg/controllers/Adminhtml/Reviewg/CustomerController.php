@@ -155,7 +155,7 @@ class Emosys_ReviewCustomerg_Adminhtml_Reviewg_CustomerController extends Mage_A
                 $statusChange = 0;
             }
             foreach ($reviewIds as $reviewId) {
-                Mage::getSingleton('review_customerg/review')
+                Mage::getModel('review_customerg/review')
                     ->setIsMassStatus(true)
                     ->load($reviewId)
                     ->setApproved($statusChange)
@@ -169,7 +169,7 @@ class Emosys_ReviewCustomerg_Adminhtml_Reviewg_CustomerController extends Mage_A
         }
         $this->_redirect('*/*/index');
     }
-    public function changestatusAction()
+    public function changeStatusAction()
     {
         $reviewId = $this->getRequest()->getParam('id');
         if(!$reviewId || $reviewId <= 0) {
@@ -178,15 +178,16 @@ class Emosys_ReviewCustomerg_Adminhtml_Reviewg_CustomerController extends Mage_A
         }
         try {
             $model = Mage::getModel('review_customerg/review')->load($reviewId);
-            $approved = $model->getApproved();
+            $approved = $model->getData('approved');
             if($approved == 1) {
                 $approved = 0;
             }
             else {
                 $approved = 1;
             }
-            $model->setApproved($approved)->save();
-            $message = 'Item '.$reviewId.' was successfully change status: ';
+            $model->setData('approved',$approved);
+            $model->save();
+            $message = 'Item "'.$reviewId.'" was successfully change status: ';
             if($approved) {
                 $message .= 'Approved';
             }

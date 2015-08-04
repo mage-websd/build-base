@@ -5,7 +5,7 @@ class Gsd_Sellerg_Block_Product_Associated extends Mage_Core_Block_Template
     public function __construct()
     {
         parent::__construct();
-        $this->setTemplate('seller/product/associated.phtml');
+        $this->setTemplate('sellerg/product/information/associated.phtml');
 
         $_productCollection = Mage::getModel('catalog/product')
             ->getCollection()

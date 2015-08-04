@@ -4,4 +4,9 @@
             <block type="review_customerg/review" name="review_customer" />
         </reference>
     </review_customerg_customer_index>
+    <review_customerg_customer_list>
+        <reference name="content">
+            <block type="review_customerg/list" name="review_customer_list" />
+        </reference>
+    </review_customerg_customer_list>
 </layout>

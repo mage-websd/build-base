@@ -69,7 +69,7 @@ class Emosys_ReviewCustomerg_Model_Resource_Review extends Mage_Core_Model_Resou
                         $key = substr($key, strlen($prefix));
                         $data[$key] = $value;
                     }
-                }//echo '<pre>';print_r($data); exit;
+                }
                 if(count($data) > 0) {
                     $ratingCollection = Mage::getModel('review_customerg/ratingentity')->getCollection()
                         ->addFieldToFilter('review_id', $object->getId());

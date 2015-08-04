@@ -1,46 +1,119 @@
+<?php $_maxRating = $this->getMaxRating(); ?>
 <h1>Review</h1>
-<?php echo $this->getRatingCustomerPerCent(137); ?>
+<h3><?php echo $this->__('Rating percent:') . ' ' . $this->getRatingTotalPercent(137); ?></h3>
+<h3>Rating entity:</h3>
+<?php $_ratingTotal = $this->getRatingEntityTotal(137); ?>
+<div class="rating-entity-total">
+    <?php foreach ($_ratingTotal as $_ratingEntity) : ?>
+        <div class="rating-<?php echo $_ratingEntity->getData('rating_id'); ?> rating-<?php echo $_ratingEntity->getData('rating_name'); ?>">
+            <label><?php echo $_ratingEntity->getData('rating_name'); ?></label>
+            <span>
+                <?php echo $_ratingEntity->getData('total_value'); ?>
+                /
+                <?php echo $_ratingEntity->getData('total_review') * $_maxRating; ?>
+                --
+                <?php
+                    $_percent = (int) $_ratingEntity->getData('total_value') / (int) ($_ratingEntity->getData('total_review') * $_maxRating);
+                    $_percent = round(100 * $_percent);
+                    echo $_percent.'%';
+                ?>
+            </span>
+        </div>
+    <?php endforeach; ?>
+</div>
+<h3>Rating Value</h3>
+<?php $_valueTotalResult = $this->getRatingValueTotal(137); ?>
+<div class="rating-value-total">
+    <?php foreach($_valueTotalResult['value'] as $_value => $_valueTotal) : ?>
+        <div class="value-<?php echo $_value; ?>">
+            <label><?php echo $_value.' '.$this->__('Star'); ?></label>
+            <span><?php echo $_valueTotal .' '.$this->__('Vote').' / '. $_valueTotalResult['total']; ?></span>
+            <span>----
+                <?php
+                $_percent = (int) $_valueTotal / (int) ($_valueTotalResult['total']);
+                $_percent = round(100 * $_percent);
+                echo $_percent.'%';
+                ?>
+            </span>
+        </div>
+    <?php endforeach; ?>
+</div>
 <div class="form-review-customer">
     <form action="<?php echo $this->getUrl('reviewg/customer/add'); ?>" method="post" id="form-review-customer">
         <?php echo $this->getBlockHtml('formkey'); ?>
-        <input type="hidden" name="customer_id" value="137" />
-        <input type="hidden" name="current_url" value="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" />
+        <input type="hidden" name="current_url" value="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>"/>
         <?php $_ratings = $this->getRating(); ?>
-        <?php if(count($_ratings)){ ?>
+        <?php if (count($_ratings)) { ?>
             <div class="rating form-list">
-                <ul class="rating-head rating-list">
-                    <li class="rating-title"></li>
-                    <?php for($i = 1 ; $i < 6 ; $i++) { ?>
-                        <li class="rating-value"><?php echo $i.' '.$this->__('Start'); ?></li>
-                    <?php }//end for input checkbox ?>
-                </ul>
-                <?php foreach($_ratings as $_rating) { ?>
-                <ul class="form-input rating-list">
-                    <li class="rating-title"><?php echo $_rating->getRatingName(); ?></li>
-                        <?php for($i = 1 ; $i < 6 ; $i++) { ?>
-                            <li class="rating-value"><input type="radio" name="rating_id_<?php echo $_rating->getId(); ?>" value="<?php echo $i; ?>"/></li>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <td class="rating-title"></td>
+                        <?php for ($i = 1; $i <= $_maxRating; $i++) { ?>
+                            <td class="rating-value"><?php echo $i . ' ' . $this->__('Star'); ?></td>
                         <?php }//end for input checkbox ?>
-                </ul>
-                <?php }//end foreach rating ?>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($_ratings as $_rating) { ?>
+                        <tr class="rating-list">
+                            <td class="rating-title"><?php echo $_rating->getRatingName(); ?></td>
+                            <?php for ($i = 1; $i <= $_maxRating; $i++) { ?>
+                                <td class="rating-value">
+                                    <input type="radio" name="rating_id_<?php echo $_rating->getId(); ?>"
+                                           value="<?php echo $i; ?>"/>
+                                </td>
+                            <?php }//end for input checkbox ?>
+                            </td>
+                        </tr>
+                    <?php }//end foreach rating ?>
+                    </tbody>
+                </table>
             </div>
         <?php }//end if count rating ?>
-        <div class="review form-list">
-            <div class="form-input">
-                <label class="required"><em>*</em><?php echo $this->__('Name:'); ?></label>
-                <input name="name" value="" class="input-text required-entry"/>
-            </div>
-            <div class="form-input">
-                <label class="required"><em>*</em><?php echo $this->__('Summary:'); ?></label>
-                <input name="summary" value="" class="input-text required-entry"/>
-            </div>
-            <div class="form-input">
-                <label class="required"><em>*</em><?php echo $this->__('Message:'); ?></label>
-                <textarea name="message"></textarea>
-            </div>
-        </div>
-        <div class="form-list buttons-set">
-            <input type="submit" name="submit" value="Submit" class="btn btn-submit-review"/>
-        </div>
+        <ul class="review form-list">
+            <li class="fields">
+                <div class="field">
+                    <label for="customer-id">Customer Id</label>
+
+                    <div class="input-box">
+                        <input type="text" name="customer_id" value="137" class="input-text" id="customer-id"/>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label class="required" for="name"><em>*</em><?php echo $this->__('Name:'); ?></label>
+
+                    <div class="input-box">
+                        <input name="name" value="" class="input-text required-entry"/>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label class="required" for="summary"><em>*</em><?php echo $this->__('Summary:'); ?></label>
+
+                    <div class="input-box">
+                        <input name="summary" value="" class="input-text required-entry" id="summary"/>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label class="required" for="message"><em>*</em><?php echo $this->__('Message:'); ?></label>
+
+                    <div class="input-box">
+                        <textarea name="message" id="message"></textarea>
+                    </div>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field buttons-set">
+                    <input type="submit" name="submit" value="Submit" class="btn btn-submit-review"/>
+                </div>
+            </li>
+        </ul>
     </form>
 </div>
 <script>

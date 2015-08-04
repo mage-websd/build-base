@@ -4,7 +4,7 @@
 ?>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="seller-page seller-product-add">
-	<h1 class="page-title"><?php 
+	<h1 class="page-title"><?php
 		if($_product) {
 			echo $this->__('Edit product: %s',$_product->getName());
 		}
@@ -72,7 +72,7 @@
 			<ul class="form-list">
 				<li class="fields">
 					<div class="field">
-						<?php 
+						<?php
 							$_productImage = $_formData->getData('image');
 							if($_productImage) {
 								if($_productImage) { ?>
@@ -194,9 +194,9 @@
 					<div class="field">
 						<label for="special_from_date"><?php echo $this->__('Special From Date'); ?></label>
 						<div class="input-box">
-							<input name="special_from_date" id="special_from_date" class="input-text" readonly="readonly" value="<?php 
+							<input name="special_from_date" id="special_from_date" class="input-text" readonly="readonly" value="<?php
 								if($_formData->getData('special_from_date')) {
-									$date = date_create($_formData->getData('special_from_date')); 
+									$date = date_create($_formData->getData('special_from_date'));
 									echo date_format($date, 'Y-m-d');
 								}
 								?>" id="special_from_date" />
@@ -205,9 +205,9 @@
 					<div class="field">
 						<label for="special_to_date"><?php echo $this->__('Special To Date'); ?></label>
 						<div class="input-box">
-							<input name="special_to_date" id="special_to_date" class="input-text" readonly="readonly" value="<?php 
+							<input name="special_to_date" id="special_to_date" class="input-text" readonly="readonly" value="<?php
 								if($_formData->getData('special_to_date')) {
-									$date = date_create($_formData->getData('special_to_date')); 
+									$date = date_create($_formData->getData('special_to_date'));
 									echo date_format($date, 'Y-m-d');
 								}
 								?>" id="special_to_date" />

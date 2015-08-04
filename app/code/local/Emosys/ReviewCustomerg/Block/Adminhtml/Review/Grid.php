@@ -73,7 +73,7 @@ class Emosys_ReviewCustomerg_Block_Adminhtml_Review_Grid extends Mage_Adminhtml_
                     ),
                     array(
                         'caption'   => $this->__('Change status'),
-                        'url'       => array('base'=> '*/*/changestatus'),
+                        'url'       => array('base'=> '*/*/changeStatus'),
                         'field'     => 'id',
                         'confirm'  => $this->__('Are you sure?'),
                     ),
