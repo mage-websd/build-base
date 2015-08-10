@@ -5,7 +5,7 @@
             <children>
                 <reviewg>
                     <title>Reviews Customer</title>
-                    <action>review_customerg/reviewg_customer/</action>
+                    <action>review_customerg_admin/reviewg_customer/</action>
                     <sort_order>50</sort_order>
                 </reviewg>
             </children>

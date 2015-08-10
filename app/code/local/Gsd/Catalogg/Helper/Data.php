@@ -51,4 +51,60 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract {
         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($products);
         return $products;
     }
+
+    public function getSale()
+    {
+        $storeId = $this->_getStoreId();
+    $websiteId = Mage::app()->getStore($storeId)->getWebsiteId();
+    $custGroup = $this->_getCustomerGroupId();
+    $product = Mage::getModel('catalog/product');
+    $todayDate = $product->getResource()->formatDate(time(), false);
+    $rulePriceWhere = "({{table}}.rule_date is null) or ({{table}}.rule_date='$todayDate' and {{table}}.website_id='$websiteId' and {{table}}.customer_group_id='$custGroup')";
+
+    $collection = $product->setStoreId($storeId)->getResourceCollection()
+      ->addAttributeToFilter('special_price', array('gt'=>0), 'left')
+      ->addAttributeToFilter('special_from_date', array('date'=>true, 'to'=> $todayDate), 'left')
+      ->addAttributeToFilter(array(
+      array('attribute'=>'special_to_date', 'date'=>true, 'from'=>$todayDate),
+      array('attribute'=>'special_to_date', 'is' => new Zend_Db_Expr('null'))
+      ), '', 'left')
+      ->addAttributeToSort('special_from_date', 'desc')
+      ->joinTable('catalogrule/rule_product_price', 'product_id=entity_id', array('rule_price'=>'rule_price', 'rule_start_date'=>'latest_start_date', 'rule_date'=>'rule_date'), $rulePriceWhere, 'left')
+      ;
+
+      $rulePriceCollection = Mage::getResourceModel('catalogrule/rule_product_price_collection')
+      ->addFieldToFilter('website_id', $websiteId)
+      ->addFieldToFilter('customer_group_id', $custGroup)
+      ->addFieldToFilter('rule_date', $todayDate)
+      ;
+
+      $productIds = $rulePriceCollection->getProductIds();
+
+      if (!empty($productIds)) {
+        $collection->getSelect()->orWhere('e.entity_id in ('.implode(',',$productIds).')');
+      }
+
+    $collection
+            ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
+            ->addMinimalPrice()
+            ->addFinalPrice()
+            ->addTaxPercents()
+            ;
+        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+    $collection->setPageSize($_limit)->setCurPage(1);
+    return $collection;
+    }
+
+    /**
+    *object : catalog_product or category
+    *
+    */
+    public function getLabelAttributeOption($_object)
+    {
+      $_attribute = $_object->getResource()->getAttribute('grid_column');
+      $_attributeLabel = $_attribute->getFrontend()->getValue($_object);
+      $_storeLabel = $_attribute->getData('store_label');
+      return $_attributeLabel;
+    }
 }

@@ -29,7 +29,7 @@
 ?>
 <div class="header-container container-fluid">
     <div class="header-inner row">
-        <div class="col-md-6">
+        <div class="col-md-6 header-logo">
             <?php if ($this->getIsHomePage()):?>
                 <h1 class="logo">
                     <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo">
@@ -42,6 +42,7 @@
                 </a>
             <?php endif?>
         </div>
+        <?php echo $this->getChildHtml('catalog_leftmenu_mobile'); ?>
         <div class="quick-access col-md-6">
             <div class="container-fluid">
                 <div class="row">

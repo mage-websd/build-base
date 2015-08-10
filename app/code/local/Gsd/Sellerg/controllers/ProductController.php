@@ -63,10 +63,31 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
      */
     public function indexAction()
     {
+        if($this->getRequest()->isXmlHttpRequest()){ //Check if it was an AJAX request
+            $response = array();
+            $this->loadLayout(false);
+            $blockList = $this->getLayout()->createBlock('sellerg/product_list');
+            $countPage = $blockList->getLastPageNum();
+            $varPager = $blockList->getPageVarName();
+            $paramPager = $this->getRequest()->getParam($varPager);
+            $response['dataReturn']['pager'] = $paramPager;
+            $response['dataReturn']['end'] = $countPage < $paramPager ? 1 : 0;
+            $response['status'] = 1;
+            if($response['dataReturn']['end']) {
+                $blockListHtml = '';
+            }
+            else {
+                $blockListHtml = $blockList->setTemplate('sellerg/product/list/render.phtml')->toHtml();
+            }
+            $response['data']['#my-products-table tbody'] = $blockListHtml;
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
+            return;
+        }
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('catalog/session');
         $this->getLayout()->getBlock('head')->setTitle($this->__('List product - Seller Account'));
+        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('My Products'));
         $this->renderLayout();
     }
 
@@ -115,6 +136,9 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                     return;
                 }
             }
+            else {
+                $data['approved'] = 0;
+            }
             try {
                 $data['website_ids'] = array(Mage::app()->getWebsite()->getId());
                 if(isset($data['category_ids']) && is_array($data['category_ids'])) {
@@ -122,7 +146,7 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                 else {
                     $data['category_ids'] = array();
                 }
-                $data['visibility'] = Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH;
+                //$data['visibility'] = Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH;
                 $data['msrp_enabled'] = 2;
                 $data['msrp_display_actual_price_type'] = 4;
                 $data['meta_title'] = $data['name'];
@@ -137,6 +161,9 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                            'qty' => $data['qty'] //qty
                         );
                 $data['customer_id'] = $this->_getSession()->getId();
+                if(!isset($data['status'])) {
+                    $data['status'] = 2;
+                }
                 $product = $this->_uploadImageProduct($product);
                 foreach ($data as $key => $value) {
                     $product->setData($key,$value);

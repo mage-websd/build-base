@@ -70,4 +70,9 @@ class AW_Blog_Model_Post extends Mage_Core_Model_Abstract
         }
         return $catUrls;
     }
+
+    public function getCategoriesId()
+    {
+        return $this->getResource()->getCategoriesId($this);
+    }
 }

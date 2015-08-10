@@ -1,6 +1,7 @@
 <?php
 	$_product = $this->getProduct();
 	$_formData = $this->getFormData();
+	$_sHelper = $this->helper('sellerg');
 ?>
 <div class="form-general">
 	<ul class="form-list">
@@ -21,22 +22,26 @@
 		<?php if(!$_formData->getId()): ?>
 			<li class="fields">
 				<div class="field">
-					<label for="type_id"><?php echo $this->__('Type'); ?></label>
+					<label for="type_id" class="required"><?php echo $this->__('Type'); ?><em>*</em></label>
 					<div class="input-box">
-						<select name="type_id" id="type_id" class="input-select">
-							<?php foreach($this->getTypeIdArray() as $_option): ?>
-								<option value="<?php echo $_option['value']; ?>"><?php echo $_option['label']; ?></option>
-							<?php endforeach; ?>
+						<select name="type_id" id="type_id" class="input-select validate-select">
+							<?php if(count($_sHelper->getAllowedProductTypes())) { ?>
+								<?php foreach ($_sHelper->getAllowedProductTypes() as $option) { ?>
+									<option value="<?php echo $option['value']?>"><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
 						</select>
 					</div>
 				</div>
 				<div class="field">
-					<label for="attribute_set_id"><?php echo $this->__('Attribute Set'); ?></label>
+					<label for="attribute_set_id" class="required"><?php echo $this->__('Attribute Set'); ?><em>*</em></label>
 					<div class="input-box">
-						<select name="attribute_set_id" id="attribute_set_id" class="input-select">
-							<?php foreach($this->getAttributeSetArray() as $_option): ?>
-								<option value="<?php echo $_option['value']; ?>"><?php echo $_option['label']; ?></option>
-							<?php endforeach; ?>
+						<select name="attribute_set_id" id="attribute_set_id" class="input-select validate-select">
+							<?php if(count($_sHelper->getAllowedAttributeSet())) { ?>
+								<?php foreach ($_sHelper->getAllowedAttributeSet() as $option) { ?>
+									<option value="<?php echo $option['value']?>"><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
 						</select>
 					</div>
 				</div>
@@ -65,12 +70,33 @@
 			<?php } //endif check count country ?>
 		</li>
 		<li class="fields">
+			<?php if($_sHelper->getAutoApproval() ||
+				($_formData->getId() && $_formData->getApproved() )
+				) { ?>
+				<div class="field">
+					<label for="status" class="required"><?php echo $this->__('Status'); ?><em>*</em></label>
+					<div class="input-box">
+						<select name="status" id="status" class="input-select validate-select">
+							<?php $_options = Mage_Catalog_Model_Product_Status::getAllOptions(); ?>
+							<?php if(count($_options)) { ?>
+								<?php foreach ($_options as $option) { ?>
+									<option value="<?php echo $option['value']?>"<?php if($_formData->getData('status') == $option['value']) {echo ' selected';} ?>><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			<?php } ?>
 			<div class="field">
-				<label for="status"><?php echo $this->__('Status'); ?></label>
+				<label for="visibility" class="required"><?php echo $this->__('Visibility'); ?><em>*</em></label>
 				<div class="input-box">
-					<select name="status" id="status">
-						<option value="1"<?php if($_product && $_product->getData('status') ==1 ){ echo 'selected';}?>><?php echo $this->__('Enable'); ?></option>
-						<option value="2"<?php if($_product && $_product->getData('status') != 1){ echo 'selected';}?>><?php echo $this->__('Disable'); ?></option>
+					<select name="visibility" id="visibility" class="input-select validate-select">
+						<?php $_options = Mage_Catalog_Model_Product_Visibility::getAllOptions(); ?>
+						<?php if(count($_options)) { ?>
+							<?php foreach ($_options as $option) { ?>
+								<option value="<?php echo $option['value']?>"<?php if($_formData->getData('visibility') == $option['value']) {echo ' selected';} ?>><?php echo $option['label']; ?></option>
+							<?php } ?>
+						<?php } ?>
 					</select>
 				</div>
 			</div>

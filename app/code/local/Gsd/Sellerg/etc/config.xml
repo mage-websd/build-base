@@ -15,6 +15,11 @@
             <sellerg>
                 <class>Gsd_Sellerg_Block</class>
             </sellerg>
+            <!--<adminhtml>
+                <rewrite>
+                    <catalog_product_grid>Gsd_Sellerg_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
+                </rewrite>
+            </adminhtml>-->
         </blocks>
         <helpers>
             <sellerg>
@@ -49,6 +54,29 @@
             </updates>
         </layout>
     </frontend>
-
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <sellerg>
+                                            <title>Seller Section</title>
+                                        </sellerg>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
 
 </config>

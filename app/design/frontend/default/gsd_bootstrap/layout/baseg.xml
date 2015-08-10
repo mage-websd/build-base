@@ -28,9 +28,9 @@
             <block type="core/template" name="data_base_url" template="baseg/base_url.phtml" before="-"/>
             <block type="core/template" name="ajax_loading" template="baseg/ajax_loading.phtml" before="-"/>
         </reference>
-        <remove name="catalog.topnav" />
-        <reference name="top.menu">
-            <block type="baseg/page_topmenu" name="menu_two_mobile" template="page/html/topmenu_mobile.phtml"/>
+        <!--<remove name="catalog.topnav" />-->
+        <reference name="header">
+            <block type="page/html_topmenu" name="catalog_leftmenu_mobile" template="page/html/leftmenu_mobile.phtml"/>
         </reference>
     </default>
 </layout>

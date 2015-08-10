@@ -1,5 +1,5 @@
 <?php
-/* @var $installer Mage_Core_Model_Resource_Setup */
+/* @var $installer Mage_Catalog_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 $installer->removeAttribute('catalog_product', 'customer_id');
@@ -11,6 +11,9 @@ $dataAttribute = array(
     'type' => 'int', // multiselect uses comma-sep storage
     'input' => 'text',
     'required' => false,
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'sort_order' => 100,
+    'system' => '0',
     /*'user_defined' => 1,
     'default' => '',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
@@ -50,29 +53,23 @@ $dataAttribute = array(
         )*/
 
 );
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$data);
-//$installer->removeAttribute('catalog_product', 'customer_id');
-/*$installer->addAttribute(
-    Mage_Catalog_Model_Product::ENTITY,
-    'customer_id',
-    array(
-        'label' => 'Customer Id',
-        'group' => 'General',
-        'type' => 'text',
-        'input' => 'text',
-        'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
-        'user_defined' => true,
-        'required' => false,
-        'visible' => true,
-        'source' => 'eav/entity_attribute_source_table',
-        'backend' => null,
-        'searchable' => false,
-        'visible_in_advanced_search' => false,
-        'visible_on_front' => false,
-        'is_configurable' => false,
-        'is_html_allowed_on_front' => false,
-        'sort_order' => '100',
-    )
-);*/
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
+
+$installer->removeAttribute('catalog_product', 'approved');
+$dataAttribute = array(
+    'attribute_set' => 'Default',
+    'group' => 'General',
+    'label' => 'Approved',
+    'visible' => true,
+    'type' => 'int',
+    'input' => 'select',
+    'required' => false,
+    'source' => 'eav/entity_attribute_source_boolean',
+    'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+    'sort_order' => 110,
+    'default' => '0',
+    'system' => '0',
+);
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
 
 $installer->endSetup();

@@ -32,4 +32,43 @@
  */
 class Gsd_Sellerg_Helper_Data extends Mage_Core_Helper_Abstract {
 
+    public function getAllowedAttributeSet()
+    {
+        $options = array(array('value'=>'','label'=>''));
+        $allowedIds = Mage::getStoreConfig('sellerg/product/allowed_attribute_set');
+        if(!$allowedIds) {
+            return $options;
+        }
+        $options = array();
+        $allowedIds = explode(',', $allowedIds);
+        $collection = Mage::getModel('eav/entity_attribute_set')->getCollection()
+            ->setEntityTypeFilter( Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId() );
+        foreach ($collection as $_item) {
+            if(in_array($_item->getAttributeSetId(), $allowedIds)) {
+                $options[] = array('value' => $_item->getAttributeSetId(), 'label' => $_item->getAttributeSetName());
+            }
+        }
+        return $options;
+    }
+
+    public function getAllowedProductTypes()
+    {
+        $allowedIds = Mage::getStoreConfig('sellerg/product/allowed_types');
+        if(!$allowedIds) {
+            return array(array('value'=>'','label'=>''));
+        }
+        $allowedIds = explode(',', $allowedIds);
+        $types = Mage_Catalog_Model_Product_Type::getOptions();
+        foreach ($types as $key => $type) {
+            if(!in_array($type['value'],$allowedIds)) {
+                unset($types[$key]);
+            }
+        }
+        return $types;
+    }
+
+    public function getAutoApproval()
+    {
+        return Mage::getStoreConfig('sellerg/general/product_approval');
+    }
 }

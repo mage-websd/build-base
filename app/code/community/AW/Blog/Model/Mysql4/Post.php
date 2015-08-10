@@ -162,4 +162,27 @@ class AW_Blog_Model_Mysql4_Post extends Mage_Core_Model_Mysql4_Abstract
         }
         return $select;
     }
+
+    public function getCategoriesId($object)
+    {
+        $select = $this->_getReadAdapter()
+            ->select('category_main.cat_id')
+            ->from(array('post_category' => $this->getTable('blog/post_cat')))
+            ->joinLeft(
+                array('category_store' => $this->getTable('blog/cat_store')),
+                'post_category.cat_id = category_store.cat_id', array()
+            )
+            ->joinLeft(
+                array('category_main' => $this->getTable('blog/cat')), 'post_category.cat_id = category_main.cat_id',
+                array()
+            )
+            ->where('category_store.store_id = 0 OR category_store.store_id = ?', Mage::app()->getStore()->getId())
+            ->where('post_category.post_id IN(?)', $object->getId())
+            ->group('category_main.cat_id')
+        ;
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns('category_main.cat_id');
+
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
 }

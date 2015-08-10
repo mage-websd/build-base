@@ -34,6 +34,9 @@
 
 class Gsd_Sellerg_Block_Product_List extends Mage_Core_Block_Template
 {
+    protected $_pageVarName = 'p';
+    protected $_lastPagerNum = null;
+    protected $_limit = 5;
     public function __construct()
     {
         parent::__construct();
@@ -47,17 +50,22 @@ class Gsd_Sellerg_Block_Product_List extends Mage_Core_Block_Template
             ;
 
         $this->setCollection($_productCollection);
-        Mage::app()->getFrontController()->getAction()->getLayout()->getBlock('root')->setHeaderTitle(Mage::helper('sales')->__('My Products'));
     }
 
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('page/html_pager', 'seller.product.pager')
-            ->setCollection($this->getCollection());
+        $pager = $this->getLayout()->createBlock('page/html_pager', 'seller.product.pager');
+        $this->_pageVarName = $pager->getPageVarName();
+        /*$pager->setAvailableLimit(
+                    array(1=>1,2=>2,5=>5,10=>10,)
+                );*/
+        $pager->setLimit($this->_limit);
+        $pager->setCollection($this->getCollection());
         $this->setChild('pager', $pager);
         $this->getCollection()->load();
+        $this->_lastPagerNum = $pager->getLastPageNum();
         return $this;
     }
 
@@ -65,7 +73,28 @@ class Gsd_Sellerg_Block_Product_List extends Mage_Core_Block_Template
     {
         return $this->getChildHtml('pager');
     }
+    public function getPagerBlock()
+    {
+        return $this->getLayout()->getBlock('seller.product.pager');
+    }
 
+    public function getPageVarName()
+    {
+        return $this->_pageVarName;
+    }
+    public function getLastPageNum()
+    {
+        return $this->_lastPagerNum;
+    }
+    public function setLimit($_limit)
+    {
+        $this->_limit = $_limit;
+        return $this;
+    }
+    public function getLimit()
+    {
+        return $this->_limit;
+    }
     public function getAttributeSetName($_product)
     {
         return Mage::getModel('eav/entity_attribute_set')->load($_product->getAttributeSetId())->getAttributeSetName();

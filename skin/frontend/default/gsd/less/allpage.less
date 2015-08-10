@@ -57,3 +57,112 @@
 .form-categories .category-tree{
   text-align: left;
 }
+
+/*-- menu mobile left ---*/
+#mmenu-left {
+  position: fixed;
+  background-color: #222;
+  height: 100%;
+  z-index: 10;
+  width: 280px;
+  color: #bbb;
+  top: 0;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 1;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+#mmenu-left.left { left: -280px; }
+#mmenu-left.show { left: 0;    overflow-y: auto; }
+#mmenu-left ul {
+  list-style: none;
+  margin-top: 0;
+  padding: 0
+}
+#mmenu-left ul li { border-bottom: 1px solid #2a2a2a; position: relative; }
+#mmenu-left>ul>li>a { border-left: 4px solid #222; }
+#mmenu-left ul li a {
+  color: inherit;
+  font-size: 16px;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-align: left;
+}
+#mmenu-left ul a i {
+  margin-right: 10px;
+  font-size: 18px;
+  margin-top: 3px;
+  width: 20px;
+}
+#mmenu-left ul a:hover,
+#mmenu-left ul li.active {
+  background-color: #111;
+  border-left-color: #6796BF;
+  color: #6796BF;
+}
+#mmenu-left ul a:hover i:first-child { color: #FFCC33; }
+/* Submenu */
+#mmenu-left ul li.active+ul { display: block }
+#mmenu-left ul li ul {
+  margin-top: 0;
+}
+#mmenu-left ul li ul li { border-bottom: none; }
+#mmenu-left ul li ul li a { padding-left: 30px; }
+#mmenu-left ul li ul li ul li a { padding-left: 60px; }
+#mmenu-left ul li ul li a:hover { background-color: #1A1A1A; }
+/* /Submenu */
+#mmenu-left .collapse-title:before {
+  color: #fff;
+  font-size: 12px;
+  content: "+";
+  font-family: FontAwesome;
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: 44px;
+  width: 44px;
+  text-align: center;
+  cursor: pointer;
+  background: #111;
+}
+#mmenu-left .collapse-title {
+  cursor: pointer;
+}
+#mmenu-left .collapse-title.expand:before {
+  content: "-";
+}
+#mmenu-left .collapse-title span {
+  display: none;
+}
+/*------ end menu mobile left------------------------------------*/
+.collapse-content {
+  display: none;
+}
+.collapse-content.open{
+  display: block;
+}
+/* collapse html */
+/*.collapse-content {
+  position: relative;
+  z-index: 10;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+.collapse-content.prev {
+  transform-origin: bottom;
+}
+.collapse-content.open {
+  transform: scaleY(1);
+}*/
+
+/*------- end collapse html -------------------------*/

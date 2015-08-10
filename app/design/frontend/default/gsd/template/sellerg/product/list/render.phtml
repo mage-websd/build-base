@@ -1,0 +1,44 @@
+<?php $_collection = $this->getCollection(); ?>
+<?php $_catalogHelper = $this->helper('catalog/image'); ?>
+<?php $_size = 100; ?>
+<?php if($_collection->getSize()): ?>
+    <?php foreach ($_collection as $_product):
+        $_product = Mage::getModel('catalog/product')->load($_product->getId());
+        ?>
+    <tr>
+        <td class="mp-id"><?php echo $_product->getId() ?></td>
+        <td class="mp-image">
+            <a href="<?php echo $_product->getProductUrl(); ?>">
+                <img src="<?php echo $_catalogHelper->init($_product, 'image')->resize($_size, $_size); ?>" />
+            </a>
+        </td>
+        <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span></td>
+        <td class="mp-type"><span><?php echo $this->getAttributeSetName($_product); ?></span></td>
+        <td class="mp-type-product"><span><?php echo $_product->getTypeId(); ?></span></td>
+        <td class="mp-approved">
+            <span><?php
+                if($this->helper('sellerg')->getAutoApproval()) {
+                    echo $this->__('Yes');
+                }
+                else {
+                    if($_product->getApproved()) {
+                        echo $this->__('Yes');
+                    }
+                    else {
+                        echo $this->__('No');
+                    }
+                }
+            ?></span>
+        </td>
+        <td class="mp-price"><?php echo $this->helper('core')->currency($_product->getPrice(),true,false); ?></td>
+        <td class="a-center mp-edit">
+            <span class="nobr" title="<?php echo $this->__('Edit Product') ?>"><a href="<?php echo $this->getUrl('sellerg/product/edit/',array('id'=>$_product->getId())); ?>"><?php echo $this->__('Edit Product') ?></a>
+            </span>
+        </td>
+        <td class="a-center mp-view">
+            <span class="nobr" title="<?php echo $this->__('View Product') ?>"><a href="<?php echo $_product->getProductUrl(); ?>"><?php echo $this->__('View Product') ?></a>
+            </span>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+<?php endif; ?>

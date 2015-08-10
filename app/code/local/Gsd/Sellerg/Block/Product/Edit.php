@@ -36,25 +36,6 @@ class Gsd_Sellerg_Block_Product_Edit extends Mage_Core_Block_Template
 {
     protected $_categoriesProduct = array();
 
-    public function getTypeIdArray()
-    {
-        return Mage_Catalog_Model_Product_Type::getOptions();
-    }
-
-    public function getAttributeSetArray()
-    {
-        $_collection = Mage::getModel('eav/entity_attribute_set')->getCollection()
-            ->setEntityTypeFilter( Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId() );
-        $_option = array();
-        foreach ($_collection as $_item) {
-            $_option[] = array(
-                'value' => $_item->getAttributeSetId(),
-                'label' => $_item->getAttributeSetName()
-            );
-        }
-        return $_option;
-    }
-
     public function getAttributeOptions($code)
     {
         $attributeInfo = Mage::getResourceModel('eav/entity_attribute_collection')->setCodeFilter($code)->getFirstItem();

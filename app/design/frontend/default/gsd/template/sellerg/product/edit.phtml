@@ -17,9 +17,8 @@
 			<?php echo $this->getBlockHtml('formkey'); ?>
 			<input type="hidden" name="entity_id" value="<?php echo $_formData->getId(); ?>" />
 			<div class="button-sets">
-				<button type="submit" class="btn btn-add-product">
-					<span><?php echo $this->__('Save Product'); ?></span>
-				</button>
+				<input type="submit" name="submit" value="<?php echo $this->__('Save Product'); ?>" class="btn btn-add-product" />
+				<input type="submit" name="submit_edit" value="<?php echo $this->__('Save and Edit Product'); ?>" class="btn btn-add-product" />
 			</div>
 	        <ul class="tabs">
 	            <li id="product_tabs_1" class="active first"><a href="#"><?php echo $this->__('General') ?></a></li>
@@ -45,6 +44,10 @@
 	            	</div>
 	            <?php endif; ?>
 	        </div>
+			<div class="button-sets">
+				<input type="submit" name="submit" value="<?php echo $this->__('Save Product'); ?>" class="btn btn-add-product" />
+				<input type="submit" name="submit_edit" value="<?php echo $this->__('Save and Edit Product'); ?>" class="btn btn-add-product" />
+			</div>
 		</form>
 		<script type="text/javascript">
 		//<![CDATA[

@@ -31,7 +31,6 @@
 <div class="page-title">
     <h1><?php echo $this->__('My Products') ?></h1>
 </div>
-<?php echo $this->getPagerHtml(); ?>
 <?php if($_collection->getSize()): ?>
 <table class="data-table" id="my-products-table">
     <col width="1" />
@@ -47,13 +46,13 @@
             <th class="mp-name"><?php echo $this->__('Name') ?></th>
             <th class="mp-type"><?php echo $this->__('Attribute Set') ?></th>
             <th class="mp-type"><?php echo $this->__('Type') ?></th>
+            <th class="mp-type"><?php echo $this->__('Approved') ?></th>
             <th class="mp-price"><span class="nobr"><?php echo $this->__('Price') ?></span></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
         </tr>
     </thead>
-    <tbody>
-        <?php $_odd = ''; ?>
+    <tbody class="seller-products-body">
         <?php foreach ($_collection as $_product):
             $_product = Mage::getModel('catalog/product')->load($_product->getId());
             ?>
@@ -67,6 +66,21 @@
             <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span></td>
             <td class="mp-type"><span><?php echo $this->getAttributeSetName($_product); ?></span></td>
             <td class="mp-type-product"><span><?php echo $_product->getTypeId(); ?></span></td>
+            <td class="mp-approved">
+                <span><?php
+                    if($this->helper('sellerg')->getAutoApproval()) {
+                        echo $this->__('Yes');
+                    }
+                    else {
+                        if($_product->getApproved()) {
+                            echo $this->__('Yes');
+                        }
+                        else {
+                            echo $this->__('No');
+                        }
+                    }
+                ?></span>
+            </td>
             <td class="mp-price"><?php echo $this->helper('core')->currency($_product->getPrice(),true,false); ?></td>
             <td class="a-center mp-edit">
                 <span class="nobr" title="<?php echo $this->__('Edit Product') ?>"><a href="<?php echo $this->getUrl('sellerg/product/edit/',array('id'=>$_product->getId())); ?>"><?php echo $this->__('Edit Product') ?></a>
@@ -80,8 +94,10 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<div class="ajax-product"></div>
+<a href="#" class="btn button btn-pager-load-more" data-pager="1" data-url="<?php echo $this->getUrl('*/*/*'); ?>" data-varpager="<?php echo $this->getPageVarName(); ?>"><?php echo $this->__('Load More'); ?></a>
 <script type="text/javascript">decorateTable('my-products-table');</script>
-<?php echo $this->getPagerHtml(); ?>
+<?php //echo $this->getPagerHtml(); ?>
 <?php else: ?>
     <p><?php echo $this->__('You have no product to display.'); ?></p>
 <?php endif ?>

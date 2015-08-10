@@ -19,7 +19,9 @@
             </action>
         </reference>
         <reference name="my.account.wrapper">
-            <block type="sellerg/product_list" name="seller_product_list" template="sellerg/product/list.phtml"/>
+            <block type="sellerg/product_list" name="seller_product_list" template="sellerg/product/list.phtml">
+                <block type="sellerg/product_list" name="seller_product_list_render" template="sellerg/product/list/render.phtml" />
+            </block>
         </reference>
     </sellerg_product_index>
 
