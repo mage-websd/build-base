@@ -393,3 +393,28 @@ jQuery(document).ready(function($) {
         });
     });
 });
+
+/* opacity blur ---*/
+jQuery(document).ready(function($) {
+    var flagOpcity = 'opacity-blur';
+    var flagDomOpcity = '.' + flagOpcity;
+    var heightOpacityFlag = $(flagDomOpcity).outerHeight(true);
+    var scrollTopFlag = $(flagDomOpcity).offset().top;
+    $(window).scroll(function() {
+        var minusScrollDom = $(this).scrollTop() - scrollTopFlag;
+        if(minusScrollDom <= 0) {
+            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+        }
+        else if(0 < minusScrollDom && minusScrollDom <= heightOpacityFlag) {
+            var percent = ( minusScrollDom / heightOpacityFlag ) * 10;
+            percent =  Math.round(percent);
+            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+            $(flagDomOpcity).addClass(flagOpcity+'--'+percent);
+        }
+        else {
+            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+            $(flagDomOpcity).addClass(flagOpcity+'--10');
+        }
+    });
+});
+/* end opacity blur ----------------------------------------*/

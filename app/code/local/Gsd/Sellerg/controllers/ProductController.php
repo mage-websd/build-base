@@ -272,13 +272,32 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
 
     protected function _associatedPost(&$product)
     {
-        if($product->getTypeId() != 'configurable') {
+        if(!$product->getId()) {
             return $product;
         }
+        if(!in_array($product->getTypeId(),Mage::helper('seller')->getProductTypesAssociated())){
+            return $product;
+        }
+        switch ($product->getTypeId()) {
+            case 'configurable':
+                return $this->_associatedPostConfigurable($product);
+                break;
+            case 'grouped':
+                return $this->_associatedPostGrouped($product);
+                break;
+            default:
+                return $product;
+                break;
+        }
+        return $product;
+    }
+
+    protected function _associatedPostConfigurable(&$product)
+    {
         $data = $this->getRequest()->getPost();
         Mage::app()->setCurrentStore(Mage::app()->getStore()->getStoreId());
         try {
-            $_attributeCodeAllow = array('color');
+            $_attributeCodeAllow = array('color','size');
             $_attributeAllow = Mage::getModel('eav/entity_attribute')->getCollection()
                 ->addFieldToFilter('attribute_code',array('in'=>$_attributeCodeAllow));
             $arrayAttributeAllow = array();
@@ -320,6 +339,23 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
             }
         } catch(Exception $e) {
             Mage::getSingleton('core/session')->addError($e->getMessage());
+        }
+        return $product;
+    }
+
+    protected function _associatedPostGrouped(&$product)
+    {
+        $data = $this->getRequest()->getPost();
+        Mage::app()->setCurrentStore(Mage::app()->getStore()->getStoreId());
+        if ($data['associated'] && count($data['associated'])) {
+            $arrayDataAssociated = array();
+            foreach ($data['associated'] as $productIdSimple) {
+                $arrayDataAssociated[$productIdSimple] = array(
+                    'qty' => 1,
+                    'position' => 0,
+                );
+            }
+            $product->setGroupedLinkData($arrayDataAssociated);
         }
         return $product;
     }

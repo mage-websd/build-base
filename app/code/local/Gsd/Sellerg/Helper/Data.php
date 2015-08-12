@@ -30,9 +30,41 @@
  * @package    My_Icustomer
  * @author     Theodore Doan <theodore.doan@gmail.com>
  */
-class Gsd_Sellerg_Helper_Data extends Mage_Core_Helper_Abstract {
+class Gsd_Sellerg_Helper_Data extends Mage_Core_Helper_Abstract 
+{
 
-    public function getAllowedAttributeSet()
+    public function getBaseMediaUrl()
+    {
+        return Mage::getBaseUrl('media') . 'customer';
+    }
+    public function getBaseMediaPath() {
+        return Mage::getBaseDir('media') .DS. 'customer';
+    }
+    public function getAvatarUrl($url = null) {
+        return Mage::getSingleton('seller/config')->getBaseMediaUrl() . $url;
+    }
+    public function isAvatarExisted($url = null) {
+        $file = str_replace('/', DS, Mage::getSingleton('seller/config')->getBaseMediaPath() . $url);
+
+        if ( is_file($file) && file_exists($file) ) {
+            return true;
+        }
+        return false;
+    }
+    public function getAvatarCustomer($_customer) 
+    {
+        if(!is_object($_customer)) {
+            $_customer = Mage::getModel('customer/customer')->load($_customer);
+        }
+        if ( $avatar = $_customer->getAvatar() ) {
+            if ( $this->isAvatarExisted($avatar) ) {
+                return $this->getAvatarUrl($avatar);
+            }
+        }
+        return Mage::getBaseUrl('media').'wysiwyg/swatches/blue-jean.png';
+    }
+
+    public function getAllowedAttributeSet()    
     {
         $options = array(array('value'=>'','label'=>''));
         $allowedIds = Mage::getStoreConfig('sellerg/product/allowed_attribute_set');
@@ -70,5 +102,10 @@ class Gsd_Sellerg_Helper_Data extends Mage_Core_Helper_Abstract {
     public function getAutoApproval()
     {
         return Mage::getStoreConfig('sellerg/general/product_approval');
+    }
+
+    public function getProductTypesAssociated()
+    {
+        return array('grouped','configurable','bundle');
     }
 }
