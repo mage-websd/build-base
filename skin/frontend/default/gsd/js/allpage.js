@@ -260,6 +260,38 @@ jQuery(document).ready(function($) {
 });
 
 /**
+ * Add cart ajax - list product
+ */
+jQuery(document).ready(function($) {
+    if(!$('.module-cart-ajax-enable').length) {
+        return;
+    }
+    if(!$('.module-cart-ajax-enable').data('check')) {
+        return;
+    }
+    $(document).on('click','.btn-cart',function() {
+        var dataCart = $(this).data('cart');
+        var dataUrlAdd = $(this).data('url-add');
+        if(dataCart) {
+            if (dataCart == 'option') {
+                $.colorbox({
+                    href: dataUrlAdd,
+                    className: 'colorbox-addcart'
+                })
+            }
+            else if (dataCart == 'add') {
+                try {
+                    jQuery().ajaxReturn({
+                        url: dataUrlAdd,
+                        type: 'post'
+                    });
+                } catch (e) {
+                }
+            }
+        }
+    });
+});
+/**
  * Compare Ajax
  */
 jQuery(document).ready(function($) {
@@ -396,25 +428,27 @@ jQuery(document).ready(function($) {
 
 /* opacity blur ---*/
 jQuery(document).ready(function($) {
-    var flagOpcity = 'opacity-blur';
-    var flagDomOpcity = '.' + flagOpcity;
-    var heightOpacityFlag = $(flagDomOpcity).outerHeight(true);
-    var scrollTopFlag = $(flagDomOpcity).offset().top;
-    $(window).scroll(function() {
-        var minusScrollDom = $(this).scrollTop() - scrollTopFlag;
-        if(minusScrollDom <= 0) {
-            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
-        }
-        else if(0 < minusScrollDom && minusScrollDom <= heightOpacityFlag) {
-            var percent = ( minusScrollDom / heightOpacityFlag ) * 10;
-            percent =  Math.round(percent);
-            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
-            $(flagDomOpcity).addClass(flagOpcity+'--'+percent);
-        }
-        else {
-            $(flagDomOpcity)[0].className = $(flagDomOpcity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
-            $(flagDomOpcity).addClass(flagOpcity+'--10');
-        }
-    });
+    var flagOpacity = 'opacity-blur';
+    var flagDomOpacity = '.' + flagOpacity;
+    if($(flagDomOpacity).length) {
+        var heightOpacityFlag = $(flagDomOpacity).outerHeight(true);
+        var scrollTopFlag = $(flagDomOpacity).offset().top;
+        $(window).scroll(function () {
+            var minusScrollDom = $(this).scrollTop() - scrollTopFlag;
+            if (minusScrollDom <= 0) {
+                $(flagDomOpacity)[0].className = $(flagDomOpacity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+            }
+            else if (0 < minusScrollDom && minusScrollDom <= heightOpacityFlag) {
+                var percent = ( minusScrollDom / heightOpacityFlag ) * 10;
+                percent = Math.round(percent);
+                $(flagDomOpacity)[0].className = $(flagDomOpacity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+                $(flagDomOpacity).addClass(flagOpacity + '--' + percent);
+            }
+            else {
+                $(flagDomOpacity)[0].className = $(flagDomOpacity)[0].className.replace(/\bopacity-blur--\d*\b/g, '');
+                $(flagDomOpacity).addClass(flagOpacity + '--10');
+            }
+        });
+    }
 });
 /* end opacity blur ----------------------------------------*/

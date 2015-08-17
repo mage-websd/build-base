@@ -13,7 +13,8 @@ $dataAttribute = array(
     'required' => false,
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'sort_order' => 100,
-    'system' => '0',
+    'system' => 0,
+    'user_defined' => 0,
     /*'user_defined' => 1,
     'default' => '',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
@@ -53,7 +54,7 @@ $dataAttribute = array(
         )*/
 
 );
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
+//$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
 
 $installer->removeAttribute('catalog_product', 'approved');
 $dataAttribute = array(
@@ -68,8 +69,9 @@ $dataAttribute = array(
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'sort_order' => 110,
     'default' => '0',
-    'system' => '0',
+    'system' => 0,
+    'user_defined' => false,
 );
-$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
+//$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
 
 $installer->endSetup();

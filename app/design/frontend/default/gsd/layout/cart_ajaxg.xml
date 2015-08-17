@@ -40,7 +40,7 @@
         </reference>
     </catalog_product_view>
 
-    <!-- optins page in lightbox-->
+    <!-- options page in lightbox-->
     <cartajaxg_index_options>
         <reference name="root">
             <action method="setTemplate">

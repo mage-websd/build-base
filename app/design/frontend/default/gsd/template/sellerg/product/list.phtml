@@ -44,9 +44,11 @@
             <th class="mp-id"><?php echo $this->__('#') ?></th>
             <th class="mp-image"><?php echo $this->__('Image') ?></th>
             <th class="mp-name"><?php echo $this->__('Name') ?></th>
+            <th class="mp-name"><?php echo $this->__('Sku') ?></th>
             <th class="mp-type"><?php echo $this->__('Attribute Set') ?></th>
             <th class="mp-type"><?php echo $this->__('Type') ?></th>
             <th class="mp-type"><?php echo $this->__('Approved') ?></th>
+            <th class="mp-type"><?php echo $this->__('Status') ?></th>
             <th class="mp-price"><span class="nobr"><?php echo $this->__('Price') ?></span></th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
@@ -64,6 +66,7 @@
                 </a>
             </td>
             <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span></td>
+            <td class="mp-type"><span><?php echo $_product->getSku(); ?></span></td>
             <td class="mp-type"><span><?php echo $this->getAttributeSetName($_product); ?></span></td>
             <td class="mp-type-product"><span><?php echo $_product->getTypeId(); ?></span></td>
             <td class="mp-approved">
@@ -80,6 +83,16 @@
                         }
                     }
                 ?></span>
+            </td>
+            <td class="mp-approved">
+                <span><?php
+                    if($_product->getStatus() == 1) {
+                        echo $this->__('Enable');
+                    }
+                    else {
+                        echo $this->__('Disable');
+                    }
+                    ?></span>
             </td>
             <td class="mp-price"><?php echo $this->helper('core')->currency($_product->getPrice(),true,false); ?></td>
             <td class="a-center mp-edit">

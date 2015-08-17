@@ -44,9 +44,10 @@ class Gsd_Sellerg_Block_Product_List extends Mage_Core_Block_Template
 
         $_productCollection = Mage::getModel('catalog/product')
             ->getCollection()
-            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getCustomer()->getId())
+            ->addFieldToFilter('customer_id', Mage::getSingleton('customer/session')->getId())
             ->addAttributeToSort('created_at', 'DESC')
             ->addAttributeToSelect('*')
+            ->addStoreFilter()
             ;
 
         $this->setCollection($_productCollection);

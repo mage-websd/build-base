@@ -161,6 +161,7 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                            'qty' => $data['qty'] //qty
                         );
                 $data['customer_id'] = $this->_getSession()->getId();
+                //echo '<pre>';print_r($data);exit;
                 if(!isset($data['status'])) {
                     $data['status'] = 2;
                 }
@@ -172,7 +173,13 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                 $product->save();
                 if($product->getId()) {
                     Mage::getSingleton('core/session')->addSuccess('Save product success');
-                    $this->_redirect('*/*/edit',array('id'=>$product->getId()));
+                    if(isset($data['submit_edit'])) {
+                        $this->_redirect('*/*/edit',array('id'=>$product->getId()));
+                    }
+                    else {
+                        $this->_redirect('*/*/index');
+                    }
+
                     return;
                 }
                 else {
@@ -275,7 +282,7 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
         if(!$product->getId()) {
             return $product;
         }
-        if(!in_array($product->getTypeId(),Mage::helper('seller')->getProductTypesAssociated())){
+        if(!in_array($product->getTypeId(),Mage::helper('sellerg')->getProductTypesAssociated())){
             return $product;
         }
         switch ($product->getTypeId()) {
@@ -284,6 +291,9 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
                 break;
             case 'grouped':
                 return $this->_associatedPostGrouped($product);
+                break;
+            case 'bundle':
+                return $this->_associatedPostBundle($product);
                 break;
             default:
                 return $product;
@@ -357,6 +367,59 @@ class Gsd_Sellerg_ProductController extends Mage_Core_Controller_Front_Action
             }
             $product->setGroupedLinkData($arrayDataAssociated);
         }
+        return $product;
+    }
+
+    protected function _associatedPostBundle(&$product)
+    {
+        $data = $this->getRequest()->getPost();
+        $data = $data['bundle_options'];
+        Mage::app()->setCurrentStore(Mage::app()->getStore()->getStoreId());
+        $bundleOptions = array();
+        $bundleSelections = array();
+        $indexItem = -1;
+        foreach($data as $bundleData) {
+            $indexItem++;
+            $bundleOptions[$indexItem] = array(
+                'title' => $bundleData['title'], //option title
+                'option_id' => (isset($bundleData['option_id']) && $bundleData['option_id']) ? $bundleData['option_id'] : '',
+                'delete' => (isset($bundleData['delete']) && $bundleData['delete']) ? 1 : '',
+                'type' => $bundleData['type'], //option type
+                'required' => $bundleData['required'], //is option required
+                'position' => $bundleData['position'], //option position
+                'default_title' => $bundleData['title'], //option title
+            );
+            foreach($bundleData['product'] as $bundleDataProduct) {
+                $bundleSelections[$indexItem][] = array(
+                    'product_id' => $bundleDataProduct['id'], //if of a product in selection
+                    'delete' => (isset($bundleDataProduct['delete']) && $bundleDataProduct['delete']) ? 1 : '',
+                    'selection_price_value' => 0,
+                    'selection_price_type' => 0,
+                    'selection_qty' => 1,
+                    'selection_can_change_qty' => 0,
+                    'position' => 0,
+                    'is_default' => 0,
+                    'selection_id' => '',
+                    'option_id' => '',
+                );
+            }
+        }
+        //flags for saving custom options/selections
+        //registering a product because of Mage_Bundle_Model_Selection::_beforeSave
+
+        Mage::register('product', $product);
+        Mage::register('current_product', $product);
+
+        $product->setCanSaveConfigurableAttributes(false);
+        $product->setCanSaveCustomOptions(true);
+
+        //setting the bundle options and selection data
+        $product->setBundleOptionsData($bundleOptions);
+        $product->setBundleSelectionsData($bundleSelections);
+
+        $product->setCanSaveBundleSelections(true);
+        $product->setAffectBundleProductSelections(true);
+
         return $product;
     }
 

@@ -103,18 +103,20 @@ $_helper = $this->helper('catalog/output');
                     <?php if($_product->isSaleable()): ?>
                         <?php if($this->helper('cartajaxg')->isCartEnable()): ?>
                             <?php if (!($_product->getTypeInstance(true)->hasRequiredOptions($_product) || $_product->isGrouped())) { ?>
-                                <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>" type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" data-cart="add"
-                                        onclick="//setLocationAjax('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>"
+                                        data-url-add="<?php echo str_replace('/checkout/cart/',substr($this->getUrl('cartajaxg/index/'),(-strlen('/cartajaxg/index/')-1)),$this->getAddToCartUrl($_product)); ?>"
+                                        type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" data-cart="add">
                                     <span><span><?php echo $this->__('Add to Cart') ?></span></span>
                                 </button>
                             <?php } else { ?>
-                                <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>" data-productid="<?php echo $_product->getId(); ?>" type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" data-cart="option"
-                                        onclick="//showOptions('<?php echo $_product->getId() ?>')">
+                                <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>"
+                                        data-url-add="<?php echo $this->getUrl('cartajaxg/index/options',array('product'=>$_product->getId())); ?>"
+                                        type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" data-cart="option">
                                     <span><span><?php echo $this->__('Add to Cart') ?></span></span>
                                 </button>
                             <?php } ?>
                         <?php else: ?>
-                            <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>" type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
+                            <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                         <?php endif; ?>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
@@ -140,39 +142,4 @@ $_helper = $this->helper('catalog/output');
             <?php echo $this->getToolbarHtml() ?>
         </div>
     </div>
-
-    <script>
-        jQuery(document).ready(function($) {
-            var baseUrl = jQuery('#base-url-page').attr('href');
-            $(document).on('click','.btn-cart',function() {
-                var dataCart = $(this).data('cart');
-                var dataHref = $(this).data('href');
-                if(!dataCart) {
-                    window.location = dataHref;
-                    return;
-                }
-                if(dataCart=='option') {
-                    var productId = $(this).data('productid');
-                    $.colorbox({
-                        href: baseUrl + 'cart-ajaxg/index/options/product/'+productId,
-                        className: 'colorbox-addcart'
-                    })
-                }
-                else if(dataCart == 'add') {
-                    dataHref = dataHref.replace("/checkout/cart/","/cart-ajaxg/index/");
-                    try {
-                        jQuery().ajaxReturn({
-                            url: dataHref,
-                            type: 'post'
-                        });
-                    } catch (e) {
-                    }
-                }
-                else {
-                    window.location = dataHref;
-                    return;
-                }
-            });
-        });
-    </script>
 <?php endif; ?>

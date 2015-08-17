@@ -63,6 +63,8 @@ Seller product add layout
                        template="sellerg/product/information/categories.phtml"/>
                 <block type="sellerg/product_edit" name="seller_product_configurable"
                        template="sellerg/product/information/configurable.phtml">
+                    <block type="sellerg/product_associated" name="seller_product_associated_bundle"
+                           template="sellerg/product/information/associated/bundle.phtml"/>
                     <block type="sellerg/product_associated" name="seller_product_associated"
                            template="sellerg/product/information/associated.phtml"/>
                 </block>

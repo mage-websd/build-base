@@ -1,0 +1,337 @@
+<?php
+$product = $this->getProduct();
+if (!$product) {
+    return;
+}
+$_coreHelper = $this->helper('core');
+$options = $this->getOptionsBundle();
+$selections = $this->getSelectsBundle();
+$_countOptions = count($options);
+$_countSelections = count($selections);
+/*
+
+foreach ($options->getItems() as $option) {
+    $optionId = $option->getId();
+    echo 'Option: ' . $option->getTitle() . ' [id: ' . $optionId . ']<br />';
+
+    foreach ($selections as $selection) {
+        if ($optionId == $selection->getOptionId()) {
+            $selectionId = $selection->getId();
+            $selectionName = $selection->getName();
+            $selectionQty = $selection->getSelectionQty();
+            $selectionSku = $selection->getSku();
+            $selectionProductId = $selection->getProductId();
+            $selectionWeight = $selection->getWeight();
+            $selectionPrice = $selection->getPrice();
+
+            $data = 'Selection Name: ' . $selectionName;
+            $data .= ', SKU: ' . $selectionSku;
+            $data .= ', Qty: ' . $selectionQty;
+            $data .= ', ID: ' . $selectionId;
+            $data .= ', Product ID: ' . $selectionProductId;
+            $data .= ', Weight: ' . $selectionWeight;
+            $data .= ', Price: ' . $selectionPrice;
+
+            echo $data . '<br />';
+        }
+    }
+}
+exit;*/
+?>
+<?php $_collection = $this->getCollection(); ?>
+<?php $_catalogHelper = $this->helper('catalog/image'); ?>
+<?php $_size = 100; ?>
+<?php if ($_collection->getSize()): ?>
+    <div class="bundle-wrapper">
+        <div class="bundle-title">
+            <h3><?php echo $this->__('Bundle Items'); ?></h3>
+            <a href="#" class="button btn-add btn-add-bundle-option"
+               data-bundles="<?php echo $_countOptions ? $_countOptions : 0; ?>"><?php echo $this->__('Add New Option'); ?></a>
+        </div>
+        <div class="bundle-outer">
+            <?php if ($_countOptions) { ?>
+                <?php $indexOptions = -1; ?>
+                <?php foreach ($options as $option) {
+                    $indexOptions++; ?>
+                    <input type="hidden" name="bundle_options[<?php echo $indexOptions; ?>][option_id]"
+                           value="<?php echo $option->getId(); ?> ">
+                    <div class="bundle-item" data-bundles="<?php echo $indexOptions; ?>">
+                        <div class="bi-head">
+                            <div class="bi-title">
+                                <label for="id_bundle_options_<?php echo $indexOptions; ?>_title"
+                                       class="required"><?php echo $this->__('Title'); ?>
+                                    <em>*</em></label>
+                                <input class="input-text required-entry"
+                                       name="bundle_options[<?php echo $indexOptions; ?>][title]"
+                                       id="id_bundle_options_<?php echo $indexOptions; ?>_title"
+                                       value="<?php echo $option->getTitle(); ?>"/>
+                            </div>
+                            <div class="bi-delete">
+                                <label
+                                    for="bundle_option_<?php echo $indexOptions; ?>_delete"><?php echo $this->__('Delete Option'); ?></label>
+                                <input type="checkbox" name="bundle_options[<?php echo $indexOptions; ?>][delete]"
+                                       value="1" class="input-checkbox"
+                                       id="bundle_option_<?php echo $indexOptions; ?>_delete"/>
+                            </div>
+                        </div>
+                        <div class="bi-option">
+                            <ul class="form-list form-bundle-option">
+                                <li class="fields">
+                                    <div class="field">
+                                        <label
+                                            for="bundle_option_<?php echo $indexOptions; ?>_type"><?php echo $this->__('Input Type'); ?></label>
+
+                                        <div class="input-box">
+                                            <select name="bundle_options[<?php echo $indexOptions; ?>][type]"
+                                                    id="bundle_option_<?php echo $indexOptions; ?>_type"
+                                                    class="select select-product-option-type required-option-select select-type">
+                                                <?php foreach ($this->getOptionInputType() as $_optionInput) { ?>
+                                                    <option
+                                                        value="<?php echo $_optionInput['value']; ?>"<?php if ($option->getType() == $_optionInput['value']) echo ' selected'; ?>><?php echo $_optionInput['label']; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label
+                                            for="bundle_option_<?php echo $indexOptions; ?>_required"><?php echo $this->__('Is Required'); ?></label>
+
+                                        <div class="input-box">
+                                            <select name="bundle_options[<?php echo $indexOptions; ?>][required]"
+                                                    id="bundle_option_<?php echo $indexOptions; ?>_required"
+                                                    class="select select-required">
+                                                <?php foreach ($this->getOptionRequired() as $_optionInput) { ?>
+                                                    <option
+                                                        value="<?php echo $_optionInput['value']; ?>"<?php if ($option->getRequired() == $_optionInput['value']) echo ' selected'; ?>><?php echo $_optionInput['label']; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label
+                                            for="bundle_option_<?php echo $indexOptions; ?>_position"><?php echo $this->__('Position'); ?></label>
+
+                                        <div class="input-box">
+                                            <input name="bundle_options[<?php echo $indexOptions; ?>][position]"
+                                                   id="bundle_option_<?php echo $indexOptions; ?>_position"
+                                                   class="input-text validate-zero-or-greater input-position"
+                                                   value="<?php echo $option->getPosition(); ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="field">
+                                        <label></label>
+                                        <div class="input-box">
+                                            <a href="#" class="button btn-show-hide btn-show-bundle-product"><?php echo $this->__('Show/Hide Selections'); ?></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <?php $arrayProductSelection = array(); ?>
+                        <?php if($_countSelections){ ?>
+                        <div class="bi-selected-product">
+                            <table>
+                                <thead>
+                                    <td><?php echo $this->__('Id'); ?></td>
+                                    <td><?php echo $this->__('Name'); ?></td>
+                                    <td><?php echo $this->__('Sku'); ?></td>
+                                    <td><?php echo $this->__('Price'); ?></td>
+                                    <td><?php echo $this->__('Delete'); ?></td>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($selections as $selection) { ?>
+                                        <?php if ($option->getId() == $selection->getOptionId()) { ?>
+                                            <input type="hidden" name="bundle_options[<?php echo $indexOptions; ?>][product][<?php echo $selection->getProductId(); ?>][id]"
+                                                   value="<?php echo $selection->getProductId(); ?>">
+                                            <?php $arrayProductSelection[] = $selection->getProductId(); ?>
+                                            <tr class=" selection-<?php echo $selection->getId(); ?>">
+                                                <td><?php echo $selection->getProductId(); ?></td>
+                                                <td><?php echo $selection->getName(); ?></td>
+                                                <td><?php echo $selection->getSku(); ?></td>
+                                                <td><?php echo $_coreHelper->currency($selection->getPrice(),true,false); ?></td>
+                                                <td><input type="checkbox" name="bundle_options[<?php echo $indexOptions; ?>][product][<?php echo $selection->getId(); ?>][delete]" value="1"/></td>
+                                            </tr>
+                                        <?php } ?>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <?php } ?>
+                        <div class="bi-selection">
+                            <?php echo $this->getPagerHtml(); ?>
+                            <table class="data-table products-selection-bundle">
+                                <thead>
+                                <tr>
+                                    <th class="mp-check"><?php echo $this->__('Check') ?></th>
+                                    <th class="mp-id"><?php echo $this->__('Id') ?></th>
+                                    <th class="mp-image"><?php echo $this->__('Image') ?></th>
+                                    <th class="mp-name"><?php echo $this->__('Name') ?></th>
+                                    <th class="mp-sku"><?php echo $this->__('Sku') ?></th>
+                                    <th class="mp-price"><?php echo $this->__('Price') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($_collection as $_product): ?>
+                                    <?php if(in_array($_product->getId(),$arrayProductSelection)) {continue;} ?>
+                                    <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+                                    <tr>
+                                        <td class="mp-check" for="product-<?php echo $_product->getId(); ?>">
+                                            <input type="checkbox" name="bundle_options[<?php echo $indexOptions; ?>][product][<?php echo $_product->getId(); ?>][id]"
+                                                   value="<?php echo $_product->getId(); ?>"
+                                                   id="product-<?php echo $_product->getId(); ?>">
+                                        </td>
+                                        <td class="mp-id"><?php echo $_product->getId() ?></td>
+                                        <td class="mp-image"><a href="<?php echo $_product->getProductUrl(); ?>"><img
+                                                    src="<?php echo $_catalogHelper->init($_product, 'small_image')->resize($_size, $_size); ?>"/></a>
+                                        </td>
+                                        <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span>
+                                        </td>
+                                        <td class="mp-sku"><span class="nobr"><?php echo $_product->getSku() ?></span></td>
+                                        <td class="mp-price"><?php echo $_coreHelper->currency($_product->getPrice(), true, false); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <?php }//end foreach option item ?>
+            <?php }//end bundle item ?>
+            <div class="bundle-item-html-demo">
+                <div class="bundle-item" data-bundles="bundle-index-increment">
+                    <div class="bi-head">
+                        <div class="bi-title">
+                            <label for="id_bundle_options_bundle-index-increment_title"
+                                   class="required"><?php echo $this->__('Title'); ?>
+                                <em>*</em></label>
+                            <input class="input-text required-entry"
+                                   name="bundle_options[bundle-index-increment][title]"
+                                   id="id_bundle_options_bundle-index-increment_title"/>
+                        </div>
+                        <div class="bi-delete">
+                            <label
+                                for="bundle_option_bundle-index-increment_delete"><?php echo $this->__('Delete Option'); ?></label>
+                            <input type="checkbox" name="bundle_options[bundle-index-increment][delete]" value="1"
+                                   class="input-checkbox bundle-option-delete"
+                                   id="bundle_option_bundle-index-increment_delete"/>
+                        </div>
+                    </div>
+                    <div class="bi-option">
+                        <ul class="form-list form-bundle-option">
+                            <li class="fields">
+                                <div class="field">
+                                    <label
+                                        for="bundle_option_bundle-index-increment_type"><?php echo $this->__('Input Type'); ?></label>
+
+                                    <div class="input-box">
+                                        <select name="bundle_options[bundle-index-increment][type]"
+                                                id="bundle_option_bundle-index-increment_type"
+                                                class="select select-product-option-type required-option-select select-type">
+                                            <?php foreach ($this->getOptionInputType() as $_optionInput) { ?>
+                                                <option
+                                                    value="<?php echo $_optionInput['value']; ?>"><?php echo $_optionInput['label']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label
+                                        for="bundle_option_bundle-index-increment_required"><?php echo $this->__('Is Required'); ?></label>
+
+                                    <div class="input-box">
+                                        <select name="bundle_options[bundle-index-increment][required]"
+                                                id="bundle_option_bundle-index-increment_required"
+                                                class="select select-required">
+                                            <?php foreach ($this->getOptionRequired() as $_optionInput) { ?>
+                                                <option
+                                                    value="<?php echo $_optionInput['value']; ?>"><?php echo $_optionInput['label']; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label
+                                        for="bundle_option_bundle-index-increment_position"><?php echo $this->__('Position'); ?></label>
+
+                                    <div class="input-box">
+                                        <input name="bundle_options[bundle-index-increment][position]"
+                                               id="bundle_option_bundle-index-increment_position"
+                                               class="input-text validate-zero-or-greater input-position"/>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label></label>
+                                    <div class="input-box">
+                                        <a href="#" class="button btn-show-hide btn-show-bundle-product"><?php echo $this->__('Show/Hide Selections'); ?></a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bi-selection">
+                        <?php echo $this->getPagerHtml(); ?>
+                        <table class="data-table products-selection-bundle">
+                            <thead>
+                            <tr>
+                                <th class="mp-check"><?php echo $this->__('Check') ?></th>
+                                <th class="mp-id"><?php echo $this->__('Id') ?></th>
+                                <th class="mp-image"><?php echo $this->__('Image') ?></th>
+                                <th class="mp-name"><?php echo $this->__('Name') ?></th>
+                                <th class="mp-sku"><?php echo $this->__('Sku') ?></th>
+                                <th class="mp-price"><?php echo $this->__('Price') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($_collection as $_product): ?>
+                                <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
+                                <tr>
+                                    <td class="mp-check" for="product-<?php echo $_product->getId(); ?>">
+                                        <input type="checkbox" name="bundle_options[bundle-index-increment][product][<?php echo $_product->getId(); ?>][id]"
+                                               value="<?php echo $_product->getId(); ?>"
+                                               id="product-<?php echo $_product->getId(); ?>">
+                                    </td>
+                                    <td class="mp-id"><?php echo $_product->getId() ?></td>
+                                    <td class="mp-image"><a href="<?php echo $_product->getProductUrl(); ?>"><img
+                                                src="<?php echo $_catalogHelper->init($_product, 'small_image')->resize($_size, $_size); ?>"/></a>
+                                    </td>
+                                    <td class="mp-name"><span class="nobr"><?php echo $_product->getName() ?></span>
+                                    </td>
+                                    <td class="mp-sku"><span class="nobr"><?php echo $_product->getSku() ?></span></td>
+                                    <td class="mp-price"><?php echo $this->helper('core')->currency($_product->getPrice(), true, false); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php //echo $this->getLayout()->createBlock('sellerg/product_associated')->setProductId($product)->setTemplate('sellerg/product/information/associated/list_simple.phtml')->toHtml(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">decorateTable('my-products-associated');</script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            var htmlBundleItem = $('.bundle-item-html-demo').html();
+            $('.bundle-item-html-demo').remove();
+            $(document).on('click', '.btn-add-bundle-option', function (event) {
+                event.preventDefault();
+                dataBundleIncrement = parseInt($(this).data('bundles'));
+                $(this).data('bundles', (dataBundleIncrement + 1));
+                htmlBundleItemIndex = htmlBundleItem.replace(/bundle-index-increment/g, dataBundleIncrement);
+                $('.bundle-wrapper .bundle-outer').append(htmlBundleItemIndex);
+            });
+            /*$(document).on('change', 'input.bundle-option-delete', function () {
+                if ($(this).is(':checked')) {
+                    $(this).parents('.bundle-item').hide();
+                }
+            });*/
+        });
+        jQuery(document).ready(function($) {
+           $(document).on('click','.btn-show-bundle-product',function(event) {
+               event.preventDefault();
+               $(this).parents('.bi-option').siblings('.bi-selection').toggle();
+           });
+        });
+    </script>
+<?php else: ?>
+    <p><?php echo $this->__('You have no product to display.'); ?></p>
+<?php endif ?>

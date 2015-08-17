@@ -105,7 +105,7 @@ class Gsd_CartAjaxg_IndexController extends Mage_Checkout_CartController
             }
         }
         if(!$response['status']) {
-            $response['data'] = $this->__('Not found product!');
+            $response['message'] = $this->__('Not found product!');
         }
         else {
             Mage::unregister('product');
@@ -137,10 +137,11 @@ class Gsd_CartAjaxg_IndexController extends Mage_Checkout_CartController
                 }
             }
             $this->generateLayoutXml()->generateLayoutBlocks();
+
             $this->renderLayout();
             return;
         }
-        echo $response['data'];
+        echo $response['message'];
         return;
         /*$productId = $this->getRequest()->getParam('product');
         // Prepare helper and params
