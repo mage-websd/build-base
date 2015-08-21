@@ -20,6 +20,10 @@
                 <name>css/allpage.css</name>
             </action>
             <action method="addItem">
+                <type>skin_css</type>
+                <name>css/allpage_responsive.css</name>
+            </action>
+            <action method="addItem">
                 <type>skin_js</type>
                 <name>js/allpage.js</name>
             </action>

@@ -1,0 +1,315 @@
+<?php
+	$_product = $this->getProduct();
+	$_formData = $this->getFormData();
+	$_sHelper = $this->helper('sellerg');
+    $_attributes = $this->attributes();
+?>
+<div class="form-general">
+	<ul class="form-list">
+		<li class="fields">
+			<div class="field">
+				<label class="required" for="name"><?php echo $this->__('Name'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" name="name" value="<?php echo $_formData->getName(); ?>" class="input-text required-entry" id="name"/>
+				</div>
+			</div>
+			<div class="field">
+				<label class="required" for="sku"><?php echo $this->__('Sku'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" name="sku" value="<?php echo $_formData->getSku(); ?>" class="input-text required-entry" id="sku" />
+				</div>
+			</div>
+		</li>
+		<?php if(!$_formData->getId()): ?>
+			<li class="fields">
+				<div class="field">
+					<label for="type_id" class="required"><?php echo $this->__('Type'); ?><em>*</em></label>
+					<div class="input-box">
+						<select name="type_id" id="type_id" class="input-select validate-select">
+							<?php if(count($_sHelper->getAllowedProductTypes())) { ?>
+								<?php foreach ($_sHelper->getAllowedProductTypes() as $option) { ?>
+									<option value="<?php echo $option['value']?>"><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="field">
+					<label for="attribute_set_id" class="required"><?php echo $this->__('Attribute Set'); ?><em>*</em></label>
+					<div class="input-box">
+						<select name="attribute_set_id" id="attribute_set_id" class="input-select validate-select">
+							<?php if(count($_sHelper->getAllowedAttributeSet())) { ?>
+								<?php foreach ($_sHelper->getAllowedAttributeSet() as $option) { ?>
+									<option value="<?php echo $option['value']?>"><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			</li>
+		<?php endif;?>
+		<li class="fields">
+			<div class="field">
+				<label class="required" for="weight"><?php echo $this->__('Weight'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" name="weight" value="<?php echo $_formData->getData('weight'); ?>" class="input-text required-entry validate-number" id="weight" />
+				</div>
+			</div>
+			<?php $_countries = $this->getCountryOptions(); ?>
+			<?php if(count($_countries) > 0) { ?>
+				<div class="field">
+					<label for="country_of_manufacture"><?php echo $this->__('Country'); ?></label>
+					<div class="input-box">
+						<select name="country_of_manufacture" id="country_of_manufacture">
+							<option value=""></option>
+							<?php foreach($_countries as $_country) { ?>
+								<option value="<?php echo $_country['value']; ?>"<?php if($_formData->getData('country_of_manufacture') == $_country['value']) {echo ' selected';} ?>><?php echo $_country['label']; ?></option>
+							<?php } //end foreach country ?>
+						</select>
+					</div>
+				</div>
+			<?php } //endif check count country ?>
+		</li>
+		<li class="fields">
+			<?php if($_sHelper->getAutoApproval() ||
+				($_formData->getId() && $_formData->getApproved() )
+				) { ?>
+				<div class="field">
+					<label for="status" class="required"><?php echo $this->__('Status'); ?><em>*</em></label>
+					<div class="input-box">
+						<select name="status" id="status" class="input-select validate-select">
+							<?php $_options = Mage_Catalog_Model_Product_Status::getAllOptions(); ?>
+							<?php if(count($_options)) { ?>
+								<?php foreach ($_options as $option) { ?>
+									<option value="<?php echo $option['value']?>"<?php if($_formData->getData('status') == $option['value']) {echo ' selected';} ?>><?php echo $option['label']; ?></option>
+								<?php } ?>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+			<?php } ?>
+			<div class="field">
+				<label for="visibility" class="required"><?php echo $this->__('Visibility'); ?><em>*</em></label>
+				<div class="input-box">
+					<select name="visibility" id="visibility" class="input-select validate-select">
+						<?php $_options = Mage_Catalog_Model_Product_Visibility::getAllOptions(); ?>
+						<?php if(count($_options)) { ?>
+							<?php foreach ($_options as $option) { ?>
+								<option value="<?php echo $option['value']?>"<?php if($_formData->getData('visibility') == $option['value']) {echo ' selected';} ?>><?php echo $option['label']; ?></option>
+							<?php } ?>
+						<?php } ?>
+					</select>
+				</div>
+			</div>
+		</li>
+		<li class="fields">
+			<div class="field">
+				<label class="required" for="price"><?php echo $this->__('Price'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" name="price" value="<?php echo $_formData->getData('price'); ?>" class="input-text required-entry validate-number" id="price" />
+				</div>
+			</div>
+			<div class="field">
+				<label for="special_price"><?php echo $this->__('Special Price'); ?></label>
+				<div class="input-box">
+					<input type="text" name="special_price" value="<?php echo $_formData->getData('special_price'); ?>" class="input-text validate-number" id="special_price" />
+				</div>
+			</div>
+		</li>
+		<?php $_options = $this->getClassTax(); ?>
+		<?php if(count($_options) > 0) { ?>
+			<li class="fields">
+				<div class="field">
+					<label class="required" for="tax_class_id"><?php echo $this->__('Tax Class'); ?><em>*</em></label>
+					<div class="input-box">
+						<select name="tax_class_id" class="input-select validate-select" id="tax_class_id">
+							<option value=""></option>
+							<?php foreach($_options as $_option) { ?>
+								<option value="<?php echo $_option['value']; ?>"<?php if($_formData->getData('tax_class_id') == $_option['value']) {echo ' selected';} ?>><?php echo $_option['label']; ?></option>
+							<?php } // end for options ?>
+						</select>
+					</div>
+				</div>
+			</li>
+		<?php } //endif check count options ?>
+		<li class="fields">
+			<div class="field">
+				<label for="special_from_date"><?php echo $this->__('Special From Date'); ?></label>
+				<div class="input-box">
+					<input name="special_from_date" id="special_from_date" class="input-text" readonly="readonly" value="<?php 
+						if($_formData->getData('special_from_date')) {
+							$date = date_create($_formData->getData('special_from_date')); 
+							echo date_format($date, 'Y-m-d');
+						}
+						?>" id="special_from_date" />
+				</div>
+			</div>
+			<div class="field">
+				<label for="special_to_date"><?php echo $this->__('Special To Date'); ?></label>
+				<div class="input-box">
+					<input name="special_to_date" id="special_to_date" class="input-text" readonly="readonly" value="<?php 
+						if($_formData->getData('special_to_date')) {
+							$date = date_create($_formData->getData('special_to_date')); 
+							echo date_format($date, 'Y-m-d');
+						}
+						?>" id="special_to_date" />
+				</div>
+			</div>
+		</li>
+		<li class="fields">
+			<div class="field">
+				<label for="inventory_stock_availability"><?php echo $this->__('Stock Availability'); ?></label>
+				<div class="input-box">
+					<select name="inventory_stock_availability" id="inventory_stock_availability">
+						<option value="1"<?php if($_formData->getData('is_in_stock')){ echo 'selected';}?>><?php echo $this->__('In Stock'); ?></option>
+						<option value="0"<?php if(!$_formData->getData('is_in_stock')){ echo 'selected';}?>><?php echo $this->__('Out Stock'); ?></option>
+					</select>
+				</div>
+			</div>
+			<div class="field">
+				<label class="required" for="qty"><?php echo $this->__('Qty'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" name="qty" class="input-text required-entry validate-number" value="<?php if($_formData->getId()) echo $_product->getStockItem()->getQty(); ?>" id="qty" />
+				</div>
+			</div>
+		</li>
+		<li class="fields">
+			<div class="field">
+				<label class="required" for="short_description"><?php echo $this->__('Short Description'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" id="short_description" name="short_description" class="input-text required-entry" value="<?php echo $_formData->getData('short_description'); ?>" />
+				</div>
+			</div>
+		</li>
+		<li class="fields">
+			<div class="field">
+				<label class="required" for="description"><?php echo $this->__('Description'); ?><em>*</em></label>
+				<div class="input-box">
+					<input type="text" id="description" name="description" class="input-text required-entry" value="<?php echo $_formData->getData('description'); ?>"/>
+				</div>
+			</div>
+		</li>
+		<?php if(!$_formData->getId() || !$this->isConfigurableProduct()) { ?>
+			<li class="fields">
+				<?php $_options = $this->getAttributeOptions('color'); ?>
+				<?php if(count($_options) > 0) { ?>
+					<div class="field">
+						<label for="color"><?php echo $this->__('Color'); ?></label>
+						<div class="input-box">
+							<select type="text" name="color" class="" id="color">
+								<option value=""></option>
+								<?php foreach($_options as $_option) { ?>
+									<option value="<?php echo $_option['value']; ?>"<?php if($_formData->getData('color') == $_option['value']) {echo ' selected';} ?>><?php echo $_option['label']; ?></option>
+								<?php }; //end foreach options ?>
+							</select>
+						</div>
+					</div>
+				<?php } //endif check count options ?>
+			</li>
+		<?php }//endif check not rent ?>
+	</ul>
+</div>
+
+<script type="text/javascript">
+	Calendar.setup({
+        inputField: 'special_from_date',
+        ifFormat: '%Y-%m-%d',
+        showsTime: false,
+        button: 'special_from_date',
+        align: 'Bl',
+        singleClick: true
+    });
+    Calendar.setup({
+        inputField: 'special_to_date',
+        ifFormat: '%Y-%m-%d',
+        showsTime: false,
+        button: 'special_to_date',
+        align: 'Bl',
+        singleClick: true
+    });
+    enUS = {"m":{"wide":["January","February","March","April","May","June","July","August","September","October","November","December"],"abbr":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]}}; // en_US locale reference
+    Calendar._DN = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]; // full day names
+    Calendar._SDN = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]; // short day names
+    Calendar._FD = 0; // First day of the week. "0" means display Sunday first, "1" means display Monday first, etc.
+    Calendar._MN = ["January","February","March","April","May","June","July","August","September","October","November","December"]; // full month names
+    Calendar._SMN = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; // short month names
+    Calendar._am = "AM"; // am/pm
+    Calendar._pm = "PM";
+
+    // tooltips
+    Calendar._TT = {};
+    Calendar._TT["INFO"] = 'About the calendar';
+
+    Calendar._TT["ABOUT"] =
+    'DHTML Date/Time Selector\n' +
+    "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
+    'For latest version visit: http://www.dynarch.com/projects/calendar/\n' +
+    'Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.' +
+    '\n\n' +
+    'Date selection:\n' +
+    '- Use the \xab, \xbb buttons to select year\n' +
+    '- Use the \u2039 buttons to select month\n' +
+    '- Hold mouse button on any of the above buttons for faster selection.';
+    Calendar._TT["ABOUT_TIME"] = '\n\n' +
+    'Time selection:\n' +
+    '- Click on any of the time parts to increase it\n' +
+    '- or Shift-click to decrease it\n' +
+    '- or click and drag for faster selection.';
+
+    Calendar._TT["PREV_YEAR"] = 'Prev. year (hold for menu)';
+    Calendar._TT["PREV_MONTH"] = 'Prev. month (hold for menu)';
+    Calendar._TT["GO_TODAY"] = 'Go Today';
+    Calendar._TT["NEXT_MONTH"] = 'Next month (hold for menu)';
+    Calendar._TT["NEXT_YEAR"] = 'Next year (hold for menu)';
+    Calendar._TT["SEL_DATE"] = 'Select date';
+    Calendar._TT["DRAG_TO_MOVE"] = 'Drag to move';
+    Calendar._TT["PART_TODAY"] = ' (' + "today" + ')';
+
+    // the following is to inform that "%s" is to be the first day of week
+    Calendar._TT["DAY_FIRST"] = 'Display %s first';
+
+    // This may be locale-dependent. It specifies the week-end days, as an array
+    // of comma-separated numbers. The numbers are from 0 to 6: 0 means Sunday, 1
+    // means Monday, etc.
+    Calendar._TT["WEEKEND"] = "0,6";
+
+    Calendar._TT["CLOSE"] = 'Close';
+    Calendar._TT["TODAY"] = "today";
+    Calendar._TT["TIME_PART"] = '(Shift-)Click or drag to change value';
+
+    // date formats
+    Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";
+    Calendar._TT["TT_DATE_FORMAT"] = "%Y-%m-%d";
+
+    Calendar._TT["WK"] = "Week";
+    Calendar._TT["TIME"] = 'Time:';
+
+    function loadWysisyg(id)
+    {
+    	tinyMCE.init({
+	    mode : "exact",
+	    elements: id,
+	    theme : "advanced",
+	    plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
+	    theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+	    theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+	    theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+	    theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking",
+	    theme_advanced_toolbar_location : "top",
+	    theme_advanced_toolbar_align : "left",
+	    theme_advanced_path_location : "bottom",
+	    extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+	    theme_advanced_resize_horizontal : 'true',
+	    theme_advanced_resizing : 'true',
+	    apply_source_formatting : 'true',
+	    convert_urls : 'false',
+	    force_br_newlines : 'true',
+	    doctype : '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+
+	  });
+    }
+    window.onload=function(){
+	   loadWysisyg('description');
+	   loadWysisyg('short_description');
+	};
+</script>

@@ -54,7 +54,7 @@ $dataAttribute = array(
         )*/
 
 );
-//$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
 
 $installer->removeAttribute('catalog_product', 'approved');
 $dataAttribute = array(
@@ -72,6 +72,6 @@ $dataAttribute = array(
     'system' => 0,
     'user_defined' => false,
 );
-//$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
+$installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
 
 $installer->endSetup();

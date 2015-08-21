@@ -36,12 +36,99 @@ class Gsd_Sellerg_Block_Product_Edit extends Mage_Core_Block_Template
 {
     protected $_categoriesProduct = array();
 
+    public function attributes()
+    {
+        $product = $this->getProduct();
+        $fieldShow = $this->fieldsShow();
+        $fieldShowCodes = $this->_getValuesOfArray2($fieldShow);
+        if($product) {
+            $entityTypeId = $product->getEntityTypeId();
+        }
+        else {
+            $entityTypeId = Mage::getModel('eav/entity')->setType(Mage_Catalog_Model_Product::ENTITY)->getTypeId();
+        }
+        $eavAttribute = Mage::getResourceModel('eav/entity_attribute_collection')
+            ->setEntityTypeFilter($entityTypeId)
+            //->setAttributeSetFilter($_product->getAttributeSetId())
+            ->addFieldToFilter('attribute_code', array('in'=>$fieldShowCodes));
+        //echo '<pre>';print_r($eavAttribute->getData());exit;
+        $eavAttributeSelect = clone $eavAttribute->getSelect();
+        $eavAttributeSelect->reset(Zend_Db_Select::COLUMNS);
+        $eavAttributeSelect->columns(array(
+            'attribute_id',
+            'attribute_code',
+            'frontend_input',
+            'frontend_label',
+            'source_model',
+            'is_required',
+            'additional_table.apply_to',
+            'additional_table.is_wysiwyg_enabled',
+        ));
+        $resource = Mage::getModel('core/resource');
+        $connect = $resource->getConnection('core_read');
+        $result = $connect->fetchAll((string)($eavAttributeSelect));
+        $eavAttribute = array();
+        foreach($result as $code => $data) {
+            $eavAttribute[$data['attribute_code']] = $data;
+        }
+        return $eavAttribute;
+    }
+
+    public function fieldsShow()
+    {
+        $fieldShow = array(
+            array(
+                'name',
+                'sku',
+            ),
+            array(
+                'type_id' => array(
+                    'source_model' => 'abc',
+                ),
+                'attribute_set_id',
+            ),
+            array(
+                'weight',
+                'country_of_manufacture',
+            ),
+            array(
+                'status',
+                'visibility',
+            ),
+            array(
+                'price',
+                'special_price',
+            ),
+            array(
+                'tax_class_id',
+            ),
+            array(
+                'special_from_date',
+                'special_to_date',
+            ),
+            array(
+                'inventory_stock_availability',
+                'qty',
+            ),
+            array(
+                'short_description',
+            ),
+            array(
+                'description',
+            ),
+            array(
+                'color',
+            ),
+        );
+        return $fieldShow;
+    }
+
     public function getAttributeOptions($code)
     {
         $attributeInfo = Mage::getResourceModel('eav/entity_attribute_collection')->setCodeFilter($code)->getFirstItem();
         $attributeId = $attributeInfo->getAttributeId();
         $attribute = Mage::getModel('catalog/resource_eav_attribute')->load($attributeId);
-        $attributeOptions = $attribute ->getSource()->getAllOptions(false);
+        $attributeOptions = $attribute->getSource()->getAllOptions(false);
         return $attributeOptions;
     }
 
@@ -159,5 +246,25 @@ class Gsd_Sellerg_Block_Product_Edit extends Mage_Core_Block_Template
     private function _getModelCategory()
     {
         return Mage::getModel('catalog/category');
+    }
+
+    protected function _getValuesOfArray2($array)
+    {
+        $result = array();
+        if(count($array)) {
+            foreach ($array as $value1) {
+                if(count($value1)) {
+                    foreach ($value1 as $key2 => $value2) {
+                        if(is_array($value2)) {
+                            $result[] = $key2;
+                        }
+                        else {
+                            $result[] = $value2;
+                        }
+                    }
+                }
+            }
+        }
+        return $result;
     }
 }
