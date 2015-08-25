@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Emosys_ReviewCustomerg>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
         </Emosys_ReviewCustomerg>
     </modules>

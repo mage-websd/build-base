@@ -16,4 +16,11 @@ class Gsd_Baseg_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::app()->getLayout()->createBlock('review/helper')->getSummaryHtml($product, false, false);;
         //$this->getReviewsSummaryHtml($product) //block Mage_Catalog_Block_Product_Abstract
     }
+
+    public function printG($data)
+    {
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+    }
 }
