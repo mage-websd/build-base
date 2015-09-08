@@ -22,6 +22,7 @@ $dataAttribute = array(
     "unique"     => false,
     "note"       => "Custom Attribute"
 );
+
 $installer->addAttribute("customer", "customattribute", $dataAttribute);
 
     $attribute   = Mage::getSingleton("eav/config")
