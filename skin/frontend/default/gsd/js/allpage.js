@@ -452,3 +452,18 @@ jQuery(document).ready(function($) {
     }
 });
 /* end opacity blur ----------------------------------------*/
+
+/* scroll animate--- */
+jQuery(document).ready(function($) {
+	$(document).on('click','a.js-menu',function() {
+		var rev = $(this).attr('rev');
+		if($(rev).length) {
+			var roteY = $(rev).offset().top-90;
+			$('html, body').animate({
+			    scrollTop: roteY
+		 	}, 1000);
+		 	return false;
+		}
+	});
+});
+/* end scroll animate----------------------------------- */

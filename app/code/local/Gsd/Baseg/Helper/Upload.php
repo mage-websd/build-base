@@ -1,6 +1,10 @@
 <?php
 class Gsd_Baseg_Helper_Upload extends Mage_Core_Helper_Abstract
 {
+    /*add into form to upload
+     *   enctype="multipart/form-data"
+    */
+    
     public function image($inputName,$folder='template_image',$filesDispersion = false)
     {
         if(isset($_FILES[$inputName]) &&

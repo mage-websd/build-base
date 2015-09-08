@@ -1,8 +1,64 @@
 <?php
 /* @var $installer Mage_Catalog_Model_Resource_Setup */
+/**
+ * customer
+ * class: Mage_Customer_Model_Entity_Setup
+ $setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+
+$entityTypeId     = $setup->getEntityTypeId('customer');
+$attributeSetId   = $setup->getDefaultAttributeSetId($entityTypeId);
+$attributeGroupId = $setup->getDefaultAttributeGroupId($entityTypeId, $attributeSetId);
+
+$dataAttribute = array(
+    "type"     => "varchar",
+    "backend"  => "",
+    "label"    => "Custom Attribute",
+    "input"    => "text",
+    "source"   => "",
+    "visible"  => true,
+    "required" => false,
+    "default" => "",
+    "frontend" => "",
+    "unique"     => false,
+    "note"       => "Custom Attribute"
+);
+$installer->addAttribute("customer", "customattribute", $dataAttribute);
+
+    $attribute   = Mage::getSingleton("eav/config")
+        ->getAttribute("customer", "customattribute");
+
+
+$setup->addAttributeToGroup(
+    $entityTypeId,
+    $attributeSetId,
+    $attributeGroupId,
+    'customattribute',
+    '999'  //sort_order
+);
+
+$used_in_forms=array();
+
+$used_in_forms[]="adminhtml_customer";
+//$used_in_forms[]="checkout_register";
+//$used_in_forms[]="customer_account_create";
+//$used_in_forms[]="customer_account_edit";
+//$used_in_forms[]="adminhtml_checkout";
+        $attribute->setData("used_in_forms", $used_in_forms)
+                ->setData("is_used_for_customer_segment", true)
+                ->setData("is_system", 0)
+                ->setData("is_user_defined", 1)
+                ->setData("is_visible", 1)
+                ->setData("sort_order", 100)
+                ;
+        $attribute->save();
+
+ *
+ *
+ */
+
 $installer = $this;
 $installer->startSetup();
-$installer->removeAttribute('catalog_product', 'customer_id');
+$installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'customer_id');
 $dataAttribute = array(
     'attribute_set' => 'Default',
     'group' => 'General',
@@ -14,7 +70,7 @@ $dataAttribute = array(
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'sort_order' => 100,
     'system' => 0,
-    'user_defined' => 0,
+    'user_defined' => '1',
     /*'user_defined' => 1,
     'default' => '',
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
@@ -56,21 +112,21 @@ $dataAttribute = array(
 );
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'customer_id',$dataAttribute);
 
-$installer->removeAttribute('catalog_product', 'approved');
+$installer->removeAttribute(Mage_Catalog_Model_Product::ENTITY, 'approved');
 $dataAttribute = array(
     'attribute_set' => 'Default',
     'group' => 'General',
     'label' => 'Approved',
     'visible' => true,
     'type' => 'int',
-    'input' => 'select',
+    'input' => 'boolean',
     'required' => false,
-    'source' => 'eav/entity_attribute_source_boolean',
+    /*'source' => 'eav/entity_attribute_source_boolean',*/
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'sort_order' => 110,
     'default' => '0',
     'system' => 0,
-    'user_defined' => false,
+    'user_defined' => '1',
 );
 $installer->addAttribute(Mage_Catalog_Model_Product::ENTITY,'approved',$dataAttribute);
 
