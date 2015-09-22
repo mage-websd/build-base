@@ -4,6 +4,7 @@ $_formData = $this->getFormData();
 $_sHelper = $this->helper('sellerg');
 $_attributes = $this->attributes();
 $_fieldsShow = $this->fieldsShow();
+$_arrayFieldWysiwyg = array();
 ?>
 
 <script type="text/javascript">
@@ -78,7 +79,7 @@ $_fieldsShow = $this->fieldsShow();
 
     Calendar._TT["WK"] = "Week";
     Calendar._TT["TIME"] = 'Time:';
-    function loadWysisyg(id) {
+    function loadWysiwyg(id) {
         tinyMCE.init({
             mode: "exact",
             elements: id,
@@ -101,10 +102,6 @@ $_fieldsShow = $this->fieldsShow();
 
         });
     }
-    window.onload = function () {
-        /*loadWysisyg('description');
-         loadWysisyg('short_description');*/
-    };
 </script>
 
 <div class="form-general">
@@ -120,6 +117,21 @@ $_fieldsShow = $this->fieldsShow();
                     }
                     else {
                         $_fieldData = $_attributes[$_field];
+                    }
+                    if(!$_fieldData) {
+                        $_fieldData = $_field;
+                    }
+                    if(!is_array($_fieldData)) {
+                        continue;
+                    }
+                    if($_formData->getId()) {
+                        $_applyToTypes = $_fieldData['apply_to'];
+                        if($_applyToTypes) {
+                            $_applyToTypes = explode(',', $_applyToTypes);
+                            if (!in_array($_formData->getData('type_id'), $_applyToTypes)) {
+                                continue;
+                            }
+                        }
                     }
                     $_classField = '';
                     $_classFor = '';
@@ -149,11 +161,7 @@ $_fieldsShow = $this->fieldsShow();
                                        value="<?php echo $_formData->getData($_fieldData['attribute_code']); ?>"
                                        class="<?php echo $_classField; ?>"
                                        id="<?php echo $_fieldData['attribute_code']; ?>"/>
-                                <script>
-                                    window.onload = function () {
-                                        loadWysisyg('<?php echo $_fieldData['attribute_code']; ?>');
-                                    }
-                                </script>
+                                <?php $_arrayFieldWysiwyg[] = $_fieldData['attribute_code']; ?>
                             <?php
                             } else {
                                 switch ($_fieldData['frontend_input']) {
@@ -167,7 +175,12 @@ $_fieldsShow = $this->fieldsShow();
                                         echo "<select name=\"{$_fieldData['attribute_code']}\"
                                          id=\"{$_fieldData['attribute_code']}\"
                                          class=\"{$_classField}\">";
-						                $_options = Mage::getModel($_fieldData['source_model'])->getAllOptions();
+                                        if($_fieldData['source_model']) {
+                                            $_options = Mage::getModel($_fieldData['source_model'])->getAllOptions();
+                                        }
+						                else {
+                                            $_options = $this->getAttributeOptions($_fieldData['attribute_code']);
+                                        }
 						                if(count($_options)) {
 							                foreach ($_options as $option) {
 								                echo "<option value=\"{$option['value']}\"";
@@ -198,3 +211,11 @@ $_fieldsShow = $this->fieldsShow();
         <?php }//endforeach field array row ?>
     </ul>
 </div>
+
+<script>
+    window.onload = function () {
+        <?php foreach($_arrayFieldWysiwyg as $_fieldWysiwyg): ?>
+        loadWysiwyg('<?php echo $_fieldWysiwyg; ?>');
+        <?php endforeach; ?>
+    };
+</script>

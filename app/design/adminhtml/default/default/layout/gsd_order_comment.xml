@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_sales_order_view>
+        <reference name="order_info">
+            <action method='setTemplate'>
+                <template>gsd_order_comment/shipping.phtml</template>
+            </action>
+            <block type="adminhtml/sales_order_view_info" name="order_info2" template="sales/order/view/info.phtml" />
+            <block type="ordercommentg/adminhtml_shipping" name="custom.order" template='gsd_order_comment/order.phtml'/>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

@@ -102,60 +102,177 @@ var baseUrl = jQuery('#base-url-page').attr('href');
     /**
      * collapse html
      */
-    $.fn.collapseStartActivity = function() {
-        var flagTitleClick = '.collapse-title';
-        $.each($(flagTitleClick), function() {
-            var domContent;
-            if($(this).hasClass('prev')) {
-                domContent = $(this).prev('.collapse-content');
-            }
-            else {
-                domContent = $(this).next('.collapse-content');
-            }
-            if(domContent.length) {
-                if($(this).hasClass('expand')) {
-                    domContent.slideDown();
-                    domContent.addClass('open');
+    function assignDefault(name,value) {
+        if(name == undefined) {
+            return value;
+        }
+        return name;
+    }
+
+    $.fn.collapse = function(object) {
+        var thisWrapper = $(this),
+        thisSelector = thisWrapper.selector;
+        var flagTitle = '.collapse-title',
+        flagContent = '.collapse-content',
+        flagClassTitleExpand = 'expand',
+        flagClassContentExpand  = 'open',
+        flagClassChangeText='change-text',
+        flagClassClose ='collapse-close';
+
+        object = assignDefault(object,{});
+        object.start = assignDefault(object.start,true);
+        object.click = assignDefault(object.click,true);
+        object.next = assignDefault(object.next,true);
+        object.speed = assignDefault(object.speed,500);
+        object.only = assignDefault(object.only,true);
+        object.parent = assignDefault(object.parent,false);
+        if(!object.parent) {
+            object.sync = false;
+        }
+        else {
+            object.sync = assignDefault(object.sync,false);
+        }
+        object.changeText = assignDefault(object.changeText,false);
+        if(object.changeText) {
+            object.more = assignDefault(object.more,'more');
+            object.less = assignDefault(object.less,'less');
+        }
+        object.close = assignDefault(object.close,false);
+
+        if(object.start) {
+            $.each(thisWrapper.find(flagTitle), function() {
+                var domContent;
+                var domTitle = $(this);
+                var domTitleParent;
+                if(object.parent) {
+                    domTitleParent = $(this).parent();
                 }
-                else {
-                    domContent.slideUp();
-                    domContent.removeClass('open');
-                }
-            }
-        });
-    };
-    $.fn.collapseClickActivity = function() {
-        var flagTitleClick = '.collapse-title';
-        var flagContent = '.collapse-content';
-        $(document).on('click',flagTitleClick,function() {
-            var domContent;
-            if($(this).hasClass('prev')) {
-                domContent = $(this).prev(flagContent);
-            }
-            else {
-                domContent = $(this).next(flagContent);
-            }
-            if(domContent.length) {
-                if($(this).hasClass('expand')) {
-                    $(this).removeClass('expand');
-                    domContent.slideUp();
-                    domContent.removeClass('open');
-                }
-                else {
-                    if($(this).hasClass('only')) {
-                      $(this).siblings(flagTitleClick).removeClass('expand');
-                      $(this).siblings(flagContent).removeClass('open');
-                      $(this).siblings(flagContent).slideUp();
+                if(object.next) {
+                    if(object.parent) {
+                        domContent = domTitleParent.next(flagContent);
                     }
-                    $(this).addClass('expand');
-                    domContent.slideDown();
-                    domContent.addClass('open');
+                    else {
+                        domContent = domTitle.next(flagContent);
+                    }
+                }
+                else {
+                    if(object.parent) {
+                        domContent = domTitleParent.prev(flagContent);
+                    }
+                    else {
+                        domContent = domTitle.prev(flagContent);
+                    }
+                }
+                if(domTitle.hasClass(flagClassTitleExpand)) {
+                    domContent.show();
+                    domContent.addClass(flagClassContentExpand);
+                }
+                else {
+                    domContent.hide();
+                    domContent.removeClass(flagClassContentExpand);
+                }
+            });
+        }
+        if(object.click) {
+            function collapseOnly(domTitle,domContent,domTitleParent) {
+                domContent.siblings(flagContent).slideUp(object.speed);
+                if(object.parent) {
+                    domTitleParent.siblings().children(flagTitle).removeClass(flagClassTitleExpand);
+                }
+                else {
+                    domTitle.siblings(flagTitle).removeClass(flagClassTitleExpand);
+                }
+                domContent.siblings(flagContent).removeClass(flagClassContentExpand);
+                if(object.changeText) {
+                    domTitle.siblings('.'+flagClassChangeText).html(object.more);
+                    if(object.parent) {
+                        domTitleParent.siblings().children('.'+flagClassChangeText).html(object.more);
+                    }
                 }
             }
-            return false;
-        });
-        /* end collapse---------------------*/
+
+            $(document).on('click',thisSelector+' '+flagTitle,function(event) {
+                event.preventDefault();
+                var domContent;
+                var domTitle = $(this);
+                var domTitleParent;
+                if(object.parent) {
+                    domTitleParent = $(this).parent();
+                }
+                if(object.next) {
+                    if(object.parent) {
+                        domContent = domTitleParent.next(flagContent);
+                    }
+                    else {
+                        domContent = domTitle.next(flagContent);
+                    }
+                }
+                else {
+                    if(object.parent) {
+                        domContent = domTitleParent.prev(flagContent);
+                    }
+                    else {
+                        domContent = domTitle.prev(flagContent);
+                    }
+                }
+                if(domContent.length) {
+                    if(domTitle.hasClass(flagClassTitleExpand)) {
+                        if(object.only) {
+                            collapseOnly(domTitle,domContent,domTitleParent);
+                        }
+                        domContent.slideUp(object.speed);
+                        domTitle.removeClass(flagClassTitleExpand);
+                        if(object.sync) {
+                            domTitle.siblings().removeClass(flagClassTitleExpand);
+                        }
+                        domContent.removeClass(flagClassContentExpand);
+                    }
+                    else {
+                        if(object.only) {
+                            collapseOnly(domTitle,domContent,domTitleParent);
+                        }
+                        domContent.slideDown(object.speed);
+                        domTitle.addClass(flagClassTitleExpand);
+                        if(object.sync) {
+                            domTitle.siblings().addClass(flagClassTitleExpand);
+                        }
+                        domContent.addClass(flagClassContentExpand);
+                    }
+                    if(object.changeText) {
+                        if(domTitle.hasClass(flagClassTitleExpand)) {
+                            if(domTitle.hasClass(flagClassChangeText)) {
+                                domTitle.html(object.less);
+                            }
+                        }
+                        else {
+                            if(domTitle.hasClass(flagClassChangeText)) {
+                                domTitle.html(object.more);
+                            }
+                        }
+                        if(domTitle.siblings('.'+flagClassChangeText).hasClass(flagClassTitleExpand)) {
+                            domTitle.siblings('.'+flagClassChangeText).html(object.less);
+                        }
+                        else {
+                            domTitle.siblings('.'+flagClassChangeText).html(object.more);
+                        }
+                    }
+                }
+            });
+            if(object.close) {
+                $(document).on('click','.'+flagClassClose,function(event) {
+                    event.preventDefault();
+                    if(object.parent) {
+                        domTitleClose = $(this).parent().prev().children(flagTitle);
+                    }
+                    else {
+                        domTitleClose = $(this).parent().prev(flagTitle);
+                    }
+                    domTitleClose.first().trigger('click');
+                })
+            }
+        }
     };
+    /* end collapse---------------------*/
 })(jQuery);
 /*
 * quick view product
@@ -335,8 +452,19 @@ jQuery(document).ready(function($) {
 
 /*collapse dom*/
 jQuery(document).ready(function($) {
-    $().collapseStartActivity();
-    $().collapseClickActivity();
+    $('.collapse-wrapper').collapse({
+        start: true,
+        click: true,
+        next: true,
+        speed: 500,
+        parent: false,
+        only: false,
+        sync: false, // parent = true
+        changeText: true,
+        more: 'more',
+        less: 'less',
+        close: true,
+    });
 });
 /*end collapse dom*/
 

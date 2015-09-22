@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <checkout_onepage_index translate="label">
+        <reference name="checkout.onepage.shipping_method">
+            <action method="setTemplate">
+                <template>order_commentg/shipping_method.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_index>
+</layout>

@@ -64,7 +64,7 @@ class Gsd_Sellerg_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getBaseUrl('media').'wysiwyg/swatches/blue-jean.png';
     }
 
-    public function getAllowedAttributeSet()    
+    public function getAllowedAttributeSet()
     {
         $options = array(array('value'=>'','label'=>''));
         $allowedIds = Mage::getStoreConfig('sellerg/product/allowed_attribute_set');

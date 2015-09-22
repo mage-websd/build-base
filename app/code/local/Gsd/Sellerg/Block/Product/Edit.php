@@ -49,9 +49,10 @@ class Gsd_Sellerg_Block_Product_Edit extends Mage_Core_Block_Template
         }
         $eavAttribute = Mage::getResourceModel('eav/entity_attribute_collection')
             ->setEntityTypeFilter($entityTypeId)
-            //->setAttributeSetFilter($_product->getAttributeSetId())
             ->addFieldToFilter('attribute_code', array('in'=>$fieldShowCodes));
-        //echo '<pre>';print_r($eavAttribute->getData());exit;
+        if($this->getProduct()) {
+            $eavAttribute = $eavAttribute->setAttributeSetFilter($this->getProduct()->getAttributeSetId());
+        }
         $eavAttributeSelect = clone $eavAttribute->getSelect();
         $eavAttributeSelect->reset(Zend_Db_Select::COLUMNS);
         $eavAttributeSelect->columns(array(
@@ -83,9 +84,23 @@ class Gsd_Sellerg_Block_Product_Edit extends Mage_Core_Block_Template
             ),
             array(
                 'type_id' => array(
-                    'source_model' => 'abc',
+                    'source_model' => 'sellerg/source_config_typeallow',
+                    'attribute_code' => 'product_type',
+                    'frontend_input' => 'select',
+                    'frontend_label' => 'Type',
+                    'is_required' => 1,
+                    'apply_to' => -1,
+                    'is_wysiwyg_enabled' => 0,
                 ),
-                'attribute_set_id',
+                'attribute_set_id'=> array(
+                    'source_model' => 'sellerg/source_config_setallow',
+                    'attribute_code' => 'product_set',
+                    'frontend_input' => 'select',
+                    'frontend_label' => 'Attribute Set',
+                    'is_required' => 1,
+                    'apply_to' => -1,
+                    'is_wysiwyg_enabled' => 0,
+                ),
             ),
             array(
                 'weight',
