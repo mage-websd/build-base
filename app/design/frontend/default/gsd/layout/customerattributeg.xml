@@ -1,0 +1,10 @@
+<layout>
+    <checkout_onepage_index>
+        <reference name='checkout.onepage.billing'>
+            <action method='setTemplate'><template>checkoutg/onepage/billing.phtml</template></action>
+        </reference>
+        <reference name='checkout.onepage.shipping'>
+            <action method='setTemplate'><template>checkoutg/onepage/shipping.phtml</template></action>
+        </reference>
+    </checkout_onepage_index>
+</layout>

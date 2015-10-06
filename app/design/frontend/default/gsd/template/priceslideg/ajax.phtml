@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    function priceSlideAjax(url) {
+        if (window.history && window.history.pushState) {
+            window.history.pushState('', '', url);
+        }
+        jQuery().ajaxReturn({
+            url: url
+        });
+    }
+</script>
