@@ -2,8 +2,8 @@
 /**
  * Catalog Search Controller
  */
-require_once('app/code/core/Mage/CatalogSearch/controllers/ResultController.php');
-class Magehouse_Slider_CatalogSearch_ResultController extends Mage_CatalogSearch_ResultController
+require(Mage::getModuleDir('controllers', 'Mage_CatalogSearch') . DS . 'ResultController.php');
+class Gsd_PriceSlideg_CatalogSearch_ResultController extends Mage_CatalogSearch_ResultController
 {
 	
 	public function indexAction()
@@ -12,10 +12,8 @@ class Magehouse_Slider_CatalogSearch_ResultController extends Mage_CatalogSearch
 		if($this->getRequest()->isXmlHttpRequest()){ 
 			//Check for AJAX query
 			$response = array();
-			
 			$query = Mage::helper('catalogsearch')->getQuery();
 			/* @var $query Mage_CatalogSearch_Model_Query */
-			
 			$query->setStoreId(Mage::app()->getStore()->getId());
 			
 			if ($query->getQueryText()) {
@@ -53,14 +51,14 @@ class Magehouse_Slider_CatalogSearch_ResultController extends Mage_CatalogSearch
 			}
 			else {
 				$this->_redirectReferer();
-				$response['status'] = 'FAILURE'; //Add failure when filter can't be applied
+				$response['status'] = 0; //Add failure when filter can't be applied
 			}
-			
-			$viewpanel = $this->getLayout()->getBlock('catalogsearch.leftnav')->toHtml(); //Get the new Layered Manu
-			$productlist = $this->getLayout()->getBlock('search_result_list')->toHtml(); //New product List
-			$response['status'] = 'SUCCESS'; //Send Success
-			$response['viewpanel']=$viewpanel;
-			$response['productlist'] = $productlist;
+
+			$viewPanelHtml = $this->getLayout()->getBlock('catalogsearch.leftnav')->toHtml(); //Get the new Layered Manu
+			$productListHtml = $this->getLayout()->getBlock('search_result_list')->toHtml(); //New product List
+			$response['status'] = 1;
+			$response['data']['.block-layered-nav'] = $viewPanelHtml;
+			$response['data']['.category-products'] = $productListHtml;
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));
 			return;
 			

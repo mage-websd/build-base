@@ -4,7 +4,8 @@
             window.history.pushState('', '', url);
         }
         jQuery().ajaxReturn({
-            url: url
+            url: url,
+            dom: 'replace'
         });
     }
 </script>

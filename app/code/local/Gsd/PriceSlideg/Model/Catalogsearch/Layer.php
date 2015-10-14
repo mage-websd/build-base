@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Magehouse_Slider_Model_Catalogsearch_Layer extends Mage_CatalogSearch_Model_Layer 
+class Gsd_PriceSlideg_Model_Catalogsearch_Layer extends Mage_CatalogSearch_Model_Layer
 {
     /**
      * Prepare product collection
@@ -34,6 +34,7 @@ class Magehouse_Slider_Model_Catalogsearch_Layer extends Mage_CatalogSearch_Mode
      */
     public function prepareProductCollection($collection)
     {
+        $pHelper = Mage::helper('priceslideg');
         $collection
             ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
             ->addSearchFilter(Mage::helper('catalogsearch')->getQuery()->getQueryText())
@@ -43,24 +44,17 @@ class Magehouse_Slider_Model_Catalogsearch_Layer extends Mage_CatalogSearch_Mode
             ->addTaxPercents()
             ->addStoreFilter()
             ->addUrlRewrite();
-
         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
         Mage::getSingleton('catalog/product_visibility')->addVisibleInSearchFilterToCollection($collection);
-		
-		$this->currentRate = Mage::app()->getStore()->getCurrentCurrencyRate();;
-		$max=$this->getMaxPriceFilter();
-		$min=$this->getMinPriceFilter();
-		
-		//print_r($collection->getData());
-		
+		$currentRate = Mage::app()->getStore()->getCurrentCurrencyRate();;
+        $price = Mage::app()->getRequest()->getParam($pHelper->getPriceParamCode());
+        $price = $pHelper->getPrice($price);
+        $max = round($price[1]  / $currentRate);
+        $min = round($price[0] / $currentRate);
 		if($min && $max){
 			//$collection= $collection->addAttributeToFilter('price',array('from'=>$min, 'to'=>$max)); 
 			$collection->getSelect()->where(' final_price >= "'.$min.'" AND final_price <= "'.$max.'" ');
-			
-			//echo $collection->getSelect();exit;
 		}
-		
-		/*PRICE SLIDER FILTER*/
         return $this;
     }
 	

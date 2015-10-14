@@ -3,7 +3,6 @@
 
 class Gsd_PriceSlideg_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
 {
-	public $currentRate;
 	/*
 	* Add Filter in product Collection for new price
 	*
@@ -30,10 +29,4 @@ class Gsd_PriceSlideg_Model_Catalog_Layer extends Mage_Catalog_Model_Layer
 		}
         return $collection;
     }
-	/*public function getMaxPriceFilter(){
-		return round($_GET['max']/$this->currentRate);
-	}
-	public function getMinPriceFilter(){
-		return round($_GET['min']/$this->currentRate);
-	}*/
 }

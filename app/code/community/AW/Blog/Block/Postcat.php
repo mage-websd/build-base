@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Class AW_Blog_Block_Postcat
+ *
+ * get post same category
+ */
 class AW_Blog_Block_Postcat extends AW_Blog_Block_Abstract
 {
     protected $_post;

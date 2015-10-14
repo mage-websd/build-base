@@ -110,4 +110,51 @@ class AW_Blog_Model_Mysql4_Blog_Collection extends Mage_Core_Model_Mysql4_Collec
         }
         return $this;
     }
+
+    //more than core
+    public function groupByMonthAndYear() {
+        $this->getSelect()->columns(
+            array(
+                'date_month' => 'MONTH(created_time)',
+                'date_year' => 'YEAR(created_time)',
+                'total_post' => 'COUNT(*)')
+        )
+            ->group('MONTH(created_time)')
+            ->group('YEAR(created_time)')
+            ->order('YEAR(created_time) DESC')
+            ->order('MONTH(created_time) DESC');
+        return $this;
+    }
+    public function getYears() {
+        $select = $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(Zend_Db_Select::GROUP);
+        $select->reset(Zend_Db_Select::ORDER);
+        $select->group('YEAR(created_time)')
+            ->order('YEAR(created_time) DESC');
+        $select->columns(array(
+            'year' => 'YEAR(created_time)'));
+        return $this->getConnection()->fetchAll($select);
+    }
+    public function getMonths() {
+        $select = $this->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->reset(Zend_Db_Select::GROUP);
+        $select->reset(Zend_Db_Select::ORDER);
+        $select->group('MONTH(created_time)')
+            ->order('MONTH(created_time) DESC');
+        $select->columns(array(
+            'month' => 'MONTH(created_time)'));
+        return $this->getConnection()->fetchAll($select);
+    }
+    public function addMonthFilter($month) {
+        $this->getSelect()->where('MONTH(`main_table`.created_time) = ?', $month);
+
+        return $this;
+    }
+    public function addYearFilter($year) {
+        $this->getSelect()->where('YEAR(`main_table`.created_time) = ?', $year);
+
+        return $this;
+    }
 }

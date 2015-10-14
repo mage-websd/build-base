@@ -6,8 +6,8 @@
     $baseUrl = $this->getCurrentUrlWithoutParams();
     ?>
     <div class="price">
-        <?php if($_pHelper->isUseTextbox()): ?>
-            <div class="text-box">
+        <div class="price-slide-amount-wrapper">
+            <?php if($_pHelper->isUseTextbox()): ?>
                 <div class="price-slide-input">
                     <div class="price-slide-input-box">
                         <span class="symbol-currency"><?php echo $symbolCurrency; ?></span>
@@ -22,12 +22,11 @@
                     <input type="button" value="<?php echo $this->__('Go'); ?>" name="go" class="button btn-go price-slide-btn-go" />
                 </div>
                 <input type="hidden" id="price-slide-amount" readonly="readonly" value="<?php echo $symbolCurrency.$this->getCurrMinPrice().' - '.$symbolCurrency.$this->getCurrMaxPrice(); ?>" />
-            </div>
-        <?php else: ?>
-            <p>
-                <input type="text" id="price-slide-amount" readonly="readonly" value="<?php echo $symbolCurrency.$this->getCurrMinPrice().' - '.$symbolCurrency.$this->getCurrMaxPrice(); ?>" />
-            </p>
-        <?php endif; ?>
+            <?php else: ?>
+                <span class="price-slide-amount min"><?php echo $symbolCurrency.$this->getCurrMinPrice(); ?></span>
+                <span class="price-slide-amount max"><?php echo $symbolCurrency.$this->getCurrMaxPrice(); ?></span>
+            <?php endif; ?>
+        </div>
         <div id="slider-range" class="price-slide-range"></div>
     </div>
     <?php
@@ -98,7 +97,8 @@
                 slide: function( event, ui ) {
                     newMinPrice = ui.values[0];
                     newMaxPrice = ui.values[1];
-                    $( "#price-slide-amount" ).val( '<?php echo $symbolCurrency; ?>'+''+newMinPrice +' - '+ '<?php echo $symbolCurrency; ?>'+''+newMaxPrice );
+                    $('.price-slide-amount.min').text('<?php echo $symbolCurrency; ?>'+newMinPrice);
+                    $('.price-slide-amount.max').text('<?php echo $symbolCurrency; ?>'+newMaxPrice);
                     <?php if($_pHelper->isUseTextbox()): ?>
                         <?php echo $updateTextBoxPriceJs; ?>
                     <?php endif; ?>
@@ -108,7 +108,8 @@
                     var newMaxPrice = ui.values[1];
 
                     // Update Text Price
-                    $( "#price-slide-amount" ).val( '<?php echo $symbolCurrency; ?>'+''+newMinPrice+' - '+'<?php echo $symbolCurrency; ?>'+''+newMaxPrice );
+                    $('.price-slide-amount.min').text('<?php echo $symbolCurrency; ?>'+newMinPrice);
+                    $('.price-slide-amount.max').text('<?php echo $symbolCurrency; ?>'+newMaxPrice);
                     <?php if($_pHelper->isUseTextbox()): ?>
                         <?php echo $updateTextBoxPriceJs; ?>
                     <?php endif; ?>

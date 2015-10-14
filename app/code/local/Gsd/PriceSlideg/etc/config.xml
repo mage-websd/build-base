@@ -36,13 +36,6 @@
                 <class>Gsd_PriceSlideg_Helper</class>
             </priceslideg>
         </helpers>
-        <!--<resources>
-            <gsd_priceslideg_setup>
-                <setup>
-                    <module>Gsd_PriceSlideg</module>
-                </setup>
-            </gsd_priceslideg_setup>
-        </resources>-->
     </global>
     <frontend>
         <layout>

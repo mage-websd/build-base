@@ -57,15 +57,7 @@
             </block>
         </reference>
     </blog_index_list>
-    <blog_index_search>
-        <reference name="content">
-            <block type="blog/search" name="blog_search" template="aw_blog/search.phtml">
-                <block type="blog/product_toolbar" name="aw_blog_list_toolbar" template="aw_blog/toolbar.phtml">
-                    <block type="blog/html_pager" name="product_list_toolbar_pager"/>
-                </block>
-            </block>
-        </reference>
-    </blog_index_search>
+
     <blog_post_view>
         <reference name="footer" >
             <block type="blog/blog" name="copyright.blog.footer" template="aw_blog/copyright.phtml"/>
@@ -97,4 +89,15 @@
         </reference>
         <block type="blog/rss" output="toHtml" name="rss.blog.new"/>
     </blog_rss_index>
+
+    <blog_index_search>
+        <reference name="content">
+            <block type="blog/archive" name="blog_search_archive" template="aw_blog/search.phtml">
+                <block type="blog/product_toolbar" name="aw_blog_list_toolbar"
+                       template="catalog/product/list/toolbar.phtml">
+                    <block type="blog/html_pager" name="product_list_toolbar_pager"/>
+                </block>
+            </block>
+        </reference>
+    </blog_index_search>
 </layout>
