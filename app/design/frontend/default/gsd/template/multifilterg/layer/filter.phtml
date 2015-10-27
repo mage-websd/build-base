@@ -1,0 +1,28 @@
+<ol>
+<?php $_items = $this->getItems(); ?>
+	<?php
+
+	?>
+<?php if($_items[0]->isFilterSelected()): ?>
+	<a class="remove-group" href="<?php echo $_items[0]->getRemoveGroupUrl(); ?>"><?php echo $this->__('xx Remove group filter') ?></a>
+<?php endif; ?>
+<?php foreach ($_items as $_item): ?>
+	<?php if ($_item->getCount() > 0): ?>
+		<?php if( $_item->isSelected() ) : ?>
+			<li class="active" style="color: #D96708">
+	  			<a href="<?php echo $_item->getRemoveUrl(); ?>"><?php echo $_item->getLabel() ?></a>
+	  			<?php if ($this->shouldDisplayProductCount()): ?>
+		        	<span>(<?php echo $_item->getCount() ?>)</span>
+		        <?php endif; ?>
+			</li>
+		<?php else: ?>
+			<li>
+	  			<a href="<?php echo $_item->getUrl(); ?>"><?php echo $_item->getLabel() ?></a>
+	  			<?php if ($this->shouldDisplayProductCount()): ?>
+		        	<span>(<?php echo $_item->getCount() ?>)</span>
+		        <?php endif; ?>
+			</li>
+		<?php endif; ?>
+	<?php endif; ?>		
+<?php endforeach ?>
+</ol>

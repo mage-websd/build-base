@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Gsd_SearchFullg>
+            <version>0.1.0</version>
+        </Gsd_SearchFullg>
+    </modules>
+    <global>
+        <models>
+            <searchfullg>
+                <class>Gsd_SearchFullg_Model</class>
+            </searchfullg>
+            <catalogsearch_resource>
+                <rewrite>
+                    <fulltext>Gsd_SearchFullg_Model_Resource_Fulltext</fulltext>
+                </rewrite>
+            </catalogsearch_resource>
+        </models>
+        <helpers>
+            <searchfullg>
+                <class>Gsd_SearchFullg_Helper</class>
+            </searchfullg>
+        </helpers>
+    </global>
+</config>

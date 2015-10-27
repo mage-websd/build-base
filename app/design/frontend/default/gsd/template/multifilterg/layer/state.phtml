@@ -1,0 +1,19 @@
+<?php
+$appliedFilters = Mage::getSingleton('catalog/layer')->getState()->getFilters();
+if(!count($appliedFilters)) {
+    return;
+}
+?>
+<ul>
+    <?php foreach ($appliedFilters as $item): ?>
+        <li>
+            <label><?php echo $item->getName(); ?></label>
+            <a href="<?php echo $item->getRemoveGroupUrl(); ?>"><?php echo $this->__('Remove'); ?></a>
+            <ul>
+                <?php foreach($item->getLabel() as $label): ?>
+                    <li><?php echo $label; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </li>
+    <?php endforeach; ?>
+</ul>

@@ -53,6 +53,19 @@ $used_in_forms[]="adminhtml_customer";
                 ;
         $attribute->save();
 
+$installer->addAttribute(Mage_Catalog_Model_Category::ENTITY, 'menu_nav_bottom', array(
+    'group'         => 'General',
+    'input'         => 'select',
+    'type'          => 'int',
+    'label'         => 'Belong Menu Nav bottom',
+    'source'        => 'eav/entity_attribute_source_boolean',
+    'backend'       => '',
+    'visible'       => true,
+    'required'      => false,
+    'visible_on_front' => true,
+    'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
+    'sort_order' => 100,
+));
  *
  *
  */

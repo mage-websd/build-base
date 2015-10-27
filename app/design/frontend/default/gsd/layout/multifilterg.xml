@@ -1,0 +1,19 @@
+<layout>
+    <catalog_category_default>
+        <reference name="catalog.leftnav">
+            <action method="setTemplate">
+                <template>multifilterg/layer/view.phtml</template>
+            </action>
+            <block type="core/template" name="layer_state_multi" template="multifilterg/layer/state.phtml" />
+        </reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+        <reference name="catalog.leftnav">
+            <action method="setTemplate">
+                <template>multifilterg/layer/view.phtml</template>
+            </action>
+            <block type="core/template" name="layer_state_multi" template="multifilterg/layer/state.phtml" />
+        </reference>
+    </catalog_category_layered>
+</layout>

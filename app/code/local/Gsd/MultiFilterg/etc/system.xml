@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <multifilterg translate="label" module="multifilterg">
+            <label>Multi Filter</label>
+            <tab>gsd</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>110</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enable translate="label">
+                            <label>Enable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enable>
+                        <type_show translate="label">
+                            <label>Type Show</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>multifilterg/source_config_typeshow</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type_show>
+                    </fields>
+                </general>
+            </groups>
+        </multifilterg>
+    </sections>
+</config>
