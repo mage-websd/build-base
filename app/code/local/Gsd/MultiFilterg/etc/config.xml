@@ -22,6 +22,11 @@
                     <layer_filter_attribute>Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute</layer_filter_attribute>
                 </rewrite>
             </catalog_resource>
+            <catalogsearch>
+                <rewrite>
+                    <layer_filter_attribute>Gsd_MultiFilterg_Model_Catalogsearch_Layer_Filter_Attribute</layer_filter_attribute>
+                </rewrite>
+            </catalogsearch>
         </models>
         <blocks>
             <multifilterg>
@@ -35,6 +40,11 @@
                     <layer_filter_decimal>Gsd_MultiFilterg_Block_Catalog_Filter_Decimal</layer_filter_decimal>
                 </rewrite>
             </catalog>
+            <catalogsearch>
+                <rewrite>
+                    <layer_filter_attribute>Gsd_MultiFilterg_Block_Catalogsearch_Layer_Filter_Attribute</layer_filter_attribute>
+                </rewrite>
+            </catalogsearch>
         </blocks>
         <helpers>
             <multifilterg>

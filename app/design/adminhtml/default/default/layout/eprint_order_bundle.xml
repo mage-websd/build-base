@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_order_print_bundle>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>eprint/order_bundle.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_order_print_bundle>
+</layout>

@@ -13,6 +13,9 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Category extends Mage_Catalog_
         if(!Mage::helper('multifilterg')->isEnable()) {
             return parent::apply($request, $filterBlock);
         }
+        if(Mage::app()->getRequest()->getModuleName() == 'catalogsearch'){
+            return parent::apply($request, $filterBlock);
+        }
         $filter = $request->getParam($this->getRequestVar());
         if (!$filter) {
             return $this;
@@ -38,10 +41,47 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Category extends Mage_Catalog_
             $this->_createItem($categoriesNameApplied, $categoriesIdApplied)
         );
         if($categoriesIdApplied) {
-            $this->getLayer()->getProductCollection()
-                ->joinField('category_id', 'catalog/category_product', 'category_id',
-                    'product_id = entity_id', null, 'left')
-                ->addAttributeToFilter('category_id', array('in' => $categoriesIdApplied));
+            if(Mage::app()->getRequest()->getModuleName() == 'catalogsearch'){
+                $collection = $this->getLayer()->getProductCollection()
+                    ->joinField('category_id', 'catalog/category_product', 'category_id',
+                        'product_id = entity_id', null, 'left');
+                    $collection
+                    ->addAttributeToFilter('category_id', array('in' => $categoriesIdApplied))
+                    ;
+                $select = $collection->getSelect();
+                $formJoin = $select->getPart(ZEND_Db_Select::FROM);
+                $select->reset(ZEND_Db_Select::FROM);
+                foreach ($formJoin as $key_tableAlias => $dataJoinFrom) {
+                    if ($dataJoinFrom['tableName'] == 'catalog_category_product_index') {
+                        $conditionJoin = $dataJoinFrom['joinCondition'];
+                        $conditionJoin = explode('AND',$conditionJoin);
+                        foreach($conditionJoin as $keyCond => $cond) {
+                            if(stripos($cond,'category_id')) {
+                                unset($conditionJoin[$keyCond]);
+                            }
+                        }
+                        $conditionJoin = implode(' AND ',$conditionJoin);
+                        $select->join(
+                            array($key_tableAlias => $dataJoinFrom['tableName']),
+                            $conditionJoin
+                        );
+                    }
+                    elseif ($dataJoinFrom['joinType'] == 'from') {
+                        $select->from(array($key_tableAlias => $dataJoinFrom['tableName']));
+                    } else {
+                        $select->join(
+                            array($key_tableAlias => $dataJoinFrom['tableName']),
+                            $dataJoinFrom['joinCondition']
+                        );
+                    }
+                }
+            }
+            else {
+                $this->getLayer()->getProductCollection()
+                    ->joinField('category_id', 'catalog/category_product', 'category_id',
+                        'product_id = entity_id', null, 'left')
+                    ->addAttributeToFilter('category_id', array('in' => $categoriesIdApplied));
+            }
         }
         else {
             $this->getLayer()->getProductCollection()
@@ -57,6 +97,9 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Category extends Mage_Catalog_
      */
     public function getCategory()
     {
+        if(Mage::app()->getRequest()->getModuleName() == 'catalogsearch'){
+            return parent::getCategory();
+        }
         return $this->getLayer()->getCurrentCategory();
     }
 
@@ -67,6 +110,9 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Category extends Mage_Catalog_
      */
     protected function _getItemsData()
     {
+        if(Mage::app()->getRequest()->getModuleName() == 'catalogsearch'){
+            return parent::_getItemsData();
+        }
         $key = $this->getLayer()->getStateKey().'_SUBCATEGORIES';
         $data = $this->getLayer()->getAggregator()->getCacheData($key);
 

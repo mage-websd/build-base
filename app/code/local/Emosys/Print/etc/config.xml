@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Emosys_Print>
+            <version>0.1.0</version>
+        </Emosys_Print>
+    </modules>
+    <global>
+        <helpers>
+            <eprint>
+                <class>Emosys_Print_Helper</class>
+            </eprint>
+        </helpers>
+        <models>
+            <eprint>
+                <class>Emosys_Print_Model</class>
+            </eprint>
+        </models>
+        <blocks>
+            <eprint>
+                <class>Emosys_Print_Block</class>
+            </eprint>
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_grid>Emosys_Print_Block_Adminhtml_Catalog_Product_Grid</catalog_product_grid>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+
+    </global>
+
+    <frontend>
+        <routers>
+            <eprint>
+                <use>standard</use>
+                <args>
+                    <module>Emosys_Print</module>
+                    <frontName>e-print</frontName>
+                </args>
+            </eprint>
+        </routers>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Emosys_Print before="Mage_Adminhtml">Emosys_Print_Adminhtml</Emosys_Print>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <eprint>
+                    <file>eprint.xml</file>
+                </eprint>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>

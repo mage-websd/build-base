@@ -9,7 +9,13 @@ class Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute extends Mag
         $collection = $filter->getLayer()->getProductCollection();
         $attribute  = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
-        $tableAlias = $attribute->getAttributeCode() . '_idx'.$value;
+        if(is_array($value)) {
+            $valueAlias = $value[0];
+        }
+        else {
+            $valueAlias = $value;
+        }
+        $tableAlias = $attribute->getAttributeCode() . '_idx'.$valueAlias;
         if (!is_array($value)) {
             $conditions = array(
                 "{$tableAlias}.entity_id = e.entity_id",

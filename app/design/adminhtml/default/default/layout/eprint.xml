@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_print_index>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>eprint/bundle.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_print_index>
+</layout>

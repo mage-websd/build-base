@@ -11,6 +11,12 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Item extends Mage_Catalog_Mode
         if(!Mage::helper('multifilterg')->isEnable()) {
             return parent::getUrl();
         }
+        $requestVar = $this->getFilter()->getRequestVar();
+        if(Mage::app()->getRequest()->getModuleName() == 'catalogsearch'){
+            if($requestVar == 'cat') {
+                return parent::getUrl();
+            }
+        }
         $query = array(
             $this->getFilter()->getRequestVar().'[]'=>$this->getValue(),
             Mage::getBlockSingleton('page/html_pager')->getPageVarName() => null // exclude current page from urls
@@ -60,12 +66,12 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Item extends Mage_Catalog_Mode
     {
         $selected = Mage::getSingleton('core/app')->getRequest()
             ->getParam($this->getFilter()->getRequestVar());
-        if(in_array($this->getValue(),$selected)) {
-            return true;
+        if($selected || count($selected)) {
+            if(in_array($this->getValue(),$selected)) {
+                return true;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     public function isFilterSelected($attributeCode)

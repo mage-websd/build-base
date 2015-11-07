@@ -1,0 +1,115 @@
+<?php
+$_product = Mage::registry('current_product');
+$_printData = Mage::registry('current_print_data');
+$_opttionsTitle = $this->helper('eprint')->getOptionsTitle($_product);
+$_skinUrl = Mage::getBaseUrl('skin').'/frontend/default/default/';
+$_helper = $this->helper('catalog/output');
+$_pagerText = array(
+	$this->__('Keeping it simple and scrumptious.'),
+	$this->__('Doing our best so that you can be at your best.'),
+	$this->__('Give your body the food it deserves.'),
+	$this->__('Give your body the food it deserves.'),
+);
+$_columnCount = 2;
+?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
+<head>
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/eprint.css'); ?>" />
+</head>
+<body>
+
+<div class="page-wrapper <?php if($_printData == 0) echo 'individual'; else echo 'a4'; ?> meal-<?php echo $_product->getId(); ?>">
+	<div class="page-container">
+		<?php for($i=0; $i<4; $i++): ?>
+			<div class="page-pager<?php if(($i+1)%$_columnCount==1) echo ' first'; elseif(($i+1)%$_columnCount==0) echo ' last'; if($i%2==0) echo ' odd'; else echo ' even'; ?>">
+				<div class="pager-outer">
+					<div class="header">
+						<div class="logo">
+							<a href="<?php echo $this->getUrl(''); ?>">
+								<img src="<?php echo $_skinUrl . 'images/logo.gif'; ?>" />
+							</a>
+						</div>
+						<div class="domain">
+							<a href="<?php $this->getUrl(''); ?>"><?php echo $this->__('daily-provisions.com'); ?></a>
+						</div>
+					</div>
+					<div class="main">
+						<h1 class="page-title"><?php echo $_pagerText[$i]; ?></h1>
+						<div class="content">
+							<div class="content-box box-name">
+								<h3 class="product-name box-title"><?php echo $_product->getData('name'); ?></h3>
+								<dl>
+									<?php if(count($_opttionsTitle)): ?>
+										<?php foreach($_opttionsTitle as $_opttionTitle): ?>
+											<dt>
+												<label><?php echo $_opttionTitle; ?>:</label>
+											</dt>
+										<?php endforeach; ?>
+									<?php endif; ?>
+								</dl>
+							</div>
+							<div class="content-box box-nutrition">
+								<h3 class="product-nutrition box-title"><?php echo $this->__('Nutrition Facts'); ?></h3>
+								<ul>
+									<li>
+										<label><?php echo $this->__('Calories'); ?></label>
+									</li>
+									<li>
+										<label><?php echo $this->__('Protein'); ?></label>
+									</li>
+									<li>
+										<label><?php echo $this->__('Carbohydrate'); ?></label>
+									</li>
+									<li>
+										<label><?php echo $this->__('Fat'); ?></label>
+									</li>
+								</ul>
+							</div>
+							<div class="content-box box-cook">
+								<span class="cook-icon">
+									<img src="<?php echo Mage::getBaseUrl('media').'wysiwyg/chef-hat.png'; ?>">
+								</span>
+								<p><?php echo $this->__('Cooked with love on:'); ?></p>
+							</div>
+						</div>
+					</div>
+					<div class="footer">
+						<div class="footer-inner">
+							<div class="text-input">
+								
+							</div>
+							<div class="footer-note">
+							<?php echo $_helper->productAttribute($_product, $_product->getData('print_note'), 'print_note'); ?>
+						</div>
+						</div>
+					</div>
+				</div>	
+			</div>
+		<?php endfor; ?>
+	</div>
+</div>
+
+</body>
+</html>
+<?php /*
+<h4>Reheating Instructions:</h4>
+<p>Our meal trays are microwave-safe. Cut open the packaging of your food and empty
+the contents into the meal tray before reheating for 4 min on a medium setting.</p>
+<p>CAUTION : Do not reheat the sauces in their original packaging.</p>
+<p>Remove the tray from the microwave (watch out, it might be hot!) and let it stand for
+approximately 2 min. Do check to ensure that the contents of the tray are fully
+warmed through before enjoying your meal.</p>
+<div class="waring">
+<p>
+<span><img src="{{media url="wysiwyg/kr.png"}}" alt="" /></span>
+<span>Keep Refrigerated</span>
+</p>
+<p>
+<span><img src="{{media url="wysiwyg/bin.png"}}" alt="" /></
+<span>Dispose of waste in the bin</span>
+</p>
+</div>
+*/
+?>

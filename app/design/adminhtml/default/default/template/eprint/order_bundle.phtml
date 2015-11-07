@@ -1,0 +1,201 @@
+<?php
+$_skinUrl = Mage::getBaseUrl('skin') . '/frontend/default/default/';
+$_helper = $this->helper('catalog/output');
+$_pagerText = array(
+    $this->__('Keeping it simple and scrumptious.'),
+    $this->__('Doing our best so that you can be at your best.'),
+    $this->__('Give your body the food it deserves.'),
+    $this->__('Give your body the food it deserves.'),
+);
+$_columnCount = 2;
+
+$_products = Mage::registry('current_print_product');
+$_printData = Mage::registry('current_print_data');
+$_order = Mage::registry('current_print_order');
+$printNoteDefault = '<h4>Reheating Instructions:</h4>
+<p>Our meal trays are microwave-safe. Cut open the packaging of your food and empty
+the contents into the meal tray before reheating for 4 min on a medium setting.</p>
+<p>CAUTION : Do not reheat the sauces in their original packaging.</p>
+<p>Remove the tray from the microwave (watch out, it might be hot!) and let it stand for
+approximately 2 min. Do check to ensure that the contents of the tray are fully
+warmed through before enjoying your meal.</p>
+<div class="waring">
+<p>
+<span><img src="{{media url="wysiwyg/kr.png"}}" alt="" /></span>
+<span>Keep Refrigerated</span>
+</p>
+<p>
+<span><img src="{{media url="wysiwyg/bin.png"}}" alt="" /></
+<span>Dispose of waste in the bin</span>
+</p>
+</div>';
+?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>"
+          lang="<?php echo $this->getLang() ?>">
+    <head>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/eprint.css'); ?>"/>
+    </head>
+    <body>
+
+    <div
+        class="page-wrapper <?php if ($_printData == 0) echo 'individual'; else echo 'a4'; ?> meal-<?php //echo $_product->getId(); ?>">
+        <div class="page-container">
+            <?php
+            $collection = Mage::getResourceModel('sales/order_item_collection')
+                ->addFieldToFilter('order_id', array('eq' => $_order->getId()));
+            $iPager = 0;
+            foreach ($_products as $item) {
+                $calories = 0;
+                $protein = 0;
+                $carbohydrate = 0;
+                $fat = 0;
+                $options = $item->getProductOptions();
+                //print_r($item->getData());exit;
+                $optionItems = $options['info_buyRequest']['bundle_option'];
+                $selectionIds = array();
+                foreach ($optionItems as $key => $value) {
+                    if (!$value || !count($value)) {
+                        unset($optionItems[$key]);
+                        continue;
+                    }
+                    if (!is_array($value)) {
+                        $optionItems[$key] = array($value);
+                    }
+                    $selectionIds = array_merge($selectionIds, $optionItems[$key]);
+                }
+                $optionIds = array_keys($optionItems);
+                $types = Mage_Catalog_Model_Product_Type::getTypes();
+                $typemodel = Mage::getSingleton($types[Mage_Catalog_Model_Product_Type::TYPE_BUNDLE]['model']);
+                $typemodel->setConfig($types[Mage_Catalog_Model_Product_Type::TYPE_BUNDLE]);
+                $selections = $typemodel->getSelectionsCollection($optionIds, $item);
+                $selectionItems = array();
+                foreach ($selections as $selection) {
+                    if (in_array($selection->getData('selection_id'), $selectionIds)) {
+                        $selectionItems[$selection['option_id']][] = $selection;
+                    }
+                }
+                /*echo '<pre>';
+                print_r($selectionItems);exit;*/
+                //foreach ($options['bundle_options'] as $key => $value) {
+                    $iPager++;
+                    ?>
+                    <div
+                        class="page-pager<?php if ($iPager % $_columnCount == 1) echo ' first'; elseif ($iPager % $_columnCount == 0) echo ' last';
+                        if ($i % 2 == 0) echo ' odd'; else echo ' even'; ?>">
+                        <div class="pager-outer">
+                            <div class="header">
+                                <div class="logo">
+                                    <a href="<?php echo $this->getUrl(''); ?>">
+                                        <img src="<?php echo $_skinUrl . 'images/logo.gif'; ?>"/>
+                                    </a>
+                                </div>
+                                <div class="domain">
+                                    <a href="<?php $this->getUrl(''); ?>"><?php echo $this->__('daily-provisions.com'); ?></a>
+                                </div>
+                            </div>
+                            <div class="main">
+                                <h1 class="page-title"><?php echo $_pagerText[$iPager % 4]; ?></h1>
+                                <div class="content">
+                                    <div class="content-box box-name">
+                                        <h3 class="product-name box-title"><?php echo $item->getData('name'); ?></h3>
+                                        <dl class="bundle-option-wrapper">
+                                            <?php if (count($options['bundle_options'])): ?>
+                                                <?php foreach ($options['bundle_options'] as $key => $value): ?>
+                                                    <dt>
+                                                        <label><?php echo $value['label']; ?>:</label>
+                                                    </dt>
+                                                    <dd>
+                                                        <?php $iProductSelection = 0; $countProductSelection = count($selectionItems[$key]); ?>
+                                                        <?php foreach($selectionItems[$key] as $keySelection => $_productSelection): $iProductSelection++; ?>
+                                                            <?php echo $_productSelection->getData('name'); ?>
+                                                            <?php if($iProductSelection < $countProductSelection): ?>
+                                                                ,
+                                                            <?php endif; ?>
+                                                            <?php
+                                                            $calories += $_productSelection->getData('calories');
+                                                            $protein += $_productSelection->getData('protein');
+                                                            $carbohydrate += $_productSelection->getData('carbohydrate');
+                                                            $fat += $_productSelection->getData('fat');
+                                                            ?>
+                                                        <?php endforeach; ?>
+                                                    </dd>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </dl>
+                                    </div>
+                                    <div class="content-box box-nutrition">
+                                        <h3 class="product-nutrition box-title"><?php echo $this->__('Nutrition Facts'); ?></h3>
+                                        <ul>
+                                            <li>
+                                                <label><?php echo $this->__('Calories'); ?></label>
+                                                <span><?php echo $calories; ?></span>
+                                            </li>
+                                            <li>
+                                                <label><?php echo $this->__('Protein'); ?></label>
+                                                <span><?php echo $protein; ?></span>
+                                            </li>
+                                            <li>
+                                                <label><?php echo $this->__('Carbohydrate'); ?></label>
+                                                <span><?php echo $carbohydrate; ?></span>
+                                            </li>
+                                            <li>
+                                                <label><?php echo $this->__('Fat'); ?></label>
+                                                <span><?php echo $fat; ?></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="content-box box-cook">
+								<span class="cook-icon">
+									<img src="<?php echo Mage::getBaseUrl('media') . 'wysiwyg/chef-hat.png'; ?>">
+								</span>
+
+                                        <p><?php echo $this->__('Cooked with love on:'); ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <div class="footer-inner">
+                                    <div class="text-input">
+
+                                    </div>
+                                    <div class="footer-note">
+                                        <?php
+                                        if($note = $_helper->productAttribute($item, $item->getData('print_note'), 'print_note')) {
+                                            echo $note;
+                                        }
+                                        else {
+                                            echo $printNoteDefault;
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+        </div>
+    </div>
+
+    </body>
+    </html>
+<?php /*
+<h4>Reheating Instructions:</h4>
+<p>Our meal trays are microwave-safe. Cut open the packaging of your food and empty
+the contents into the meal tray before reheating for 4 min on a medium setting.</p>
+<p>CAUTION : Do not reheat the sauces in their original packaging.</p>
+<p>Remove the tray from the microwave (watch out, it might be hot!) and let it stand for
+approximately 2 min. Do check to ensure that the contents of the tray are fully
+warmed through before enjoying your meal.</p>
+<div class="waring">
+<p>
+<span><img src="{{media url="wysiwyg/kr.png"}}" alt="" /></span>
+<span>Keep Refrigerated</span>
+</p>
+<p>
+<span><img src="{{media url="wysiwyg/bin.png"}}" alt="" /></
+<span>Dispose of waste in the bin</span>
+</p>
+</div>
+*/
+?>

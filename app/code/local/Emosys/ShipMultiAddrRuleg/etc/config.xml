@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Emosys_ShipMultiAddrRuleg>
+            <version>0.1.0</version>
+        </Emosys_ShipMultiAddrRuleg>
+    </modules>
+    <global>
+        <models>
+            <shipmultiaddrruleg>
+                <class>Emosys_ShipMultiAddrRuleg_Model</class>
+            </shipmultiaddrruleg>
+        </models>
+        <blocks>
+            <shipmultiaddrruleg>
+                <class>Emosys_ShipMultiAddrRuleg_Block</class>
+            </shipmultiaddrruleg>
+        </blocks>
+        <helpers>
+            <shipmultiaddrruleg>
+                <class>Emosys_ShipMultiAddrRuleg_Helper</class>
+            </shipmultiaddrruleg>
+        </helpers>
+        <!--<resources>
+            <emosys_shipmultiaddrruleg_setup>
+                <setup>
+                    <module>Emosys_ShipMultiAddrRuleg</module>
+                </setup>
+            </emosys_shipmultiaddrruleg_setup>
+        </resources>-->
+        <sales>
+            <quote>
+                <item>
+                    <product_attributes>
+                        <is_hamber />
+                    </product_attributes>
+                </item>
+            </quote>
+        </sales>
+    </global>
+
+    <default>
+        <carriers>
+            <shipmultiaddrruleg>
+                <active>1</active>
+                <model>shipmultiaddrruleg/carrier</model>
+                <title>Shipping Multi-Address</title>
+                <sort_order>10</sort_order>
+                <sallowspecific>0</sallowspecific>
+                <price>15</price>
+                <title_hamber>Ship for hamber</title_hamber>
+                <title_standard>Ship for Standard</title_standard>
+                <title_standard_free>Free for first address</title_standard_free>
+                <order_amount>500</order_amount>
+            </shipmultiaddrruleg>
+        </carriers>
+    </default>
+</config>
