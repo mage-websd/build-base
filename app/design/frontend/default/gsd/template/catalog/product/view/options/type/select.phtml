@@ -1,0 +1,137 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php /* @var $this Mage_Catalog_Block_Product_View_Options_Type_Select */ ?>
+<?php
+$isSubScrible = false;
+$product = Mage::registry('current_product');
+if($product) {
+    $subscription = Mage::getModel('aw_sarp2/subscription')->loadByProductId($product->getId());
+    if($subscription->getId()) {
+        $isSubScrible = true;
+    }
+}
+
+?>
+
+<?php $_option = $this->getOption(); ?>
+<?php if($isSubScrible): ?>
+    <dt class="subscrition-product-label"><label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?><?php echo  $this->escapeHtml($_option->getTitle()) ?></label></dt>
+    <dd class="subscription-product-options<?php if ($_option->decoratedIsLast){?> last<?php }?>">
+        <div class="input-box">
+            <?php echo $this->getValuesHtml() ?>
+            <div class="subscription-product-option-list"></div>
+            <?php if ($_option->getIsRequire()): ?>
+                <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+                    <span id="options-<?php echo $_option->getId() ?>-container"></span>
+                <?php endif; ?>
+            <?php endif;?>
+        </div>
+    </dd>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            htmlUlOption = $('.subscription-product-options .options-list').clone();
+            htmlUlOption = htmlUlOption.children();
+            $('.subscription-product-options .options-list').hide();
+            flagSubscription = '<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_PRODUCT_OPTION_ID; ?>';
+            flagTitleSubscription = '<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_NO_SUBSCRIPTION_OPTION_TITLE; ?>';
+            attrNameInput = 'options_custom['+flagSubscription+']';
+            var htmlOption = '<ul>';
+            domFirst = $('.subscription-product-options li:first-child input[type=radio]');
+            if($('.subscription-product-options li:first-child .label label').text().trim() == flagTitleSubscription ) {
+                htmlOption += '<li>'+
+                    '<input type="radio" class="'+domFirst.attr('class')+' radio-subscription-custom" onclick="opConfig.reloadPrice()" name="'+attrNameInput+'" data-id="'+domFirst.attr('id')+'" value="'+domFirst.attr('value')+'" checked="" price="'+domFirst.attr('price')+'" id="custom_'+domFirst.attr('id')+'">'+
+                    '<span class="label"><label for="custom_'+domFirst.attr('id')+'">'+flagTitleSubscription+'</label></span>'+
+                    '</li>';
+                htmlUlOption.remove(':first-child');
+            }
+            htmlOptionSelect = '';
+            htmlUlOption.each(function(i,v) {
+                domThisOption = $(this);
+                textThis = domThisOption.find('label').text().trim();
+                if(textThis != flagTitleSubscription) {
+                    htmlOptionSelect += '<option'+
+                        ' data-id="'+domThisOption.find('input').attr('id')+'"'+
+                        ' >'+
+                        textThis+
+                        '</option>';
+                }
+            });
+            htmlOption += '<li>'+
+            '<input type="radio" class="'+domFirst.attr('class')+' radio-subscription-custom" name="'+attrNameInput+'" value="-1" id="custom_group_subscription">'+
+            '<span class="label">'+
+            '<label for="custom_group_subscription"><?php echo $this->__('Subscribe and Save!'); ?></label>'+
+            '<span><a class="pss-question"></a></span>'+
+            '</span>'+
+            '<div class="subscription-group">'+
+            '<select name="'+attrNameInput+'" onchange="opConfig.reloadPrice();" class="select-options-subscription select disabled" disabled>'+
+                '<option value=""><?php echo $this->__('Please choose'); ?></option>'+
+            htmlOptionSelect+
+            '</select>'+
+            '</div>'+
+            '</li>';
+            htmlOption += '</ul>';
+            $('.subscription-product-option-list').append(htmlOption);
+            $(document).on('change','select.select-options-subscription',function(event){
+                idSelected = $(this).find(':selected').attr('data-id');
+                $('#'+idSelected)[0].click();
+            });
+            $(document).on('click','input.radio-subscription-custom',function(event) {
+                if($(this).val() == 0) {
+                    $('select.select-options-subscription').attr('disabled','disabled');
+                    $('select.select-options-subscription').addClass('disabled');
+                    $('select.select-options-subscription option').removeAttr('selected');
+                    $('select.select-options-subscription option:first-child').attr('selected','selected');
+                    $('select.select-options-subscription').removeClass('required-entry');
+                }
+                else {
+                    $('select.select-options-subscription').removeAttr('disabled');
+                    $('select.select-options-subscription').removeClass('disabled');
+                    $('select.select-options-subscription').addClass('required-entry');
+                }
+            });
+        });
+    </script>
+
+
+
+
+
+<?php else: ?>
+    <dt><label<?php if ($_option->getIsRequire()) echo ' class="required"' ?>><?php if ($_option->getIsRequire()) echo '<em>*</em>' ?><?php echo  $this->escapeHtml($_option->getTitle()) ?></label></dt>
+    <dd<?php if ($_option->decoratedIsLast){?> class="last"<?php }?>>
+        <div class="input-box">
+            <?php echo $this->getValuesHtml() ?>
+            <?php if ($_option->getIsRequire()): ?>
+                <?php if ($_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_RADIO || $_option->getType() == Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX): ?>
+                    <span id="options-<?php echo $_option->getId() ?>-container"></span>
+                <?php endif; ?>
+            <?php endif;?>
+        </div>
+    </dd>
+<?php endif; ?>

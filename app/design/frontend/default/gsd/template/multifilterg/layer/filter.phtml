@@ -1,10 +1,9 @@
 <ol>
 <?php $_items = $this->getItems(); ?>
-	<?php
-
-	?>
-<?php if($_items[0]->isFilterSelected()): ?>
-	<a class="remove-group" href="<?php echo $_items[0]->getRemoveGroupUrl(); ?>"><?php echo $this->__('xx Remove group filter') ?></a>
+<?php if(isset($_items[0])) : ?>
+	<?php if($_items[0]->isFilterSelected()): ?>
+		<a class="remove-group" href="<?php echo $_items[0]->getRemoveGroupUrl(); ?>"><?php echo $this->__('xx Remove group filter') ?></a>
+	<?php endif; ?>
 <?php endif; ?>
 <?php foreach ($_items as $_item): ?>
 	<?php if ($_item->getCount() > 0): ?>
