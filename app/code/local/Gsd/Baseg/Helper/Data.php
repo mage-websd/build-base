@@ -24,5 +24,8 @@ class Gsd_Baseg_Helper_Data extends Mage_Core_Helper_Abstract
         echo '</pre>';
     }
 
-    
+    public function formatWord($word)
+    {
+        return Mage::getSingleton('catalog/product_url')->formatUrlKey($word);
+    }
 }

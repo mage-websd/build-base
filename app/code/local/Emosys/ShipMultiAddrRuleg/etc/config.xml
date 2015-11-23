@@ -21,13 +21,14 @@
                 <class>Emosys_ShipMultiAddrRuleg_Helper</class>
             </shipmultiaddrruleg>
         </helpers>
-        <!--<resources>
+        <resources>
             <emosys_shipmultiaddrruleg_setup>
                 <setup>
                     <module>Emosys_ShipMultiAddrRuleg</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
                 </setup>
             </emosys_shipmultiaddrruleg_setup>
-        </resources>-->
+        </resources>
         <sales>
             <quote>
                 <item>

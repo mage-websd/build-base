@@ -6,14 +6,28 @@
  * get post search year, month
  */
 class AW_Blog_Block_Archive extends AW_Blog_Block_Abstract {
-    public function getPosts() {
-        $collection = parent::_prepareCollection();
-        $params = $this->getRequest()->getParams();
-        if(isset($params['year']) && $params['year']) {
-            $collection->addYearFilter($params['year']);
+	protected $_year;
+	protected $_month;
+
+	public function __construct()
+	{
+		parent::__construct();
+		$params = $this->getRequest()->getParams();
+		if(isset($params['year']) && $params['year']) {
+            $this->_year = $params['year'];
         }
         if(isset($params['month']) && $params['month']) {
-            $collection->addMonthFilter($params['month']);
+            $this->_month = $params['month'];
+        }
+	}
+
+    public function getPosts() {
+        $collection = parent::_prepareCollection();
+        if($this->_year) {
+        	$collection->addYearFilter($this->_year);
+        }
+        if($this->_month) {
+        	$collection->addMonthFilter($this->_month);
         }
         if(isset($params['q'])) {
             $collection->addFieldToFilter('title',array('like'=>"%{$params['q']}%"));
@@ -33,17 +47,35 @@ class AW_Blog_Block_Archive extends AW_Blog_Block_Abstract {
                     'link'  => $this->getBlogUrl(),
                 )
             );
-            if ($date = $this->getRequest()->getParam('date')) {
-                $dateArray = explode('-', $date);
-                if (isset($dateArray[1])) {
-                    $t = $this->__('%s, %s', $this->getFrontDateMonth($dateArray[1]), $dateArray[0]);
-                    $breadcrumbs->addCrumb('blog_page', array('label' => $t, 'title' => $t));
-                }
-                if (isset($dateArray[0])) {
-                    $breadcrumbs->addCrumb('blog_page', array('label' => $dateArray[0], 'title' => $dateArray[0]));
-                }
+            if($this->_year) {
+        		$breadcrumbs->addCrumb(
+	                'blog_year',
+	                array(
+	                    'label' => $this->_year,
+	                    'title' => $this->_year,
+	                    'link'  => $this->getBlogUrl().'index/archive/year/'.$this->_year,
+	                )
+	            );
+            }
+            if($this->_month) {
+        		$breadcrumbs->addCrumb(
+	                'blog_month',
+	                array(
+	                    'label' => $this->_month,
+	                    'title' => $this->_month,
+	                )
+	            );
             }
         }
+    }
+
+    public function getYear()
+    {
+    	return $this->_year;
+    }
+    public function getMonth()
+    {
+    	return $this->_month;
     }
 
     public function getYears()
@@ -58,7 +90,7 @@ class AW_Blog_Block_Archive extends AW_Blog_Block_Abstract {
         return $result;
     }
 
-    public function getMonth()
+    public function getMonths()
     {
         $months = Mage::getResourceSingleton('blog/blog_collection')->getMonths();
         $result = array();

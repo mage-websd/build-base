@@ -1,0 +1,56 @@
+.aw-sarp-customer, .customer-subscription__view, .customer-subscription__orders {
+    padding:15px;
+    display:block;
+}
+table.customer-subscription__list {
+    width:100%;
+}
+.customer-subscription__list thead{
+    font-weight: bold;
+}
+.customer-subscription__list td{
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    padding: 5px;
+}
+.customer-subscription__item.last {
+    border-bottom: 1px solid #b2b2b2;
+}
+.profile-info {
+    background-color:#b2b2b2;
+    padding:10px;
+    height:20px;
+}
+.profile-info dt, .profile-info dd {
+    display: inline-block;
+}
+.profile-info-tabs li{
+    display: inline-block;
+    padding: 0 5px 0 5px;
+}
+.info-table {
+    text-align: left;
+    width:100%;
+}
+.info-table td.title {
+    font-weight: bold;
+    width: 200px;
+}
+.info-table td.content {
+    padding-left:2px;
+}
+.customer-subscription__view h3, .customer-subscription__orders h3 {
+    font-size:16px;
+    padding:25px 0 10px;
+}
+.total-details {
+    font-size:12px;
+}
+.customer-subscription__view_buttons {
+    position: relative;
+    width:100%;
+    padding:15px;
+}
+.customer-subscription__view_buttons button {
+    width: auto;
+}

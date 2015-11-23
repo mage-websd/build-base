@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Emosys_PrintOrderBundle>
+            <active>true</active>
+            <codePool>local</codePool>
+                    </Emosys_PrintOrderBundle>
+    </modules>
+</config>

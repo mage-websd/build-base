@@ -127,6 +127,19 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
         $_storeLabel = $_attribute->getData('store_label');
         return $_attributeLabel;
     }
+	
+	public function getOptionsConfigurable()
+	{
+		$productAttributeOptions = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
+		$attributeOptions = array();
+		foreach ($productAttributeOptions as $productAttribute) {
+			if($productAttribute['attribute_code'] == 'size') {
+				foreach ($productAttribute['values'] as $attribute) {
+					$attributeOptions[] = $attribute['store_label'];
+				}
+			}
+		}
+	}
 
     public function getAllOptions($code,$entity="catalog_product")
     {

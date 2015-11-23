@@ -16,4 +16,14 @@
             <block type="core/template" name="layer_state_multi" template="multifilterg/layer/state.phtml" />
         </reference>
     </catalog_category_layered>
+
+    <catalogsearch_result_index>
+        <reference name="catalogsearch.leftnav">
+            <action method="setTemplate">
+                <template>multifilterg/layer/view.phtml</template>
+            </action>
+            <block type="core/template" name="layer_state_multi" template="multifilterg/layer/state.phtml" />
+        </reference>
+    </catalogsearch_result_index>
+
 </layout>

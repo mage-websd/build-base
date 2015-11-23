@@ -1,0 +1,64 @@
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This software is designed to work with Magento community edition and
+ * its use on an edition other than specified is prohibited. aheadWorks does not
+ * provide extension support in case of incorrect edition use.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_Sarp2
+ * @version    2.2.0
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE.txt
+ */
+?><script type="text/javascript">
+    if ($('options-<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_PRODUCT_OPTION_ID ?>-list')) {
+        // Validation fix
+        Validation.addAllThese(
+            [
+                ['validate-datetime-<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_START_DATE_PRODUCT_OPTION_ID ?>', 'This is a required option', function (v) {
+                    var selectedPeriodElement = Form.getInputs('product_addtocart_form', 'radio', 'options[<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_PRODUCT_OPTION_ID ?>]').find(
+                        function (el) {
+                            return el.checked;
+                        }
+                    );
+                    var selectedPeriod = selectedPeriodElement.getValue();
+                    if (selectedPeriod != 0) {
+                        var dateTimeParts = $$('.datetime-picker[id^="options_-3722"]');
+                        for (var i = 0; i < dateTimeParts.length; i++) {
+                            if (dateTimeParts[i].value == "") return false;
+                        }
+                    }
+                    return true;
+                }]
+            ]
+        );
+
+        // Hide calendar
+        var awSarp2SelectPeriodGroup = $('options-<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_PRODUCT_OPTION_ID ?>-list');
+        var awSarp2CalendarContainer = awSarp2SelectPeriodGroup.up().next('div.form__field');
+        var awSarp2TypeChanged = function (option) {
+            if (option.getValue() == 0) {
+                awSarp2CalendarContainer && awSarp2CalendarContainer.hide();
+            } else {
+                awSarp2CalendarContainer && awSarp2CalendarContainer.show();
+            }
+        };
+        awSarp2TypeChanged(awSarp2SelectPeriodGroup.select('input[checked]').first());
+        $$('.product-options input[type=radio][name^=options[<?php echo AW_Sarp2_Helper_Subscription::SUBSCRIPTION_TYPE_SELECTOR_PRODUCT_OPTION_ID ?>]]').each(function (option) {
+            option.observe('click', function(e){awSarp2TypeChanged(option)});
+        });
+    }
+</script>

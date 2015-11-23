@@ -1,0 +1,157 @@
+<?php
+/**
+ * Solvingmagento_BundleExtended checkbox option template
+ *
+ * PHP version 5.3
+ *
+ * @category  Solvingmagento
+ * @package   Solvingmagento_BundleExtended
+ * @author    Oleg Ishenko <oleg.ishenko@solvingmagento.com>
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @version   GIT: <0.1.0>
+ * @link      http://www.solvingmagento.com/
+ *
+ */
+
+?>
+
+<?php /* @var $this Mage_Bundle_Block_Catalog_Product_View_Type_Bundle_Option_Checkbox */ ?>
+<?php
+$_option = $this->getOption();
+$_selections = $_option->getSelections();
+$_defaults = $this->getSelectionValues();
+$_optionTitle = $_option->getTitle();
+$_coreHelper = $this->helper('core');
+$flagNo = Mage::registry('flag_no_options');
+if($flagNo) {
+    Mage::unregister('flag_no_options');
+    if($flagNo > 3) {
+        $flagNo = 3;
+    }
+}
+else {
+    $flagNo = 1;
+}
+Mage::register('flag_no_options',$flagNo+1);
+?>
+<?php switch($flagNo): ?>
+<?php case 1: ?>
+<?php
+$_products = array();
+$_typesProduct = array('sub','ways');
+$_sizesProduct = array('regular','large');
+foreach($_selections as $_selection) {
+    $_product = $_selection;
+    $_name = $_product->getName();
+    $_name = explode('-',$_name);
+    if(isset($_name[0]) && isset($_name[1]) && isset($_name[2])) {
+        $_products[trim($_name[0])][trim($_name[1])][trim($_name[2])] = $_product;
+    }
+}
+?>
+    <dt class="platter-title platter-type-<?php echo $flagNo; ?>">
+        <h2><?php echo $this->__('Choose your') . ' '.$_optionTitle; ?></h2>
+        <p><?php echo $this->__('* Please fill in quantity'); ?></p>
+    </dt>
+    <dd class="platter-content platter-type-<?php echo $flagNo; ?>"<?php if ($_option->decoratedIsLast){?> last<?php }?>>
+        <div class="input-box">
+            <table>
+                <thead>
+                    <td><?php echo $_optionTitle; ?></td>
+                    <td><?php echo $this->__('Sub'); ?></td>
+                    <td><?php echo $this->__('Wraps'); ?></td>
+                </thead>
+                <tbody>
+                    <?php foreach($_products as $_productName => $_productTypes): ?>
+                        <tr>
+                            <td><?php echo $_productName; ?></td>
+                            <?php $i=0; ?>
+                            <?php foreach($_productTypes as $_typeName => $_productSizes): $i++; ?>
+                                <td>
+                                    <div class="product-types">
+                                        <?php foreach($_productSizes as $_sizeName => $_product): ?>
+                                            <?php $default = $_defaults[$_product->getSelectionId()]; ?>
+                                            <label for="bundle-option-<?php
+                                            echo $_option->getId() ?>-<?php echo $_product->getSelectionId() ?>-qty-input"><?php echo $_sizeName; ?></label>
+                                            <div class="price-box">
+                                                <span class="regular-price">
+                                                    <span class="price"><?php echo $_coreHelper->currency($_product->getPrice()); ?></span>
+                                                </span>
+                                            </div>
+                                            <div class="actions">
+                                                <div style="display: none;">
+                                                    <input onclick="bundle.changeSelection(this)" class="change-container-classname checkbox bundle-option-<?php echo $_option->getId() ?> <?php if ($_option->getRequired()) echo 'validate-one-required-by-name' ?> button btn-select"
+                                                           id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_product->getSelectionId() ?>" type="checkbox" name="bundle_option[<?php echo $_option->getId() ?>][]"<?php if ($this->_isSelected($_product)) echo ' checked="checked"' ?><?php if (!$_product->isSaleable()) echo ' disabled="disabled"' ?> value="<?php echo $_product->getSelectionId() ?>"
+                                                        />
+                                                </div>
+                                                <input type="text" name="bundle_option_qty[<?php
+                                                echo $_option->getId().'-'.$_product->getSelectionId() ?>]" value="<?php //echo $default['default_qty'] ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty validated-number input-qty-cook <?php if (!$default['user_defined']) echo ' qty-disabled' ?>" data-checkbox="#bundle-option-<?php echo $_option->getId() ?>-<?php echo $_product->getSelectionId() ?>"
+                                                    <?php /*onkeyup="bundle.changeOptionQty(this, event)" onblur="bundle.changeOptionQty(this, event)" onchange="bundle.changeOptionQty(this, event);"*/?>
+                                                    <?php
+                                                    if (!$default['user_defined']) echo ' disabled="disabled"' ?> id="bundle-option-<?php
+                                                echo $_option->getId() ?>-<?php echo $_product->getSelectionId() ?>-qty-input" />
+                                            </div>
+                                            <?php if($_option->getRequired()): ?>
+                                                <?php echo $this->setValidationContainer('bundle-option-'.$_option->getId().'-'.$_product->getSelectionId(), 'bundle-option-'.$_option->getId().'-container') ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </td>
+                            <?php endforeach; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <?php /*if (count($_selections) == 1 && $_option->getRequired()): ?>
+                <?php $_selection = $_selections[0];
+                $default = $_defaults[$_selection->getSelectionId()]; ?>
+                <span class="qty-holder" style="float:left; margin-right:10px; padding-top: 0px;">
+                <label for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input">
+                    <?php echo $this->__('Qty:') ?>&nbsp;
+                </label>
+                <input onkeyup="bundle.changeOptionQty(this, event)" onblur="bundle.changeOptionQty(this, event)" <?php
+                if (!$default['user_defined']) echo ' disabled="disabled"' ?> id="bundle-option-<?php
+                echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input" class="input-text qty<?php
+                if (!$_canChangeQty) echo ' qty-disabled' ?>" type="text" name="bundle_option_qty[<?php
+                echo $_option->getId().'-'.$_selection->getSelectionId() ?>]" value="<?php echo $default['default_qty'] ?>"/>
+                </span>
+                <?php echo $this->getSelectionQtyTitlePrice($_selections[0]) ?>
+                <input type="hidden" name="bundle_option[<?php echo $_option->getId() ?>]" value="<?php echo $_selections[0]->getSelectionId() ?>"/>
+            <?php else: ?>
+                <ul class="options-list">
+                    <?php foreach($_selections as $_selection): ?>
+                        <?php
+                        if (!isset($_defaults[$_selection->getSelectionId()])) {
+                            continue;
+                        }
+                        $default = $_defaults[$_selection->getSelectionId()]; ?>
+                        <li>
+                    <span class="qty-holder" style="float:left; margin-right:10px; padding-top: 0px;">
+                        <label for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input">
+                            <?php echo $this->__('Qty:') ?>&nbsp;
+                        </label>
+                        <input onkeyup="bundle.changeOptionQty(this, event)" onblur="bundle.changeOptionQty(this, event)" <?php
+                        if (!$default['user_defined']) echo ' disabled="disabled"' ?> id="bundle-option-<?php
+                        echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>-qty-input" class="input-text qty<?php
+                        if (!$default['user_defined']) echo ' qty-disabled' ?>" type="text" name="bundle_option_qty[<?php
+                        echo $_option->getId().'-'.$_selection->getSelectionId() ?>]" value="<?php echo $default['default_qty'] ?>"/>
+                    </span>
+                            <input onclick="bundle.changeSelection(this)" class="change-container-classname checkbox bundle-option-<?php echo $_option->getId() ?> <?php if ($_option->getRequired()) echo 'validate-one-required-by-name' ?>" id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>" type="checkbox" name="bundle_option[<?php echo $_option->getId() ?>][]"<?php if ($this->_isSelected($_selection)) echo ' checked="checked"' ?><?php if (!$_selection->isSaleable()) echo ' disabled="disabled"' ?> value="<?php echo $_selection->getSelectionId() ?>"/>
+                            <span class="label"><label for="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>"><?php echo $this->getSelectionTitlePrice($_selection) ?></label></span>
+
+                            <?php if($_option->getRequired()): ?>
+                                <?php echo $this->setValidationContainer('bundle-option-'.$_option->getId().'-'.$_selection->getSelectionId(), 'bundle-option-'.$_option->getId().'-container') ?>
+                            <?php endif; ?>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+                <div id="bundle-option-<?php echo $_option->getId() ?>-container"></div>
+            <?php /*endif;*/ ?>
+        </div>
+
+    </dd>
+<?php break; ?>
+<?php default: ?>
+    <?php echo 'default'; ?>
+<?php break; ?>
+<?php endswitch; ?>
