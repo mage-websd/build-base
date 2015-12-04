@@ -52,6 +52,7 @@ class Gsd_SearchFullg_Model_Resource_Fulltext extends Mage_CatalogSearch_Model_R
                 $bind[':query'] = implode(' ', $preparedTerms[0]);
                 $where = Mage::getResourceHelper('catalogsearch')
                     ->chooseFulltext($this->getMainTable(), $mainTableAlias, $select);
+                  //add more core: ~ > 1
                 $havingFull = 'relevance > '.$this->_relevanceRate;
             }
 
