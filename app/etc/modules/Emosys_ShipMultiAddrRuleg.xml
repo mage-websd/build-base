@@ -2,8 +2,8 @@
 <config>
     <modules>
         <Emosys_ShipMultiAddrRuleg>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
-                    </Emosys_ShipMultiAddrRuleg>
+        </Emosys_ShipMultiAddrRuleg>
     </modules>
 </config>

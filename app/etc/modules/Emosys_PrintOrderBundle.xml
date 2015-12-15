@@ -2,8 +2,8 @@
 <config>
     <modules>
         <Emosys_PrintOrderBundle>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
-                    </Emosys_PrintOrderBundle>
+        </Emosys_PrintOrderBundle>
     </modules>
 </config>

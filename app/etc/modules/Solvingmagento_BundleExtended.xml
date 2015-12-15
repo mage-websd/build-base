@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Solvingmagento_BundleExtended>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
         </Solvingmagento_BundleExtended>
     </modules>

@@ -58,10 +58,14 @@ class Gsd_CartAjaxg_IndexController extends Mage_Checkout_CartController
                     $response['status'] = 1;
                     $response['message'] = $message;
                     $this->loadLayout();
-                    $toplink = $this->getLayout()->getBlock('top.links')->toHtml();
-                    $miniCart = $this->getLayout()->getBlock('mini_cart_header')->toHtml();
-                    $response['data']['.links'] = $toplink;
-                    $response['data']['.mini-cart-header'] = $miniCart;
+                    if($toplink = $this->getLayout()->getBlock('top.links')) {
+                        $toplink = $toplink->toHtml();
+                        $response['data']['.links'] = $toplink;
+                    }
+                    if($miniCart = $this->getLayout()->getBlock('mini_cart_header')) {
+                        $miniCart = $miniCart->toHtml();
+                        $response['data']['.mini-cart-header'] = $miniCart;
+                    }
                 }
             } catch (Mage_Core_Exception $e) {
                 $msg = "";

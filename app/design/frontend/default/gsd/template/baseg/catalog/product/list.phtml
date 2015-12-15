@@ -148,7 +148,7 @@ $_helper = $this->helper('catalog/output');
                             <?php } ?>
                         <?php else: ?>
                             <?php
-                            if($_product->getData('type_id') == $this->helper('downloadableg')->getProductTypeAllow()) {
+                            if(Mage::helper('core')->isModuleEnabled('Gsd_Downloadableg') && $_product->getData('type_id') == $this->helper('downloadableg')->getProductTypeAllow()) {
                                 $_linkAddTocart = $this->getUrl('downloadableg/index/index',array(
                                     'id'=>$_product->getId(),
                                     'form_key'=>Mage::getSingleton('core/session')->getFormKey(),
@@ -176,12 +176,13 @@ $_helper = $this->helper('catalog/output');
                                                                     class="link-compare"><?php echo $this->__('Add to Compare') ?></a>
                             </li>
                         <?php endif; ?>
-                        <li>
-                            <?php $_product = Mage::getModel('catalog/product')->load($_product->getId()); ?>
-                            <a class="link-like-product"
-                               href="<?php echo $this->getUrl('likeg/index/index', array('id' => $_product->getId(), 'url' => $this->helper('core/url')->getCurrentUrl())); ?>"><?php echo $this->__('Like'); ?></a>
-                            <b>count</b> <span><?php echo $_product->getData('like_count'); ?></span>
-                        </li>
+                        <?php if(Mage::helper('core')->isModuleEnabled('Gsd_Likeg')): ?>
+                            <li>
+                                <a class="link-like-product"
+                                   href="<?php echo $this->getUrl('likeg/index/index', array('id' => $_product->getId(), 'url' => $this->helper('core/url')->getCurrentUrl())); ?>"><?php echo $this->__('Like'); ?></a>
+                                <b>count</b> <span><?php echo $_product->getData('like_count'); ?></span>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </li>

@@ -4,7 +4,7 @@ class Gsd_CartAjaxg_Helper_Data extends Mage_Core_Helper_Abstract
 {
     public function isEnable()
     {
-        return $this->isModuleOutputEnabled('Gsd_Filterg');
+        return $this->isModuleOutputEnabled('Gsd_CartAjaxg');
     }
     public function isCartEnable()
     {

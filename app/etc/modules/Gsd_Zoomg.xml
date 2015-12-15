@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Gsd_Zoomg>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
         </Gsd_Zoomg>
     </modules>

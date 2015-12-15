@@ -27,7 +27,7 @@
 <config>
     <modules>
         <Emosys_Print>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
         </Emosys_Print>
     </modules>

@@ -2,8 +2,8 @@
 <config>
     <modules>
         <Gsd_Downloadableg>
-            <active>true</active>
+            <active>false</active>
             <codePool>local</codePool>
-                    </Gsd_Downloadableg>
+        </Gsd_Downloadableg>
     </modules>
 </config>
