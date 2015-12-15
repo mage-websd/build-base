@@ -2,23 +2,23 @@
 <?php $_items = $this->getItems(); ?>
 <?php if(isset($_items[0])) : ?>
 	<?php if($_items[0]->isFilterSelected()): ?>
-		<a class="remove-group" href="<?php echo $_items[0]->getRemoveGroupUrl(); ?>"><?php echo $this->__('xx Remove group filter') ?></a>
+		<a class="remove-group" href="<?php echo $_items[0]->getRemoveGroupUrl(); ?>" style="background: none; color: red; padding-left: 9px;"><?php echo $this->__('Remove group filter') ?></a>
 	<?php endif; ?>
 <?php endif; ?>
 <?php foreach ($_items as $_item): ?>
 	<?php if ($_item->getCount() > 0): ?>
 		<?php if( $_item->isSelected() ) : ?>
-			<li class="active" style="color: #D96708">
-	  			<a href="<?php echo $_item->getRemoveUrl(); ?>"><?php echo $_item->getLabel() ?></a>
+			<li class="active">
+	  			<a href="<?php echo $_item->getRemoveUrl(); ?>" class="current"><?php echo $_item->getLabel() ?></a>
 	  			<?php if ($this->shouldDisplayProductCount()): ?>
-		        	<span>(<?php echo $_item->getCount() ?>)</span>
+		        	<span class="filter-count">(<?php echo $_item->getCount() ?>)</span>
 		        <?php endif; ?>
 			</li>
 		<?php else: ?>
 			<li>
 	  			<a href="<?php echo $_item->getUrl(); ?>"><?php echo $_item->getLabel() ?></a>
 	  			<?php if ($this->shouldDisplayProductCount()): ?>
-		        	<span>(<?php echo $_item->getCount() ?>)</span>
+		        	<span class="filter-count">(<?php echo $_item->getCount() ?>)</span>
 		        <?php endif; ?>
 			</li>
 		<?php endif; ?>
