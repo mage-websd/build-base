@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <product_list_cart_ajax>
+    <default>
         <reference name="content">
             <block type="core/template" name="data_ajax_cart_catalog" template="cart_ajaxg/enable_module.phtml" before="-"/>
         </reference>
+    </default>
+    <product_list_cart_ajax>
         <reference name="head">
             <reference name="head">
                 <action method="addJs"><script>varien/product_ajaxcart.js</script></action>
