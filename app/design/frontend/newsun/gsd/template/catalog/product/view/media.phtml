@@ -1,0 +1,111 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     rwd_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Product media data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ */
+
+/* @var $this Mage_Catalog_Block_Product_View_Media */
+?>
+<?php
+$_product = $this->getProduct();
+$_helper = $this->helper('catalog/output');
+$_width = 300;
+$_height = 300;
+$_widthThumbnail = 100;
+$_heightThumbnail = 100;
+$_iHelper = $this->helper('catalog/image');
+$_collection = $this->getGalleryImages();
+$_countCollection = count($_collection);
+$_columnCount = 3;
+$_suffix = md5(mt_rand().time());
+?>
+<div class="product-image-box">
+    <div class="product-image product-image-zoom">
+        <div class="product-image-gallery">
+            <img id="image-main"
+                 class="product-base-image"
+                 src="<?php echo $_iHelper->init($_product, 'image')->resize($_width,$_height) ?>"
+                 alt="<?php echo $this->escapeHtml($this->getImageLabel()) ?>"
+                 title="<?php echo $this->escapeHtml($this->getImageLabel()); ?>"
+                data-zoom-image="<?php echo $_iHelper->init($_product, 'image') ?>"/>
+        </div>
+    </div>
+
+    <?php if ($_countCollection): ?>
+        <div class="product-gallery-list swiper-page">
+            <div class="more-views swiper-container swiper-container-<?php echo $_suffix; ?>">
+                <div class="product-image-thumbs swiper-wrapper" id="product-gallery">
+                    <?php $i=0; ?>
+                    <?php foreach ($_collection as $_image): $i++; ?>
+                        <?php if ($this->isGalleryImageVisible($_image)): ?>
+                            <div class="swiper-slide<?php if($i%$_columnCount==1): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
+                                <a class="thumb-link" href="#" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>" data-image-index="<?php echo $i; ?>" data-image="<?php echo $_iHelper->init($_product, 'small_image', $_image->getFile())->resize($_width,$_height); ?>" data-zoom-image="<?php echo $_iHelper->init($_product, 'small_image', $_image->getFile()); ?>">
+                                    <img src="<?php echo $_iHelper->init($_product, 'thumbnail', $_image->getFile())->resize($_widthThumbnail,$_heightThumbnail); ?>"
+                                         width="<?php echo $_widthThumbnail; ?>" height="<?php echo $_heightThumbnail; ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+                                </a>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php if($_countCollection > $_columnCount): ?>
+                    <div class="swiper-controller">
+                        <div class="swiper-button-prev swiper-button-prev-<?php echo $_suffix; ?>"></div>
+                        <div class="swiper-button-next swiper-button-next-<?php echo $_suffix; ?>"></div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+<?php //echo $this->getChildHtml('after'); ?>
+<script>
+    jQuery(document).ready(function($) {
+        $('#image-main').elevateZoom({
+            zoomType: "inner",
+            cursor: "crosshair",
+            zoomWindowFadeIn: 500,
+            zoomWindowFadeOut: 750,
+            gallery:'product-gallery',
+            galleryActiveClass: 'active'
+        });
+        var swiper = new Swiper('.swiper-container-<?php echo $_suffix; ?>', {
+            paginationClickable: true,
+            slidesPerView: <?php echo $_columnCount; ?>,
+            <?php if($_countCollection > $_columnCount): ?>
+            loop: true,
+            nextButton: '.swiper-button-next-<?php echo $_suffix; ?>',
+            prevButton: '.swiper-button-prev-<?php echo $_suffix; ?>',
+            <?php else: ?>
+            loop: false,
+            <?php endif; ?>
+            autoplayDisableOnInteraction: false,
+            spaceBetween: 10
+        });
+    });
+</script>

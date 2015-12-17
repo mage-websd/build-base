@@ -41,7 +41,7 @@ $_suffix = md5(mt_rand().time());
     <div class="block-title">
         <h2><?php echo $this->__('Related Products') ?></h2>
     </div>
-    <div class="swipper-page">
+    <div class="swiper-page">
         <div class="block-content swiper-container swiper-container-<?php echo $_suffix; ?>">
             <div class="products-grid-slider products-grid--max-<?php echo $_columnCount; ?>-slider swiper-wrapper">
                 <?php foreach($this->getItems() as $_product): $i++; ?>
