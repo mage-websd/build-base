@@ -37,6 +37,7 @@ class AW_Blog_Block_Archive extends AW_Blog_Block_Abstract {
     }
     protected function _prepareLayout()
     {
+				parent::_prepareLayout();
         $breadcrumbs = $this->getCrumbs();
         if ($breadcrumbs) {
             $breadcrumbs->addCrumb(
@@ -67,6 +68,21 @@ class AW_Blog_Block_Archive extends AW_Blog_Block_Abstract {
 	            );
             }
         }
+				$pager = $this->getLayout()->createBlock('page/html_pager', 'blog_pager_search');
+        $this->_pageVarName = $pager->getPageVarName();
+        $pager->setAvailableLimit(
+            array(
+                5=>5,
+            )
+        );
+        $pager->setLimit(5);
+        $collection = $this->getPosts();
+        $this->setCollection($collection);
+        $pager->setCollection($collection);
+        $pager->setTemplate('aw_blog/pager_search.phtml');
+        $this->setChild('pager', $pager);
+        $this->getCollection()->load();
+        return $this;
     }
 
     public function getYear()
