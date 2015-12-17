@@ -65,6 +65,7 @@ $installer->addAttribute(Mage_Catalog_Model_Category::ENTITY, 'menu_nav_bottom',
     'visible_on_front' => true,
     'global'        => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
     'sort_order' => 100,
+    'user_defined'      => false,
 ));
  *
  *

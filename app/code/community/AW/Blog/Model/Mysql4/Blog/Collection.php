@@ -16,7 +16,7 @@ class AW_Blog_Model_Mysql4_Blog_Collection extends Mage_Core_Model_Mysql4_Collec
 
     public function addPresentFilter()
     {
-        $this->getSelect()->where('main_table.created_time<=?', now());
+        $this->getSelect()->where('main_table.created_time<=?', Mage::getSingleton('core/date')->date('Y-m-d H:i:s'));
         return $this;
     }
 
