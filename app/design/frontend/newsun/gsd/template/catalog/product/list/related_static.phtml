@@ -42,7 +42,7 @@ $_helper = $this->helper('catalog/output');
     </div>
     <div class="block-content">
         <ul class="products-grid products-grid--max-<?php echo $_columnCount; ?>-col">
-            <?php foreach($this->getItems() as $_product): $i++; ?>
+            <?php foreach($_collection as $_product): $i++; ?>
                 <li class="item<?php if($i%$_columnCount==1): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?>">
                     <div class="product-image-outer">
                         <div class="product-image-inner">

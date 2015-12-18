@@ -97,63 +97,6 @@ class Gsd_Sliderg_Helper_Data extends Mage_Core_Helper_Abstract {
         return Mage::getSingleton('core/layout')->createBlock('sliderg/slider')->setSliderId($sliderId)->toHtml();
     }
 
-    public function getSkinFile($type)
-    {
-        $html ='';
-        switch($type) {
-            case 'slicebox':
-                if(!Mage::registry('sliderg_skin_file_slicebox')) {
-                    $html .= '<link rel="stylesheet" type="text/css" href="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/css/slicebox.css" />';
-                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/js/modernizr.custom.46884.js"></script>';
-                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/slicebox/js/jquery.slicebox.js"></script>';
-                    Mage::register('sliderg_skin_file_slicebox',true);
-                }
-                break;
-            /*case 'swiper':
-                if(!Mage::registry('sliderg_skin_file_swiper')) {
-                    $html .= '<link rel="stylesheet" type="text/css" href="' . Mage::getBaseUrl('js') . 'sliderg/swiper/css/swiper.min.css" />';
-                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/swiper/js/swiper.min.js"></script>';
-                    $html .= '<script src="' . Mage::getBaseUrl('js') . 'sliderg/swiper/js/swiper.jquery.min.js"></script>';
-                    Mage::register('sliderg_skin_file_swiper',true);
-                }
-                break;*/
-        }
-        return $html;
-    }
-
-    public function getTemplateFile($type)
-    {
-        $html ='';
-        switch($type) {
-            case 'slicebox':
-                $html = 'sliderg/slicebox.phtml';
-                break;
-            case 'swiper':
-                $html = 'sliderg/swiper.phtml';
-                break;
-            default:
-                $html = 'sliderg/swiper.phtml';
-                break;
-        }
-        return $html;
-    }
-    public function getTemplateFileProducts($type)
-    {
-        $html ='';
-        switch($type) {
-            case 'slicebox':
-                $html = 'sliderg/products/list.phtml';
-                break;
-            case 'swiper':
-                $html = 'sliderg/products/list.phtml';
-                break;
-            default:
-                $html = 'sliderg/products/list.phtml';
-                break;
-        }
-        return $html;
-    }
-
     public function getImageSize($image = null, $_maxW = 125, $_maxH = 125, $fix = false) {
         $_baseSrc = $this->getBaseMediaPath();
         if (file_exists($imagePath = $_baseSrc . $image->getPathMedia())) {

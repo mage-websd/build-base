@@ -1,4 +1,9 @@
-@media (max-width: 980px) {
+@media only screen and (min-width: 980px) {
+  .menu-mobile-show {
+    display: none;
+  }
+}
+@media only screen and (max-width: 979px) and (min-width: 768px) {
   .nav-container {
     display: none;
   }
@@ -6,12 +11,10 @@
     display: block;
   }
 }
-@media (min-width: 980px) {
-  .menu-mobile-show {
-    display: none;
-  }
+@media only screen and (max-width: 767px) and (min-width: 480px) {
+  
 }
-@media only screen and (min-width: 480px) {
+@media only screen and (max-width: 479px) {
   .products-grid > li {
     width: 20%;
   }

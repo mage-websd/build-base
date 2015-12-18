@@ -94,18 +94,36 @@ $_suffix = md5(mt_rand().time());
             gallery:'product-gallery',
             galleryActiveClass: 'active'
         });
-        var swiper = new Swiper('.swiper-container-<?php echo $_suffix; ?>', {
+        function getPerView() {
+            var widthWindow = $(window).width();
+            if (widthWindow > 980) {
+                return 3;
+            }
+            else if (widthWindow > 768 && widthWindow <= 980) {
+                return 2;
+            }
+            else {
+                return 1;
+            }
+        }
+        var swiper_<?php echo $_suffix; ?> = new Swiper('.swiper-container-<?php echo $_suffix; ?>', {
             paginationClickable: true,
-            slidesPerView: <?php echo $_columnCount; ?>,
+            slidesPerView: getPerView(),
             <?php if($_countCollection > $_columnCount): ?>
             loop: true,
             nextButton: '.swiper-button-next-<?php echo $_suffix; ?>',
             prevButton: '.swiper-button-prev-<?php echo $_suffix; ?>',
+            pagination: '.swiper-pagination-<?php echo $_suffix; ?>',
+            autoplay: 15000,
             <?php else: ?>
             loop: false,
             <?php endif; ?>
             autoplayDisableOnInteraction: false,
-            spaceBetween: 10
+            spaceBetween: 10,
+            grabCursor: true
+        });
+        $(window).resize(function(){
+            swiper_<?php echo $_suffix; ?>.params.slidesPerView = getPerView();
         });
     });
 </script>
