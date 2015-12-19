@@ -206,3 +206,6 @@ ul.products-grid-slider,
 ul.products-grid li {
   margin-left: 0px;
 }
+ul.toggle-tabs {
+  list-style: none;
+}
