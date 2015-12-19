@@ -84,6 +84,7 @@ class Gsd_Likeg_IndexController extends Mage_Core_Controller_Front_Action
     {
         $store = Mage::app()->getStore()->getId();
         $category = Mage::getModel('catalog/category')->load(10);
+        /* @var Mage_Catalog_Model_Resource_Product_Collection */
         $productCollection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId($store)
             ->addCategoryFilter($category)
