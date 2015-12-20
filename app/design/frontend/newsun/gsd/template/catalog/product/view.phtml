@@ -173,10 +173,20 @@
                     }
 
                     if (this.validator.validate()) {
-                        if (url) {
-                            this.form.action = url;
-                        }
-                        this.form.submit();
+                        <?php if(Mage::helper('core')->isModuleEnabled('Gsd_CartAjaxg') && Mage::helper('cartajaxg')->isWishEnable()): ?>
+                            url = url.replace("wishlist/index","cart-ajaxg/whishlist");
+                            var data = jQuery('#product_addtocart_form').serialize();
+                            jQuery().ajaxReturn({
+                                url: url,
+                                type: 'post',
+                                data: data
+                            });
+                        <?php else: ?>
+                            if (url) {
+                                this.form.action = url;
+                            }
+                            this.form.submit();
+                        <?php endif; ?>
                     }
                     Object.extend(Validation.methods, nv);
                 }

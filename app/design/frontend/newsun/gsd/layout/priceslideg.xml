@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout>
+    <catalog_category_view>
+        <reference name="head">
+            <action method="addJs" ifconfig="priceslideg/general/include_jquery">
+                <script>jquery/jquery-1.11.1.min.js</script>
+            </action>
+            <action method="addJs" ifconfig="priceslideg/general/include_jquery_ui">
+                <script>jquery/jquery-ui.js</script>
+            </action>
+            <action method="addItem" ifconfig="priceslideg/general/include_jquery_ui">
+                <type>js_css</type>
+                <script>jquery/jquery-ui.css</script>
+            </action>
+            <block type="core/template" name="price_slide_ajax" template="priceslideg/ajax.phtml" ifconfig="priceslideg/setting/use_ajax"/>
+        </reference>
+    </catalog_category_view>
+    <catalogsearch_result_index>
+        <reference name="head">
+            <action method="addJs" ifconfig="priceslideg/general/include_jquery">
+                <script>jquery/jquery-1.11.1.min.js</script>
+            </action>
+            <action method="addJs" ifconfig="priceslideg/general/include_jquery_ui">
+                <script>jquery/jquery-ui.js</script>
+            </action>
+            <action method="addItem" ifconfig="priceslideg/general/include_jquery_ui">
+                <type>js_css</type>
+                <script>jquery/jquery-ui.css</script>
+            </action>
+            <block type="core/template" name="price_slide_ajax" template="priceslideg/ajax.phtml" ifconfig="priceslideg/setting/use_ajax"/>
+        </reference>
+    </catalogsearch_result_index>
+</layout>

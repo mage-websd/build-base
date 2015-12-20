@@ -9,9 +9,9 @@
  -->
 <config>
     <modules>
-        <Kanavan_Searchautocomplete>
+        <Gsd_SearchAjaxg>
             <active>true</active>
             <codePool>local</codePool>
-        </Kanavan_Searchautocomplete>
+        </Gsd_SearchAjaxg>
     </modules>
 </config> 

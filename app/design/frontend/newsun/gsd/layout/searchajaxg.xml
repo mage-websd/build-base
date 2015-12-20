@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <searchajaxg_suggest_result>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/only_content.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="searchajaxg/suggest" name="searchautocomplete"
+                   template="searchajaxg/suggest.phtml"/>
+        </reference>
+    </searchajaxg_suggest_result>
+</layout> 

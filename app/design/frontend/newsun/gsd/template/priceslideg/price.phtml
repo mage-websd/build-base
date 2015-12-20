@@ -1,0 +1,136 @@
+<?php $_pHelper = $this->helper('priceslideg'); ?>
+<?php if($_pHelper->isEnable()): ?>
+    <?php $this->setNewPrices(); ?>
+    <?php
+    $symbolCurrency = $this->getCurrencySymbol();
+    $baseUrl = $this->getCurrentUrlWithoutParams();
+    ?>
+    <div class="price">
+        <div class="price-slide-amount-wrapper">
+            <?php if($_pHelper->isUseTextbox()): ?>
+                <div class="price-slide-input">
+                    <div class="price-slide-input-box">
+                        <span class="symbol-currency"><?php echo $symbolCurrency; ?></span>
+                        <input type="text" name="<?php echo $_pHelper->getPriceMinParamCode(); ?>" id="minPrice" class="price-slide-text-box" value="<?php echo $this->getCurrMinPrice(); ?>" />
+                    </div>
+                    <div class="price-slide-input-box">
+                        <span class="symbol-currency"><?php echo $symbolCurrency; ?></span>
+                        <input type="text" name="<?php echo $_pHelper->getPriceMinParamCode(); ?>" id="maxPrice" class="price-slide-text-box" value="<?php echo $this->getCurrMaxPrice(); ?>" />
+                    </div>
+                </div>
+                <div class="price-slide-button-sets">
+                    <input type="button" value="<?php echo $this->__('Go'); ?>" name="go" class="button btn-go price-slide-btn-go" />
+                </div>
+                <input type="hidden" id="price-slide-amount" readonly="readonly" value="<?php echo $symbolCurrency.$this->getCurrMinPrice().' - '.$symbolCurrency.$this->getCurrMaxPrice(); ?>" />
+            <?php else: ?>
+                <span class="price-slide-amount min"><?php echo $symbolCurrency.$this->getCurrMinPrice(); ?></span>
+                <span class="price-slide-amount max"><?php echo $symbolCurrency.$this->getCurrMaxPrice(); ?></span>
+            <?php endif; ?>
+        </div>
+        <div id="slider-range" class="price-slide-range"></div>
+    </div>
+    <?php
+    if($_pHelper->isUseAjax()){
+        $ajaxCall = 'priceSlideAjax(url);';
+        /*$ajaxCall = '';
+        $ajaxCall .=
+            '$().ajaxReturn({'.
+                'url: url' .
+            '});';*/
+    }
+    else{
+        $ajaxCall = 'window.location=url;';
+    }
+    if($_pHelper->isUseTextbox()){
+        // Update TextBox Price
+        $updateTextBoxPriceJs = '$("#minPrice").val(newMinPrice);';
+        $updateTextBoxPriceJs .= '$("#maxPrice").val(newMaxPrice);';
+    } ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            var newMinPrice, newMaxPrice, url, temp;
+            var categoryMinPrice = <?php echo $this->getMinPrice(); ?>;
+            var categoryMaxPrice = <?php echo $this->getMaxPrice(); ?>;
+            function isNumber(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+            <?php if($_pHelper->isUseTextbox()): ?>
+                $(document).on('focus','.price-slide-text-box',function(){
+                    temp = $(this).val();
+                });
+                $(document).on('keyup',".price-slide-text-box",function(){
+                    var value = $(this).val();
+                    if(!isNumber(value)){
+                        $(this).val(temp);
+                    }
+                });
+                $(document).on("keypress",".price-slide-text-box",function(e){
+                    if(e.keyCode == 13){
+                        var value = $(this).val();
+                        if(value < categoryMinPrice || value > categoryMaxPrice){
+                            $(this).val(temp);
+                        }
+                        url = getUrl($("#minPrice").val(), $("#maxPrice").val());
+                        <?php echo $ajaxCall; ?>
+                    }
+                });
+
+                $(document).on('blur',".price-slide-text-box",function(){
+                    var value = $(this).val();
+                    if(value < categoryMinPrice || value > categoryMaxPrice){
+                        $(this).val(temp);
+                    }
+
+                });
+
+                $(document).on('click',".price-slide-btn-go",function(){
+                    url = getUrl($("#minPrice").val(), $("#maxPrice").val());
+                    <?php echo $ajaxCall; ?>
+                });
+            <?php endif; ?>
+
+            $( "#slider-range" ).slider({
+                range: true,
+                min: categoryMinPrice,
+                max: categoryMaxPrice,
+                values: [<?php echo $this->getCurrMinPrice(); ?>,<?php echo $this->getCurrMaxPrice(); ?>],
+                slide: function( event, ui ) {
+                    newMinPrice = ui.values[0];
+                    newMaxPrice = ui.values[1];
+                    $('.price-slide-amount.min').text('<?php echo $symbolCurrency; ?>'+newMinPrice);
+                    $('.price-slide-amount.max').text('<?php echo $symbolCurrency; ?>'+newMaxPrice);
+                    <?php if($_pHelper->isUseTextbox()): ?>
+                        <?php echo $updateTextBoxPriceJs; ?>
+                    <?php endif; ?>
+                },stop: function( event, ui ) {
+                    // Current Min and Max Price
+                    var newMinPrice = ui.values[0];
+                    var newMaxPrice = ui.values[1];
+
+                    // Update Text Price
+                    $('.price-slide-amount.min').text('<?php echo $symbolCurrency; ?>'+newMinPrice);
+                    $('.price-slide-amount.max').text('<?php echo $symbolCurrency; ?>'+newMaxPrice);
+                    <?php if($_pHelper->isUseTextbox()): ?>
+                        <?php echo $updateTextBoxPriceJs; ?>
+                    <?php endif; ?>
+                    url = getUrl(newMinPrice,newMaxPrice);
+                    if(newMinPrice == <?php echo $this->getCurrMinPrice(); ?> && newMaxPrice == <?php echo $this->getCurrMaxPrice(); ?>){
+                        clearTimeout(timer);
+                    }
+                    else{
+                        timer = setTimeout(function(){
+                            <?php echo $ajaxCall; ?>
+                        },<?php echo $_pHelper->getTimeout(); ?>);
+                    }
+                }
+            });
+            function getUrl(newMinPrice, newMaxPrice){
+                return '<?php echo $baseUrl; ?>'+'?'+
+                    '<?php echo $_pHelper->getPriceParamCode(); ?>'+'='+
+                    newMinPrice+'-'+newMaxPrice+'<?php echo $this->prepareParams(); ?>';
+            }
+        });
+    </script>
+<?php else : ?>
+    <h1>Default</h1>
+<?php endif; ?>
