@@ -3,6 +3,10 @@ require_once Mage::getModuleDir('controllers', 'Mage_Checkout') . DS . 'CartCont
 
 class Gsd_CartAjaxg_IndexController extends Mage_Checkout_CartController
 {
+    public function indexAction()
+    {
+        return $this->_redirect('');
+    }
     public function addAction()
     {
         if(!Mage::helper('cartajaxg')->isCartEnable()){
@@ -62,9 +66,9 @@ class Gsd_CartAjaxg_IndexController extends Mage_Checkout_CartController
                         $toplink = $toplink->toHtml();
                         $response['data']['.links'] = $toplink;
                     }
-                    if($miniCart = $this->getLayout()->getBlock('mini_cart_header')) {
+                    if($miniCart = $this->getLayout()->getBlock('minicart_head')) {
                         $miniCart = $miniCart->toHtml();
-                        $response['data']['.mini-cart-header'] = $miniCart;
+                        $response['data']['.header-minicart-wrapper'] = $miniCart;
                     }
                 }
             } catch (Mage_Core_Exception $e) {

@@ -2,6 +2,12 @@
 require_once Mage::getModuleDir('controllers','Mage_Wishlist') . DS . 'IndexController.php';
 class Gsd_CartAjaxg_WhishlistController extends Mage_Wishlist_IndexController
 {
+	public function indexAction()
+	{
+		$params = $this->getRequest()->getParams();
+		return $this->_redirect('wishlist/index/index',$params);
+	}
+
 	/*protected function _getWishlist()
 	{
 		$wishlist = Mage::registry('wishlist');
@@ -24,25 +30,36 @@ class Gsd_CartAjaxg_WhishlistController extends Mage_Wishlist_IndexController
 
 		return $wishlist;
 	}*/
+	public function preDispatch()
+	{
+		if ($this->getRequest()->isXmlHttpRequest()) {
+			Mage_Core_Controller_Front_Action::preDispatch();
+			if (!Mage::getSingleton("customer/session")->isLoggedIn()) {
+				$response = array();
+				$response['status'] = 0;
+				$response['message'] = '<a href="'.Mage::getUrl('customer/account/login').'">'.$this->__('Please login').'</a>';
+				$response = Mage::helper('core')->jsonEncode($response);
+				echo $response;
+				exit;
+			}
+		}
+		parent::preDispatch();
+	}
 	public function addAction()
 	{
+		if (!$this->getRequest()->isXmlHttpRequest()) {
+			return parent::addAction();
+		}
 		if (!$this->_validateFormKey()) {
 			return $this->_redirect('*/*');
 		}
 		if(!Mage::helper('cartajaxg')->isWishEnable()){
 			return $this->_redirect('');
 		}
-		if (!$this->getRequest()->isXmlHttpRequest()) {
-			return;
-		}
 		$response = array();
 		if (!Mage::getStoreConfigFlag('wishlist/general/active')) {
 			$response['status'] = 0;
 			$response['message'] = $this->__('Wishlist has been disabled');
-		}
-		if(!Mage::getSingleton('customer/session')->isLoggedIn()){
-			$response['status'] = 0;
-			$response['message'] = $this->__('Please login');
 		}
 
 		if(empty($response)){

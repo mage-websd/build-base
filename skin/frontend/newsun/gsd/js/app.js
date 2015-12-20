@@ -696,45 +696,53 @@ $j(document).ready(function () {
     // Skip Links
     // =============================================
 
-    var skipContents = $j('.skip-content');
-    var skipLinks = $j('.skip-link');
-
-    skipLinks.on('click', function (e) {
+    $j(document).on('click','.skip-link', function (e) {
         e.preventDefault();
-
         var self = $j(this);
-        // Use the data-target-element attribute, if it exists. Fall back to href.
-        var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
-
-        // Get target element
-        var elem = $j(target);
-
-        // Check if stub is open
-        var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
-
-        // Hide all stubs
-        skipLinks.removeClass('skip-active');
-        skipContents.removeClass('skip-active');
-
-        // Toggle stubs
-        if (isSkipContentOpen) {
-            self.removeClass('skip-active');
-        } else {
-            self.addClass('skip-active');
-            elem.addClass('skip-active');
+        if(!self.hasClass('mmenu-toggle')) {
+            // Use the data-target-element attribute, if it exists. Fall back to href.
+            var target = self.attr('data-target-element') ? self.attr('data-target-element') : self.attr('href');
+            // Get target element
+            var elem = $j(target);
+            // Check if stub is open
+            var isSkipContentOpen = elem.hasClass('skip-active') ? 1 : 0;
+            // Hide all stubs
+            $j('.skip-link').removeClass('skip-active');
+            $j('.skip-content').removeClass('skip-active');
+            // Toggle stubs
+            if (isSkipContentOpen) {
+                self.removeClass('skip-active');
+            } else {
+                self.addClass('skip-active');
+                elem.addClass('skip-active');
+            }
+        }
+        else {
+            $j('.skip-link').removeClass('skip-active');
+            $j('.skip-content').removeClass('skip-active');
         }
     });
-
-    $j('#header-cart').on('click', '.skip-link-close', function(e) {
-        var parent = $j(this).parents('.skip-content');
-        var link = parent.siblings('.skip-link');
-
-        parent.removeClass('skip-active');
-        link.removeClass('skip-active');
-
-        e.preventDefault();
+    $j(document).mouseup(function (e){
+        var container = $j(".skip-content");
+        var mMenuToggle = $j('.skip-link');
+        if (mMenuToggle.is(e.target)
+            || mMenuToggle.has(e.target).length !== 0
+        ){
+            return false;
+        }
+        else if (!container.is(e.target)
+            && container.has(e.target).length === 0
+        ){
+            $j('.skip-link').removeClass('skip-active');
+            $j('.skip-content').removeClass('skip-active');
+        }
     });
-
+    $j(document).keyup(function(e) {
+        if (e.keyCode == 27) {
+            $j('.skip-link').removeClass('skip-active');
+            $j('.skip-content').removeClass('skip-active');
+        }
+    });
 
     // ==============================================
     // Header Menus

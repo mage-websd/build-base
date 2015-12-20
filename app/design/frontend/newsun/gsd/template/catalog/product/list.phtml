@@ -89,12 +89,15 @@ $_height = 400;
                                             <span><span><?php echo $this->__('Add to Cart') ?></span></span>
                                         </button>
                                     <?php } else { ?>
-                                        <button data-href="<?php echo $this->getAddToCartUrl($_product) ?>"
+                                        <?php /*button data-href="<?php echo $this->getAddToCartUrl($_product) ?>"
                                                 data-url-add="<?php echo $this->getUrl('cartajaxg/index/options', array('product' => $_product->getId())); ?>"
                                                 type="button" title="<?php echo $this->__('Add to Cart') ?>"
                                                 class="button btn-cart" data-cart="option">
                                             <span><span><?php echo $this->__('Add to Cart') ?></span></span>
-                                        </button>
+                                        </button*/ ?>
+                                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart"
+                                                onclick="setLocation('<?php echo $this->getAddToCartUrl($_product); ?>')">
+                                            <span><span><?php echo $this->__('Add to Cart') ?></span></span></button>
                                     <?php } ?>
                                 <?php else: ?>
                                     <?php
@@ -118,7 +121,7 @@ $_height = 400;
                             <?php endif; ?>
                             <ul class="add-to-links">
                                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                                    <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                                    <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist-list"><?php echo $this->__('Add to Wishlist') ?></a></li>
                                 <?php endif; ?>
                                 <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
                                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
