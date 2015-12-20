@@ -1,0 +1,235 @@
+<?php
+$_collection = $this->getCollection();
+$_countCollection = count($_collection);
+if(!$_countCollection) {
+    return;
+}
+$_width = 200;
+$_height = 300;
+$i=0;
+$_columnCount = $this->getColumn();
+$_helper = $this->helper('catalog/output');
+$_suffix = md5(mt_rand().time());
+$_helper = $this->helper('sliderg');
+$config = $this->getConfig();
+$_columnCount = $config->getData('sliders_per_view');
+$width = $config->getData('width');
+$height = $config->getData('height');
+$htmlWidhthHeight = '';
+if($config->getData('width_slider')) {
+    $htmlWidhthHeight .= 'width: '. $config->getData('width_slider').';';
+}
+if($config->getData('height_slider')) {
+    $htmlWidhthHeight .= 'height: '. $config->getData('height_slider').';';
+}
+?>
+<div class="swiper-page">
+    <div class="swiper-container swiper-container-<?php echo $_suffix; ?>">
+        <div class="slider-<?php echo $_columnCount; ?> swiper-wrapper">
+            <?php
+            foreach ($_collection as $image) {
+                if(!$this->helper('sliderg')->isExistsImage($image->getPathMedia())) {
+                    continue;
+                }
+                $srcImage = $this->helper('sliderg/image')->init($image->getPathMedia());
+                if($width && $height) {
+                    $size = $_helper->getImageSize($image, $width, $height);
+                    $srcImage = $srcImage->resize($size->getWidth(), $size->getHeight());
+                }
+                elseif ($width) {
+                    $size = $_helper->getImageSize($image, $width);
+                    $srcImage = $srcImage->resize($size->getWidth(), $size->getHeight());
+                    /*$sizeHeightArray[] = $size->getHeight();*/
+                }
+                ?>
+                <div class="swiper-slide">
+                    <?php if($image->getUrlBanner()): ?>
+                        <a href="<?php echo $this->helper('baseg')->translateCode($image->getUrlBanner()); ?>">
+                    <?php endif;//endif check url banner ?>
+                        <img src="<?php echo $srcImage; ?>"/>
+                    <?php if($image->getUrlBanner()): ?>
+                        </a>
+                    <?php endif; ?>
+                    <div class="sl-description">
+                        <div class="sl-desc-inner">
+                            <?php echo $image->getDescription(); ?>
+                        </div>
+                    </div>
+                </div>
+            <?php }//end foreach collection image ?>
+        </div>
+        <?php if($_countCollection > $_columnCount): ?>
+            <?php if($config->getData('pagination_enable') == 'true'): ?>
+                <div class="swiper-pagination swiper-pagination-<?php echo $_suffix; ?>"></div>
+            <?php endif; ?>
+            <?php if($config->getData('navigation_enable') == 'true'): ?>
+                <div class="swiper-controller">
+                    <div class="swiper-button-prev swiper-button-prev-<?php echo $_suffix; ?>"></div>
+                    <div class="swiper-button-next swiper-button-next-<?php echo $_suffix; ?>"></div>
+                </div>
+            <?php endif; ?>
+        <?php endif; ?>
+    </div>
+</div>
+<script>
+    jQuery(document).ready(function ($) {
+        function getPerView() {
+            <?php if($_columnCount > 1): ?>
+                var widthWindow = $(window).width();
+                if (widthWindow > 980) {
+                    return <?php echo $_columnCount; ?>;
+                }
+                else if (widthWindow > 640 && widthWindow <= 980) {
+                    return <?php echo (int)($_columnCount/2); ?>;
+                }
+                else {
+                    return 1;
+                }
+            <?php else: ?>
+            return 1;
+            <?php endif; ?>
+        }
+        <?php
+            if($config->getData('setting_more_before')) {
+                echo $config->getData('setting_more_before');
+            }
+        ?>
+        var swiper_<?php echo $_suffix; ?> = new Swiper('.swiper-container-<?php echo $_suffix; ?>', {
+            <?php if($config->getData('pagination_enable') == 'true') {
+                if($_countCollection > $_columnCount) { ?>
+                pagination: '.swiper-pagination-<?php echo $_suffix; ?>',
+            <?php }} ?>
+            <?php if($config->getData('navigation_enable') == 'true') {
+                if($_countCollection > $_columnCount) { ?>
+                nextButton: '.swiper-button-next-<?php echo $_suffix; ?>',
+                prevButton: '.swiper-button-prev-<?php echo $_suffix; ?>',
+            <?php }}?>
+            <?php
+                if($config->getData('effect')) {
+                    echo 'effect: "'.$config->getData('effect').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('grab_cursor')) {
+                    echo 'grabCursor: "'.$config->getData('grab_cursor').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('direction')) {
+                    echo 'direction: "'.$config->getData('direction').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('pagination_clickable')) {
+                    echo 'paginationClickable: "'.$config->getData('pagination_clickable').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('loop')) {
+                    echo 'loop: "'.$config->getData('loop').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('space_between')) {
+                    echo 'spaceBetween: '.$config->getData('space_between').',';
+                }
+            ?>
+            <?php if($config->getData('sliders_per_view')): ?>
+                    slidesPerView: getPerView(),
+            <?php endif; ?>
+            <?php
+                if($config->getData('centered_slides')) {
+                    echo 'centeredSlides: "'.$config->getData('centered_slides').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('mousewheel_control')) {
+                    echo 'mousewheelControl: "'.$config->getData('mousewheel_control').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('autoplay')) {
+                    echo 'autoplay: '.$config->getData('autoplay').',';
+                }
+            ?>
+            <?php
+                if($config->getData('autoplay_disable_on_interaction')) {
+                    echo 'autoplayDisableOnInteraction: "'.$config->getData('autoplay_disable_on_interaction').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('free_mode')) {
+                    echo 'freeMode: "'.$config->getData('free_mode').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('slides_per_column')) {
+                    echo 'slidesPerColumn: '.$config->getData('slides_per_column').',';
+                }
+            ?>
+            <?php
+                if($config->getData('slides_per_column_fill')) {
+                    echo 'slidesPerColumnFill: "'.$config->getData('slides_per_column_fill').'",';
+                }
+            ?>
+            <?php
+                if($config->getData('slides_per_group')) {
+                    echo 'slidesPerGroup: '.$config->getData('slides_per_group').',';
+                }
+            ?>
+            <?php
+                if($config->getData('speed')) {
+                    echo 'speed: '.$config->getData('speed').',';
+                }
+            ?>
+            <?php
+                if($config->getData('simulate_touch')) {
+                    echo 'simulateTouch: '.$config->getData('simulate_touch').',';
+                }
+            ?>
+            <?php
+                if($config->getData('preload_images')) {
+                    echo 'preloadImages: '.$config->getData('preload_images').',';
+                }
+            ?>
+            <?php
+                if($config->getData('lazy_loading')) {
+                    echo 'lazyLoading: '.$config->getData('lazy_loading').',';
+                }
+            ?>
+            <?php
+                if($config->getData('lazy_loading_in_prev_next')) {
+                    echo 'lazyLoadingInPrevNext: '.$config->getData('lazy_loading_in_prev_next').',';
+                }
+            ?>
+            <?php
+                if($config->getData('lazy_loading_on_transition_start')) {
+                    echo 'lazyLoadingOnTransitionStart: '.$config->getData('lazy_loading_on_transition_start').',';
+                }
+            ?>
+            <?php
+                if($config->getData('keyboard_control')) {
+                    echo 'keyboardControl: "'.$config->getData('keyboard_control').'",';
+                }
+                else {
+                    echo 'keyboardControl: true';
+                }
+            ?>
+            <?php
+                if($config->getData('setting_more_inner')) {
+                    echo ','.$config->getData('setting_more_inner');
+                }
+            ?>
+        });
+        <?php
+            if($config->getData('setting_more_after')) {
+                echo $config->getData('setting_more_after');
+            }
+        ?>
+        <?php if($_columnCount > 1): ?>
+        $(window).resize(function(){
+            swiper_<?php echo $_suffix; ?>.params.slidesPerView = getPerView();
+        });
+        <?php endif; ?>
+    });
+</script>

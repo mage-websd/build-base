@@ -12,6 +12,9 @@ class Gsd_Catalogg_Block_Product_New extends Gsd_Catalogg_Block_Product_Abstract
     }
     public function getCollection()
     {
+        if ($this->_collection) {
+            return $this->_collection;
+        }
         $todayStartOfDayDate  = Mage::app()->getLocale()->date()
             ->setTime('00:00:00')
             ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);

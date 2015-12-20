@@ -9,6 +9,9 @@ class Gsd_Catalogg_Block_Product_Bestseller extends Gsd_Catalogg_Block_Product_A
         return $this;
     }
     public function getBestSeller() {
+        if ($this->_collection) {
+            return $this->_collection;
+        }
         $collection = Mage::getResourceModel('reports/product_collection')
             ->addOrderedQty()
             ->setStoreId($this->_store)

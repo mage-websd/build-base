@@ -36,6 +36,9 @@ class Gsd_Catalogg_Block_Product_Categories extends Gsd_Catalogg_Block_Product_A
         return $this;
     }
     public function getCollection() {
+        if ($this->_collection) {
+            return $this->_collection;
+        }
         if(!$this->_categories || !count($this->_categories)) {
             return null;
         }

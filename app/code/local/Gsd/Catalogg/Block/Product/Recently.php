@@ -54,6 +54,9 @@ class Gsd_Catalogg_Block_Product_Recently extends Gsd_Catalogg_Block_Product_Abs
 
     public function getCollection()
     {
+        if ($this->_collection) {
+            return $this->_collection;
+        }
         $this->_collection = $this->getRecently();
         return $this->_collection;
     }

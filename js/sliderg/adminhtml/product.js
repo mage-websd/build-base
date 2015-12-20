@@ -148,6 +148,8 @@ Product.Igallery.prototype = {
             'cell-urlbanner input').value;
         this.images[index].descriptionbanner = this.getFileElement(file,
                 'cell-descriptionbanner input').value;
+        this.images[index].position = this.getFileElement(file,
+            'cell-position input').value;
         this.images[index].removed = (this.getFileElement(file,
                 'cell-remove input').checked ? 1 : 0);
         this.images[index].disabled = (this.getFileElement(file,

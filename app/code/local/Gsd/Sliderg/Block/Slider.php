@@ -4,30 +4,19 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
     protected $_sliderId;
     protected $_slider;
     protected $_collection;
-    protected $_type;
-    protected $_sliderMaxViewDefault = 5;
+
+    protected function _construct() {
+        parent::_construct();
+        $this->setTemplate('sliderg/swiper.phtml');
+    }
 
     public function _beforeToHtml()
     {
         if(!$this->_sliderId) {
             return null;
         }
-        $this->_type =  $this->_slider->getConfig('type');
-        if(!$this->_type) {
-            $this->_type = 'swiper';
-        }
-        echo $this->getSkinFile();
         parent::_beforeToHtml();
-        if(!$this->getTemplate()) {
-            $template = $this->helper('sliderg')->getTemplateFile($this->_type);
-            $this->setTemplate($template);
-        }
         return $this;
-    }
-
-    public function getSkinFile()
-    {
-        return $this->helper('sliderg')->getSkinFile($this->_type);
     }
 
     public function getCollection() {
@@ -47,8 +36,10 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
             ->setOrder('position', Varien_Data_Collection::SORT_ORDER_ASC)
             ->setOrder('name_rename', Varien_Data_Collection::SORT_ORDER_ASC)
             ->addSliderIdFilter($this->_sliderId);
-        $max = $this->_slider->getConfig('sliders_max_view') ? $this->_slider->getConfig('sliders_max_view') : $this->_sliderMaxViewDefault;
-        $this->_collection->setPageSize($max);
+        $max = $this->_slider->getConfig('sliders_max_view');
+        if($max) {
+            $this->_collection->setPageSize($max);
+        }
         //$this->_collection->getSelect()->order(new Zend_Db_Expr('RAND()'));
         $this->setCollection($this->_collection);
         return $this->_collection;
@@ -107,15 +98,15 @@ class Gsd_Sliderg_Block_Slider extends Mage_Core_Block_Template
      */
 
 
-    public function setSliderId($sliderId)
+    public function setSlider($sliderCode)
     {
         if(!Mage::helper('sliderg')->isSliderEnable()){
             $this->_slider = null;
             $this->_sliderId = null;
             return null;
         }
-        $this->_sliderId = $sliderId;
-        $this->_slider = $this->_getModel()->load($sliderId,'code');
+        $this->_sliderId = $sliderCode;
+        $this->_slider = $this->_getModel()->load($sliderCode,'code');
         if(!$this->_slider->getId()) {
             $this->_slider = null;
             $this->_sliderId = null;

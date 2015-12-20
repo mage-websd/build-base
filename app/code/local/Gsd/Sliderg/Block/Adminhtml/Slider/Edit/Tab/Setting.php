@@ -12,7 +12,7 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $this->setForm($form);
 
         $fieldset = $form->addFieldset('slider_setting', array('legend' => $this->__("Setting")));
-        $fieldset->addField('format', 'select', array(
+        /*$fieldset->addField('format', 'select', array(
             'label' => $this->__('Format'),
             'name' => $prefix.'format',
             'values' => Mage::getSingleton('sliderg/source_setting_format')->toOptionArray(),
@@ -21,7 +21,7 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
             'label' => $this->__('Slider type'),
             'name' => $prefix.'type',
             'values' => Mage::getSingleton('sliderg/source_setting_type')->toOptionArray(),
-        ));
+        ));*/
 
         $fieldset->addField('width', 'text', array(
             'label' => $this->__('Width'),
@@ -178,43 +178,7 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_Setting extends Mage_Adminhtml
         $fieldset->addField('setting_more_after', 'editor', array(
             'label' => $this->__('Setting more after'),
             'name' => $prefix.'setting_more_after',
-            'wysiwyg'   => true,
-            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig(),
         ));
-        $settingHintSb = $fieldset->addField('setting_more_hint_slicebox', 'textarea', array(
-            'label' => $this->__('Setting more hint'),
-        ));
-        $data['setting_more_hint_slicebox'] = '
-cuboidsRandom: true,
-disperseFactor: 30,
-perspective: 1200,
-cuboidsCount: 5, //number slicer
-cuboidsRandom: false,
-maxCuboidsCount: 5,
-// each cuboid will move x pixels left / top (depending on orientation).
-// The middle cuboid doesn\'t move. the middle cuboid\'s neighbors will
-// move disperseFactor pixels
-disperseFactor: 0,
-// color of the hidden sides
-colorHiddenSides: \'#222\',
-// the animation will start from left to right. The left most
-// cuboid will be the first one to rotate
-// this is the interval between each rotation in ms
-sequentialFactor: 150,
-// animation speed
-// this is the speed that takes "1" cuboid to rotate
-speed: 600,
-// transition easing
-easing: \'ease\',
-// if true the slicebox will start the animation automatically
-autoplay: true,
-// time (ms) between each rotation, if autoplay is true
-interval: 3000,
-// the fallback will just fade out / fade in the items
-// this is the time fr the fade effect
-fallbackFadeSpeed: 300,
-//orientation: \'r\', //v,h,r
-';
 
         $form->setValues($data);
         return parent::_prepareForm();
