@@ -1,7 +1,7 @@
 <?php
 class Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute extends Mage_Catalog_Model_Resource_Layer_Filter_Attribute
 {
-    public function applyFilterToCollection($filter, $value)
+    public function applyFilterToCollection($filter, $value,$flagFilterPrice=false)
     {
         if(!Mage::helper('multifilterg')->isEnable()) {
             return parent::applyFilterToCollection($filter, $value);
@@ -77,6 +77,9 @@ class Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute extends Mag
             $whereSelect = $select->getPart(ZEND_Db_Select::WHERE);
             $select->reset(Zend_Db_Select::WHERE);
             foreach($whereSelect as $whereSelectElement) {
+                if(stripos($whereSelectElement, 'final_price')) {
+                    continue;
+                }
                 if(stripos($whereSelectElement,'category_id')) {
                     continue;
                 }
