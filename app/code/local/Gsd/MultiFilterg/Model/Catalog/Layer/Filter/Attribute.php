@@ -13,6 +13,22 @@ class Gsd_MultiFilterg_Model_Catalog_Layer_Filter_Attribute extends Mage_Catalog
         if(!Mage::helper('multifilterg')->isEnable()) {
             return parent::apply($request, $filterBlock);
         }
+        $collection = Mage::getSingleton('catalog/layer')->getProductCollection();
+        if(Mage::helper('core')->isModuleEnabled('Gsd_PriceSlideg') &&
+            Mage::helper('priceslideg')->isEnable()) {
+            if(!Mage::registry('flag_filter_price')) {
+                $pHelper = Mage::helper('priceslideg');
+                $currentRate = Mage::app()->getStore()->getCurrentCurrencyRate();
+                $price = Mage::app()->getRequest()->getParam($pHelper->getPriceParamCode());
+                $price = $pHelper->getPrice($price);
+                $max = round($price[1]  / $currentRate);
+                $min = round($price[0] / $currentRate);
+                if($min && $max){
+                    $collection->getSelect()->where(' final_price >= "'.$min.'" AND final_price <= "'.$max.'" ');
+                }
+                Mage::register('flag_filter_price',1);
+            }
+        }
         $filter = $request->getParam($this->_requestVar);
         if (is_array($filter)) {
             $text = array();
