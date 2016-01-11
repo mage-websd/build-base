@@ -127,7 +127,7 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
         $_storeLabel = $_attribute->getData('store_label');
         return $_attributeLabel;
     }
-	
+
 	public function getOptionsConfigurable()
 	{
 		$productAttributeOptions = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
@@ -147,7 +147,7 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
         $config    = Mage::getModel('eav/config');
         $attribute = $config->getAttribute($entity, $code);
         $attrSource = $attribute->setStoreId($storeId)->getSource();
-        
+
         $attrOptions = $attrSource->getAllOptions(false);
         $storeLabel = $attrSource->getAttribute()->getData('frontend_label');
     }
@@ -160,5 +160,24 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
             return null;
         }
         return (int)(100 * ($price-$finalPrice) / $price);
+    }
+
+    public function getProductCategory($category) {
+      $store = Mage::app()->getStore()->getId();
+      $category = Mage::getModel('catalog/category')->load(10);
+      /* @var Mage_Catalog_Model_Resource_Product_Collection */
+      $productCollection = Mage::getResourceModel('catalog/product_collection')
+          ->setStoreId($store)
+          ->addCategoryFilter($category)
+      ;
+    }
+
+    public function getCategoryChildren($categoryId) {
+      $_categoryCollection = Mage::getModel('catalog/category')->getCollection()
+        ->addAttributeToSelect(array('name','url_key'))
+        ->addAttributeToFilter('is_active',1)
+        ->addAttributeToFilter('parent_id',$categoryId)
+    	   ->addAttributeToSort('position');
+      return $_categoryCollection;
     }
 }
