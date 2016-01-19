@@ -172,12 +172,28 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
       ;
     }
 
-    public function getCategoryChildren($categoryId) {
-      $_categoryCollection = Mage::getModel('catalog/category')->getCollection()
-        ->addAttributeToSelect(array('name','url_key'))
-        ->addAttributeToFilter('is_active',1)
-        ->addAttributeToFilter('parent_id',$categoryId)
-    	   ->addAttributeToSort('position');
-      return $_categoryCollection;
+    public function getCategoryChildren($categoryId,$limit=null) {
+      if(is_object($categoryId)) {
+        $categoryId = $categoryId->getId();
+      }
+        $collection = Mage::getModel('catalog/category')->getCollection()
+          ->addAttributeToSelect(array('name','url_key'))
+          ->addAttributeToFilter('is_active',1)
+          ->addAttributeToFilter('parent_id',$categoryId)
+          ->addAttributeToSort('position');
+        if($limit) {
+	   		    $collection->setPageSize($limit);
+        }
+        return $collection;
     }
+
+    public function getWishlistIds() {
+	    $itemCollection = Mage::helper('wishlist')->getWishlistItemCollection();
+	    $ids = array();
+	    foreach ($itemCollection as $item) {
+	        $product = $item->getProduct();
+	        $ids[] = $product->getId();
+	    }
+	    return $ids;
+	}
 }
