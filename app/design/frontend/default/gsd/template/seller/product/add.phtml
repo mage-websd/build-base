@@ -1,0 +1,60 @@
+<?php
+	$_product = $this->getProduct();
+	$_formData = $this->getFormData();
+	$_sHelper = $this->helper('seller');
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="seller-page seller-product-add">
+	<h1 class="page-title"><?php
+		if($_product) {
+			echo $this->__('Edit product: %s',$_product->getName());
+		}
+		else {
+			echo $this->__('Add product');
+		}
+	?></h1>
+	<div class="form-seller-product">
+		<form method="post" action="<?php echo $this->getUrl('seller/product/save'); ?>" id="form-seller-product" enctype="multipart/form-data">
+			<?php echo $this->getBlockHtml('formkey'); ?>
+			<input type="hidden" name="entity_id" value="<?php echo $_formData->getId(); ?>" />
+			<div class="button-sets">
+				<input type="submit" name="submit" value="<?php echo $this->__('Save Product'); ?>" class="btn btn-add-product" />
+				<input type="submit" name="submit_edit" value="<?php echo $this->__('Save and Edit Product'); ?>" class="btn btn-add-product" />
+			</div>
+	        <ul class="tabs">
+	            <li id="product_tabs_1" class="active first"><a href="#"><?php echo $this->__('General') ?></a></li>
+	            <li id="product_tabs_2" ><a href="#"><?php echo $this->__('Images') ?></a></li>
+	            <li id="product_tabs_3" ><a href="#"><?php echo $this->__('Categories') ?></a></li>
+				<?php if(in_array($_formData->getTypeId(),$_sHelper->getProductTypesAssociated())): ?>
+	            	<li id="product_tabs_4" ><a href="#"><?php echo $this->__('Associated Products') ?></a></li>
+	            <?php endif; ?>
+	        </ul>
+	        <div class="padder">
+	            <div id="product_tabs_1_contents">
+	            	<?php echo $this->getChildHtml('seller_product_general'); ?>
+	            </div>
+	            <div id="product_tabs_2_contents">
+	            	<?php echo $this->getChildHtml('seller_product_images'); ?>
+	            </div>
+	            <div id="product_tabs_3_contents">
+	            	<?php echo $this->getChildHtml('seller_product_categories'); ?>
+	            </div>
+	            <?php if(in_array($_formData->getTypeId(),$_sHelper->getProductTypesAssociated())): ?>
+	            	<div id="product_tabs_4_contents">
+	            		<?php echo $this->getChildHtml('seller_product_configurable'); ?>
+	            	</div>
+	            <?php endif; ?>
+	        </div>
+			<div class="button-sets">
+				<input type="submit" name="submit" value="<?php echo $this->__('Save Product'); ?>" class="btn btn-add-product" />
+				<input type="submit" name="submit_edit" value="<?php echo $this->__('Save and Edit Product'); ?>" class="btn btn-add-product" />
+			</div>
+		</form>
+		<script type="text/javascript">
+		//<![CDATA[
+		    new Varien.Tabs('.tabs');
+		    new VarienForm('form-seller-product');
+		//]]>
+		</script>
+	</div>
+</div>

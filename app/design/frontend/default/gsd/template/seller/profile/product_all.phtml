@@ -1,0 +1,50 @@
+<?php
+	//$_collection = $this->getProductCollectionAll();
+    $_collection = $this->getCollection();
+	if(count($_collection)) :
+		$_columnCount = 4;
+		$_storeId = Mage::app()->getStore()->getStoreId();
+		$_cHelper = $this->helper('icategory');
+		$_helper = $this->helper('catalog/output');
+		$this->setPriceTemplate('catalog/product/price_no_label.phtml');
+?>
+<div class="products-all cps-block">
+	<div class="cps-title">
+		<h3><?php echo $this->__('All Products'); ?></h3>
+		<p><?php echo $this->__('Lorem Ipsum dolor sit amet, consectetur adipiscing elit'); ?></p>
+	</div>
+	<div class="cps-content">
+		<ul class="products-grid">
+        <?php $i=0; foreach ($_collection as $_product): $i++; ?>
+            <?php $_product = Mage::getModel('catalog/product')->setStoreId($_storeId)->load($_product->getId()); ?>
+            <?php $_size = $_cHelper->getSize($_product, 170, 140, 'small_image', 'width'); ?>
+            <li class="item<?php if(($i-1)%$_columnCount==0): ?> first<?php elseif($i%$_columnCount==0): ?> last<?php endif; ?> <?php echo ($i % 2 ? 'odd' : 'even') ?>">
+                <div class="product-image-outer"><div class="product-image-inner">
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_size->getWidth(), $_size->getHeight()); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                    <?php if ($_product->isSaleable()) : ?>
+                        <?php if ($_cHelper->isSale($_product)): ?>
+                            <p class="product-label is-sale"><span><?php echo $this->__('Sale') ?></span></p>
+                        <?php elseif ($_cHelper->isNew($_product)): ?>
+                            <p class="product-label is-new"><span><?php echo $this->__('New') ?></span></p>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <p class="product-label out-of-stock"><span><?php echo $this->__('Sold Out') ?></span></p>
+                    <?php endif; ?>
+                </div></div>
+                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="product-rating">
+                    <?php //if($_product->getRatingSummary()): ?>
+                        <?php echo $this->getReviewsSummaryHtml($_product,'short',false) ?>
+                    <?php //endif; ?>
+                </div>
+            </li>
+        <?php endforeach ?>
+        </ul>
+        <div class="seller-product-all-pager toolbar">
+            <?php echo $this->getPagerHtml(); ?>
+        </div>
+        <script type="text/javascript">decorateList('products-grid', 'none-recursive')</script>
+	</div>
+</div>
+<?php endif; ?>

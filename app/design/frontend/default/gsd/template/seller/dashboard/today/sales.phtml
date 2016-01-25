@@ -1,0 +1,10 @@
+<div class="box">
+    <div class="box-content">
+        <label><?php echo $this->__("Today's Sales") ?></label>
+        <div class="sales-box">
+            <span class="today-sales">
+                <?php echo $this->helper('core')->currency($this->getTotalPurchased(), true, true) ?>
+            </span>
+        </div>
+    </div>
+</div>

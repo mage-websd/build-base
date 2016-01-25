@@ -1,0 +1,92 @@
+<?php
+if(!Mage::getSingleton('customer/session')->isLoggedIn()) {
+    return;
+}
+$_customer = $this->getCustomer(); 
+if(!$_customer) {
+    return;
+}
+?>
+<div class="popup-wrapper popup-review-customer" style="display: none">
+    <div class="popup-container">
+        <div class="popup-close-btn">
+            <a href="#">Close</a>
+        </div>
+        <div class="popup-outer">
+            <div class="popup-inner">
+                <div class="form-review-customer">
+                    <div class="form-title">
+                        <h1>Evaluate this retailer</h1>
+                        <p>Your reviewing: <b><?php echo $_customer->getName(); ?></b></p>
+                    </div>
+                    <form action="<?php echo $this->getUrl('seller/review/addPost'); ?>" method="post" id="form-review-customer">
+                        <?php echo $this->getBlockHtml('formkey'); ?>
+                        <input type="hidden" name="customer_id" value="<?php echo $_customer->getId(); ?>" />
+                        <input type="hidden" name="current_url" value="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" />
+                        <?php $_ratings = $this->getRating(); ?>
+                        <?php if(count($_ratings)){ ?>
+                            <div class="rating form-list">
+                                <table class="rating-head rating-list">
+                                    <thead>
+                                        <td class="rating-title"></td>
+                                        <?php for($i = 1 ; $i < 6 ; $i++) { ?>
+                                            <td class="rating-value"><?php echo $i.' '.$this->__('start'); ?></td>
+                                        <?php }//end for input checkbox ?>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($_ratings as $_rating) { ?>
+                                            <tr class="form-input rating-list">
+                                                <td class="rating-title"><?php echo $_rating->getRatingName(); ?></td>
+                                                    <?php for($i = 1 ; $i < 6 ; $i++) { ?>
+                                                        <td class="rating-value"><input type="radio" name="rating_id_<?php echo $_rating->getId(); ?>" value="<?php echo $i; ?>"/></td>
+                                                    <?php }//end for input checkbox ?>
+                                            </tr>
+                                        <?php }//end foreach rating ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php }//end if count rating ?>
+                        <div class="review form-list">
+                            <div class="form-input">
+                                <label class="required"><em>*</em><?php echo $this->__('Name:'); ?></label>
+                                <div class="input-box">
+                                    <input name="name" value="" class="input-text required-entry"/>
+                                </div>
+                            </div>
+                            <div class="form-input">
+                                <label class="required"><em>*</em><?php echo $this->__('Summary:'); ?></label>
+                                <div class="input-box">
+                                    <input name="summary" value="" class="input-text required-entry"/>
+                                </div>
+                            </div>
+                            <div class="form-input">
+                                <label class="required"><em>*</em><?php echo $this->__('Message:'); ?></label>
+                                <div class="input-box">
+                                    <textarea name="message" class="input-text required-entry"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-list buttons-set">
+                            <input type="submit" name="submit" value="Submit Review" class="btn btn-submit-review"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    new VarienForm('form-review-customer');
+    jQuery(document).ready(function($) {
+        $(document).on('change','.rating-value input',function() {
+            if($(this).is(':checked')) {
+                $(this).parent().siblings().removeClass('active');
+                $(this).parent().addClass('active');
+            }
+        });
+        $(document).on('click','.link-popup-review-customer',function() {
+            $('.popup-wrapper.popup-review-customer').fadeIn(500);
+            return false;
+        });
+    });
+</script>

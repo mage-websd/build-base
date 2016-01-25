@@ -1,0 +1,85 @@
+<?php
+	$_customer = $this->getCustomer();
+	if(!$_customer) {
+		return ;
+	}
+	$_customerBilling = $_customer->getPrimaryBillingAddress();
+	if(!$_customerBilling) {
+		$_customerBilling = new Varien_Object();
+	}
+	$_reviewBlock = $this->getLayout()->createBlock('seller/review_item');
+	$_reviewTotal = $_reviewBlock->getRatingEntityTotal()->getData();
+	if(isset($_reviewTotal[0]['total_review'])) {
+		$_reviewTotal = $_reviewTotal[0]['total_review'];
+	}
+	else {
+		$_reviewTotal = 0;
+	}
+	$_reviewPercent = $_reviewBlock->getRatingTotalPercent();
+?>
+<div class="customer-banner">
+
+</div>
+<div class="customer-information">
+	<div class="ci-top">
+		<div class="cit-left">
+			<div class="customer-avatar">
+				<img src="<?php echo $this->helper('seller')->getAvatarCustomer($_customer); ?>">
+			</div>
+			<div class="customer-name">
+				<h3>
+					<?php echo $_customer->getName(); ?>
+				</h3>
+				<div class="customer-rating">
+					<h6><?php echo $this->__('Average Ratings'); ?></h6>
+					<div class="rating-box">
+						<span class="rating" style="width: <?php echo $_reviewBlock->getRatingTotalPercent(); ?>%"></span>
+					</div>
+					<div class="review-total-count">
+						<b>
+						<?php echo $_reviewPercent / 10 / (10 / $_reviewBlock->getMaxRating()); ?>
+						<?php echo $this->__('based on'); ?>
+						<?php echo $_reviewTotal; ?>
+						<?php echo $this->__('rating[s]'); ?>
+						</b>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cit-right">
+			<div class="customer-phone">
+				<span class="c-telephone"><?php echo $_customerBilling->getTelephone(); ?></span>
+				<span class="c-email">
+					<a href="mailto:<?php echo $_customer->getEmail(); ?>"><?php echo $_customer->getEmail(); ?></a>
+				</span>
+			</div>
+			<div class="customer-social">
+				<?php if($_customer->getData('instagram')) : ?>
+					<a href="<?php echo $_customer->getInstagram(); ?>" class="instagram">Instagram</a>
+				<?php endif; ?>
+				<?php if($_customer->getData('facebook')) : ?>
+					<a href="<?php echo $_customer->getFacebook(); ?>" class="facebook">Facebook</a>
+				<?php endif; ?>
+				<?php if($_customer->getData('twitter')) : ?>
+					<a href="<?php echo $_customer->getData('twitter'); ?>" class="twitter">Twitter</a>
+				<?php endif; ?>
+				<?php if($_customer->getData('googleplus')) : ?>
+					<a href="<?php echo $_customer->getData('googleplus'); ?>" class="googleplus">Google Plus</a>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+	<div class="ci-bottom">
+		<div class="customer-desciption">
+			<?php echo $_customer->getData('seller_info'); ?>
+		</div>
+	</div>
+</div>
+<div class="customer-more">
+	<div class="customer-profile-left">
+		<?php echo $this->getChildHtml('seller_profile_left'); ?>
+	</div>
+	<div class="customer-profile-product">
+		<?php echo $this->getChildHtml('seller_profile_products'); ?>
+	</div>
+</div>
