@@ -1,0 +1,71 @@
+<?php
+    $_customer = $this->getCustomer();
+    if(!$_customer) {
+        return ;
+    }
+	$_collection = $this->helper('seller')->getProductCollectionBestSell($_customer->getId());
+	if(count($_collection)) :
+		$_columnCount = 4;
+		$_storeId = Mage::app()->getStore()->getStoreId();
+		$_cHelper = $this->helper('icategory');
+		$_helper = $this->helper('catalog/output');
+		$suffix = md5(microtime() . mt_rand());
+		$this->setPriceTemplate('catalog/product/price_no_label.phtml');
+?>
+<div class="products-best-sell cps-block">
+	<div class="cps-title">
+		<h3><?php echo $this->__('Best Selling'); ?></h3>
+		<p><?php echo $this->__('Lorem Ipsum dolor sit amet, consectetur adipiscing elit'); ?></p>
+		<div class="slider-controler customer-best-sell">
+            <div class="bx-controls-direction">
+                <span class="bx-prev bx-controllers bx-prev-<?php echo $suffix; ?>"></span>
+                <span class="bx-next bx-controllers bx-next-<?php echo $suffix; ?>"></span>
+            </div>
+        </div>
+	</div>
+	<div class="cps-content">
+		<div class="bxslider bxslider-<?php echo $suffix; ?>">
+        <?php $i=0; foreach ($_collection as $_product): $i++; ?>
+            <?php $_product = Mage::getModel('catalog/product')->setStoreId($_storeId)->load($_product->getId()); ?>
+            <?php $_size = $_cHelper->getSize($_product, 170, 140, 'small_image', 'width'); ?>
+            <div class="item<?php echo ($i % 2 ? ' odd' : ' even') ?>">
+                <div class="product-image-outer"><div class="product-image-inner">
+                    <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_size->getWidth(), $_size->getHeight()); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+                    <?php if ($_product->isSaleable()) : ?>
+                        <?php if ($_cHelper->isSale($_product)): ?>
+                            <p class="product-label is-sale"><span><?php echo $this->__('Sale') ?></span></p>
+                        <?php elseif ($_cHelper->isNew($_product)): ?>
+                            <p class="product-label is-new"><span><?php echo $this->__('New') ?></span></p>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <p class="product-label out-of-stock"><span><?php echo $this->__('Sold Out') ?></span></p>
+                    <?php endif; ?>
+                </div></div>
+                <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                <?php echo $this->getPriceHtml($_product, true) ?>
+                <div class="product-rating">
+                    <?php //if($_product->getRatingSummary()): ?>
+                        <?php echo $this->getReviewsSummaryHtml($_product,'short',false) ?>
+                    <?php //endif; ?>
+                </div>
+            </div>
+        <?php endforeach ?>
+        </div>
+        <script type="text/javascript">
+        	decorateList('products-grid', 'none-recursive')
+        	jQuery(document).ready(function($) {
+		        $('.bxslider-<?php echo $suffix; ?>').bxSlider({
+		            moveSlides: 1,
+		            slideMargin: 20,
+		            slideWidth: 170,
+		            minSlides: <?php echo $_columnCount; ?>,
+		            maxSlides: <?php echo $_columnCount; ?>,
+		            nextSelector: '.bx-next-<?php echo $suffix; ?>',
+		            prevSelector: '.bx-prev-<?php echo $suffix; ?>',
+		            pager: false
+		        });
+		    });
+    	</script>
+	</div>
+</div>
+<?php endif; ?>

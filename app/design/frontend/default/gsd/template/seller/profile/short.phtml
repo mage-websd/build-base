@@ -1,0 +1,78 @@
+<?php
+$_product = Mage::registry('current_product');
+if(!$_product) {
+	return;
+}
+$_customerInfo = $this->helper('seller')->getCustomerProduct($_product);
+if(!$_customerInfo) {
+	return ;
+}
+$_collection = $this->getProductCollectionShort($_customerInfo['customer']->getId());
+$_cHelper = $this->helper('icategory');
+$_iHelper = $this->helper('catalog/image');
+$suffix = md5(microtime() . mt_rand());
+?>
+<div class="product-customer-details">
+	<div class="customer-information">
+		<div class="customer-avatar">
+			<a href="<?php echo $this->getUrl('seller/info/view',array('id'=>$_customerInfo['customer']->getId())); ?>">
+				<img src="<?php echo $_customerInfo['avatar']; ?>">
+			</a>
+		</div>
+		<div class="customer-content">
+			<div class="customer-name">
+				<h3>
+					<a href="<?php echo $this->getUrl('seller/info/view',array('id'=>$_customerInfo['customer']->getId())); ?>"><?php echo $_customerInfo['customer']->getName(); ?></a>
+				</h3>
+				<p class="customer-location"><?php echo $_customerInfo['customer']->getData('location'); ?></p> 
+			</div>
+			<div class="customer-desciption">
+				<?php echo $_customerInfo['customer']->getData('seller_info'); ?>
+				<span class="read-more">
+					<a href="<?php echo $this->getUrl('seller/info/view',array('id'=>$_customerInfo['customer']->getId())); ?>" class="read-more-link"><?php echo $this->__('Read more'); ?></a>
+				</span>
+			</div>
+		</div>
+	</div>
+	<?php if(count($_collection)) : ?>
+		<div class="customer-product-list">		
+			<ul class="bxslider-<?php echo $suffix; ?>">
+				<?php foreach($_collection as $_product) : ?>
+					<?php $_size = $_cHelper->getSize($_product, 110, 90, 'small_image', 'width'); ?>
+					<li class="item">
+						<div class="product-image-outer"><div class="product-image-inner">
+                    		<a href="<?php echo $_product->getProductUrl() ?>"  class="product-image" title="<?php echo $_product->getName(); ?>">
+                    			<img src="<?php echo $_iHelper->init($_product, 'small_image')->resize($_size->getWidth(), $_size->getHeight()); ?>" />
+                			</a>
+            			</div></div>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+			<div class="slider-controler customer-product-short">
+	            <div class="bx-controls-direction">
+	                <span class="bx-prev bx-controllers bx-prev-<?php echo $suffix; ?>"></span>
+	                <span class="bx-next bx-controllers bx-next-<?php echo $suffix; ?>"></span>
+	            </div>
+	        </div>
+		</div>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+		        $('.bxslider-<?php echo $suffix; ?>').bxSlider({
+		            moveSlides: 1,
+		            slideMargin: 10,
+		            slideWidth: 110,
+		            minSlides: 1,
+		            maxSlides: 3,
+		            nextSelector: '.bx-next-<?php echo $suffix; ?>',
+		            prevSelector: '.bx-prev-<?php echo $suffix; ?>',
+		            pager: false,
+		            mode: 'horizontal',
+		            speed: 500,
+		            infiniteLoop: true,
+		            auto: false,
+		            pause: 4000,
+		        });
+		    });
+		</script>
+	<?php endif; ?>
+</div>

@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    My
+ * @package     Emosys_Seller
+ * @author      Theodore Doan (theodore.doan@gmail.com)
+ */
+-->
+<config>
+    <modules>
+        <Emosys_Seller>
+            <version>1.0.0</version>
+        </Emosys_Seller>
+    </modules>
+    <frontend>
+        <routers>
+            <seller>
+                <use>standard</use>
+                <args>
+                    <module>Emosys_Seller</module>
+                    <frontName>seller</frontName>
+                </args>
+            </seller>
+            <customer>
+                <args>  
+                    <modules>  
+                        <Emosys_Seller before="Mage_Customer">Emosys_Seller</Emosys_Seller>  
+                    </modules>  
+                </args>  
+            </customer>
+        </routers>
+        <layout>
+            <updates>
+                <seller>
+                    <file>seller.xml</file>
+                </seller>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+            <seller>
+                <use>admin</use>
+                <args>
+                    <module>Emosys_Seller</module>
+                    <frontName>seller</frontName>
+                </args>
+            </seller>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <seller translate="title" module="seller">
+                <title>Market Place</title>
+                <sort_order>90</sort_order>
+                <children>
+                    <customer translate="title" module="seller">
+                        <title>Manage Vendors</title>
+                        <action>seller/adminhtml_customer</action>
+                        <sort_order>10</sort_order>
+                    </customer>
+                    <product translate="title" module="seller">
+                        <title>Manage Products</title>
+                        <action>seller/adminhtml_product</action>
+                        <sort_order>20</sort_order>
+                    </product>
+                    <config module="icycle">
+                        <title>Configuration</title>
+                        <sort_order>30</sort_order>
+                        <action>adminhtml/system_config/edit/section/seller</action>
+                    </config>
+                    <review translate="title" module="seller">
+                        <title>Reviews Customer</title>
+                        <action>seller/adminhtml_review</action>
+                        <sort_order>40</sort_order>
+                    </review>
+                </children>
+            </seller>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <seller>
+                                            <title>Seller Section</title>
+                                        </seller>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <seller>
+                    <file>seller.xml</file>
+                </seller>
+            </updates>
+        </layout>
+    </adminhtml>
+    <global>
+        <blocks>
+            <seller>
+                <class>Emosys_Seller_Block</class>
+            </seller>
+            <catalog>
+                <rewrite>
+                    <!-- <product_list>Emosys_Seller_Block_Catalog_Product_List</product_list> -->
+                    <product_list_toolbar>Emosys_Seller_Block_Catalog_Product_List_Toolbar</product_list_toolbar>
+                </rewrite>
+            </catalog>
+            <adminhtml>
+                <rewrite>
+                    <customer_edit_tab_account>Emosys_Seller_Block_Adminhtml_Customer_Edit_Tab_Account</customer_edit_tab_account>
+                </rewrite>
+            </adminhtml>
+        </blocks>
+        <helpers>
+            <seller>
+                <class>Emosys_Seller_Helper</class>
+            </seller>
+        </helpers>
+        <models>
+            <seller>
+                <class>Emosys_Seller_Model</class>
+                <resourceModel>seller_resource</resourceModel>
+            </seller>
+            <seller_resource>
+                <class>Emosys_Seller_Model_Resource</class>
+                <entities>
+                    <rating>
+                        <table>seller_review_rating</table>
+                    </rating>
+                    <ratingentity>
+                        <table>seller_review_rating_entity</table>
+                    </ratingentity>
+                    <review>
+                        <table>seller_review_review</table>
+                    </review>
+                </entities>
+            </seller_resource>
+            <catalog>
+                <rewrite>
+                    <layer>Emosys_Seller_Model_Catalog_Layer</layer>
+                </rewrite>
+            </catalog>
+            <catalog_resource>
+                <rewrite>
+                    <layer_filter_price>Emosys_Seller_Model_Catalog_Resource_Layer_Filter_Price</layer_filter_price>
+                </rewrite>
+            </catalog_resource>
+            <customer>
+                <rewrite>
+                    <customer>Emosys_Seller_Model_Customer_Customer</customer>
+                </rewrite>
+            </customer>
+            <customer_resource>
+                <rewrite>
+                    <customer>Emosys_Seller_Model_Customer_Resource_Customer</customer>
+                </rewrite>
+            </customer_resource>
+            <sales_resource>
+                <rewrite>
+                    <order_item>Emosys_Seller_Model_Sales_Resource_Order_Item</order_item>
+                </rewrite>
+            </sales_resource>
+        </models>
+        <resources>
+            <seller_setup>
+                <setup>
+                    <module>Emosys_Seller</module>
+                </setup>
+                <!-- <connection>
+                    <use>core_setup</use>
+                </connection> -->
+            </seller_setup>
+            <!-- <seller_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </seller_write>
+            <seller_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </seller_read> -->
+        </resources>
+    </global>
+</config>

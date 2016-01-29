@@ -1,0 +1,49 @@
+<div class="box">
+    <div class="box-title">
+        <h3><?php echo $this->__('Your Income') ?></h3>
+    </div>
+    <div class="box-content">
+        <ul>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('this_week'), true, true) ?>
+                    <label><?php echo $this->__("This Week") ?></label>
+                </div>
+            </li>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('this_month'), true, true) ?>
+                    <label><?php echo $this->__("This Month") ?></label>
+                </div>
+            </li>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('this_year'), true, true) ?>
+                    <label><?php echo $this->__("This Year") ?></label>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="box-content">
+        <ul>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('week'), true, true) ?>
+                    <label><?php echo $this->__("Last Week") ?></label>
+                </div>
+            </li>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('month'), true, true) ?>
+                    <label><?php echo $this->__("Last Month") ?></label>
+                </div>
+            </li>
+            <li>
+                <div class="box-income">
+                    <?php echo $this->helper('core')->currency($this->getTotalPurchased('year'), true, true) ?>
+                    <label><?php echo $this->__("Last Year") ?></label>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

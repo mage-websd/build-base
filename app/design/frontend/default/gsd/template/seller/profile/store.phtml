@@ -1,0 +1,103 @@
+<?php
+	$_customer = $this->getCustomer();
+	$_cHelper = $this->helper('icategory');
+	$_idCategoryShow = 4;
+	$_reviewBlock = $this->getLayout()->createBlock('seller/review_item');
+	$_reviewValueElement = $_reviewBlock->getRatingValueTotal();
+?>
+<?php if($_customer->getData('seller_location')): ?>
+	<div class="block block-customer-store">
+		<div class="block-title">
+			<h3><?php echo $this->__('Store Location'); ?></h3>
+		</div>
+		<div class="block-content">
+			<?php echo $_customer->getData('seller_location'); ?>
+		</div>
+	</div>
+<?php endif; ?>
+<div class="block block-customer-rating">
+	<div class="block-title">
+		<h3><?php echo $this->__('Feedback Ratings'); ?></h3>
+	</div>
+	<div class="block-content">
+		<div class="review-total">
+			<div class="review-status positive">
+				<div class="review-elements">
+					<div class="review-element review-5">
+						<span class="review-label"><?php echo $this->__('5 Stars'); ?></span>
+						<span class="review-value-wrapper"><span class="review-value" style="width:<?php echo round($_reviewValueElement['value'][5] / $_reviewValueElement['total'] * 100); ?>%"></span></span>
+						<span class="review-count"><?php echo $_reviewValueElement['value'][5]; ?></span>
+					</div>
+					<div class="review-element review-4">
+						<span class="review-label"><?php echo $this->__('4 Stars'); ?></span>
+						<span class="review-value-wrapper"><span class="review-value" style="width:<?php echo round($_reviewValueElement['value'][4] / $_reviewValueElement['total'] * 100); ?>%"></span></span>
+						<span class="review-count"><?php echo $_reviewValueElement['value'][4]; ?></span>
+					</div>
+				</div>
+				<div class="review-status-lable"><?php echo $this->__('Positive'); ?></div>
+			</div>
+			<div class="review-status neutral">
+				<div class="review-elements">
+					<div class="review-element review-3">
+						<span class="review-label"><?php echo $this->__('3 Stars'); ?></span>
+						<span class="review-value-wrapper"><span class="review-value" style="width:<?php echo round($_reviewValueElement['value'][3] / $_reviewValueElement['total'] * 100); ?>%"></span></span>
+						<span class="review-count"><?php echo $_reviewValueElement['value'][3]; ?></span>
+					</div>
+				</div>
+				<div class="review-status-lable"><?php echo $this->__('Neutral'); ?></div>
+			</div>
+			<div class="review-status negative">
+				<div class="review-elements">
+					<div class="review-element review-2">
+						<span class="review-label"><?php echo $this->__('2 Stars'); ?></span>
+						<span class="review-value-wrapper"><span class="review-value" style="width:<?php echo round($_reviewValueElement['value'][2] / $_reviewValueElement['total'] * 100); ?>%"></span></span>
+						<span class="review-count"><?php echo $_reviewValueElement['value'][2]; ?></span>
+					</div>
+					<div class="review-element review-1">
+						<span class="review-label"><?php echo $this->__('1 Stars'); ?></span>
+						<span class="review-value-wrapper"><span class="review-value" style="width:<?php echo round($_reviewValueElement['value'][1] / $_reviewValueElement['total'] * 100); ?>%"></span></span>
+						<span class="review-count"><?php echo $_reviewValueElement['value'][1]; ?></span>
+					</div>
+				</div>
+				<div class="review-status-lable"><?php echo $this->__('Negative'); ?></div>
+			</div>
+		</div>
+		<div class="review-view-all">
+			<a href="<?php echo $this->getUrl('seller/review/list',array('id'=>$_customer->getId())); ?>"><?php echo $this->__('View All Reviews'); ?></a>
+		</div>
+		<div class="review-bought">
+			<p><?php echo $this->__('Have you bought something from this seller?'); ?></p>
+		</div>
+		<div class="link-review-rating">
+			<?php if(Mage::getSingleton('customer/session')->isLoggedIn()): ?>
+				<a href="#" class="link-popup-review-customer"><?php echo $this->__('Review'); ?></a>
+			<?php else: ?>
+				<a href="#" class="login-link-popup"><?php echo $this->__('Login to Review'); ?></a>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+
+<?php $children = $_cHelper->getCategoryCollection($_idCategoryShow); ?>
+<?php if (count($children) > 0) : ?>
+    <div class="block block-nav all-categories">
+        <div class="block-title collapse-title expand">
+            <strong><span><?php echo $this->__('Product Categories') ?></span></strong>
+        </div>
+        <div class="block-content collapse-content">
+            <dl id="narrow-by-list2">
+	            <?php foreach($children as $_child) : ?>
+	                <?php if ($_child->getIsActive()) : ?>
+	                    <dt>
+	                        <label>
+	                            <a href="<?php echo $_child->getUrl() ?>"><?php echo $this->htmlEscape($_child->getName()) ?></a>
+	                        </label>
+	                    </dt>
+	                <?php endif; ?>
+	            <?php endforeach; ?>
+            </dl>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php echo $this->getChildHtml('review_customer'); ?>

@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2014 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+Supported layout update handles (action):
+- customer_account_index
+- customer_address_index
+- customer_address_view
+- customer_account_login
+- customer_account_logoutsuccess
+- customer_account_create
+- customer_account_forgotpassword
+- customer_account_confirmation
+- customer_account_edit
+
+Supported layout update handles (special):
+- default
+
+-->
+<layout version="0.1.0">
+
+<!--
+Customer account pages, rendered for all tabs in dashboard
+-->
+<!--
+Customer account pages, rendered for all tabs in dashboard
+-->
+
+    <customer_account>
+        <reference name="left">
+            <block type="customer/account_navigation" name="seller_account_navigation" after="customer_account_navigation" template="seller/account/navigation.phtml">
+                <action method="addLink" translate="label" module="seller"><name>seller_info</name><path>seller/account/info</path><label>Seller Info</label></action>
+                <action method="addLink" translate="label" module="seller"><name>product_list</name><path>seller/product</path><label>Product List</label></action>
+                <action method="addLink" translate="label" module="seller"><name>product_add_sell</name><path>seller/product/add</path><label>Add Product</label></action>
+            </block>
+        </reference>
+    </customer_account>
+
+    <seller_account translate="label">
+        <label>Customer My Account (All Pages)</label>
+        <!--remove name="catalog.compare.sidebar"/>
+        <remove name="sale.reorder.sidebar"/-->
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addJs">
+                <file>tiny_mce/tiny_mce.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar.js</file>
+            </action>
+            <action method="addJs">
+                <file>calendar/calendar-setup.js</file>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <file>calendar/calendar-blue.css</file>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="page/html_wrapper" name="my.account.wrapper" translate="label">
+                <label>My Account Wrapper</label>
+                <action method="setElementClass"><value>my-account</value></action>
+            </block>
+        </reference>
+
+        <reference name="left">
+            <block type="customer/account_navigation" name="customer_account_navigation" before="-" template="customer/account/navigation.phtml">
+                <action method="addLink" translate="label" module="customer"><name>account</name><path>customer/account/</path><label>Account Dashboard</label></action>
+                <action method="addLink" translate="label" module="customer"><name>account_edit</name><path>customer/account/edit/</path><label>Account Information</label></action>
+                <action method="addLink" translate="label" module="customer"><name>address_book</name><path>customer/address/</path><label>Address Book</label></action>
+                <action method="addLink" translate="label" module="sales"><name>orders</name><path>sales/order/history/</path><label>My Orders</label></action>
+                <action method="addLink" translate="label" module="wishlist" ifconfig="wishlist/general/active"><name>wishlist</name><path>wishlist/</path><label>My Wishlist</label></action>
+                <action method="addLink" translate="label" module="newsletter"><name>newsletter</name><path>newsletter/manage/</path><label>Newsletter Subscriptions</label></action>
+            </block>
+            <block type="customer/account_navigation" name="seller_account_navigation" after="customer_account_navigation" template="seller/account/navigation.phtml">
+                <action method="addLink" translate="label" module="seller"><name>seller_info</name><path>seller/account/info</path><label>Seller Info</label></action>
+                <action method="addLink" translate="label" module="seller"><name>product_list</name><path>seller/product</path><label>Product List</label></action>
+                <action method="addLink" translate="label" module="seller"><name>product_add_sell</name><path>seller/product/add</path><label>Add Product</label></action>
+            </block>
+            <block type="checkout/cart_sidebar" name="cart_sidebar" template="checkout/cart/sidebar.phtml">
+                <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
+                <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
+            </block>
+
+        </reference>
+    </seller_account>
+
+    <seller_review_index>
+        <reference name="content">
+            <block type="core/template" name="review_customer" template='seller/review/item.phtml' />
+        </reference>
+    </seller_review_index>
+    <seller_review_list>
+        <reference name="content">
+            <block type="seller/review_list" name="review_customer_list" />
+        </reference>
+    </seller_review_list>
+<!--
+Customer account home dashboard layout
+-->
+
+    <seller_account_index translate="label">
+        <label>Customer My Account Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="customer/account_dashboard" name="customer_account_dashboard" template="seller/account/dashboard.phtml" />
+        </reference>
+
+    </seller_account_index>
+
+<!--
+Customer account home dashboard layout
+-->
+
+    <seller_account_dashboard translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <!-- <block type="customer/account_dashboard" name="customer_account_dashboard" template="seller/account/dashboard.phtml" /> -->
+            <block type="cms/block" name="seller_dashboard">
+                <action method="setBlockId">
+                    <block_id>seller_dashboard</block_id>
+                </action>
+            </block>
+        </reference>
+
+    </seller_account_dashboard>
+
+<!--
+Seller product listing layout
+-->
+
+    <seller_product_index translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="seller/product_list" name="seller_product_list" template="seller/product/list.phtml"/>
+        </reference>
+
+    </seller_product_index>
+
+<!--
+Seller product add layout
+-->
+
+    <seller_product_add translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="seller/product_add" name="seller_product_add" template="seller/product/add.phtml">
+                <block type="seller/product_add" name="seller_product_general" template="seller/product/information/general.phtml" />
+                <block type="seller/product_add" name="seller_product_images" template="seller/product/information/images.phtml" />
+                <block type="seller/product_add" name="seller_product_categories" template="seller/product/information/categories.phtml" />
+                <block type="seller/product_add" name="seller_product_configurable" template="seller/product/information/configurable.phtml" />
+            </block>
+        </reference>
+    </seller_product_add>
+
+    <seller_product_edit translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="seller/product_add" name="seller_product_add" template="seller/product/add.phtml">
+                <block type="seller/product_add" name="seller_product_general" template="seller/product/information/general.phtml" />
+                <block type="seller/product_add" name="seller_product_images" template="seller/product/information/images.phtml" />
+                <block type="seller/product_add" name="seller_product_categories" template="seller/product/information/categories.phtml" />
+                <block type="seller/product_add" name="seller_product_configurable"
+                       template="seller/product/information/configurable.phtml">
+                    <block type="seller/product_associated" name="seller_product_associated"
+                           template="seller/product/information/associated.phtml"/>
+                    <block type="seller/product_associated" name="seller_product_associated_bundle"
+                           template="seller/product/information/associated/bundle.phtml"/>
+                </block>
+            </block>
+        </reference>
+    </seller_product_edit>
+
+    <seller_account_info translate="label">
+        <label>Seller Dashboard</label>
+        <update handle="seller_account"/>
+        <!-- Mage_Customer -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="head">
+            <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params></params></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar.js</name></action>
+            <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name></action>
+            <block type="core/html_calendar" name="head.calendar" as="calendar" template="page/js/calendar.phtml"></block>
+
+            <block type="core/template" name="google_chart" template="seller/dashboard/google_chart.phtml"/>
+        </reference>
+        <reference name="my.account.wrapper">
+            <block type="core/template" name="seller_dashboard" template="seller/dashboard.phtml">
+                <block type="seller/dashboard_today" name="today_sales" as="today.sales" template="seller/dashboard/today/sales.phtml"/>
+                <block type="seller/dashboard_today" name="today_orders" as="today.orders" template="seller/dashboard/today/orders.phtml"/>
+                <block type="seller/dashboard_income" name="dashboard_income" as="income" template="seller/dashboard/income.phtml"/>
+                <block type="seller/dashboard_orders" name="dashboard_orders" as="orders" template="seller/dashboard/orders.phtml"/>
+            </block>
+        </reference>
+    </seller_account_info>
+
+    <catalog_product_view>
+        <reference name="product.info">
+            <block type="seller/profile_short" name="seller_profile_short" template="seller/profile/short.phtml" />
+        </reference>
+    </catalog_product_view>
+
+    <seller_info_view>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="seller/profile_view" name="seller_profile_view" template="seller/profile/view.phtml">
+                <block type="core/text_list" name="seller_profile_left">
+                    <block type="seller/profile_view" name="seller_profile_store" template="seller/profile/store.phtml">
+                        <block type="seller/review_item" name="review_customer" template='seller/review/item.phtml' />
+                    </block>
+                </block>
+                <block type="core/text_list" name="seller_profile_products">
+                    <block type="seller/profile_view" name="seller_profile_best_selling" template="seller/profile/best_selling.phtml" />
+                    <block type="seller/profile_view" name="seller_profile_product_all" template="seller/profile/product_all.phtml" />
+                </block>
+            </block>
+        </reference>
+    </seller_info_view>
+
+    <seller_info_review>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>page/1column.phtml</template>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="review_customerg/list" name="review_customer_list" />
+        </reference>
+    </seller_info_review>
+</layout>

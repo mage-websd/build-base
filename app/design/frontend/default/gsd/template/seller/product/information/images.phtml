@@ -1,0 +1,63 @@
+<?php
+    $_product = $this->getProduct();
+    $_formData = $this->getFormData();
+    $_iHelper = $this->helper('catalog/image');
+    $_maxUpload = $this->getMaxUploadImage();
+?>
+<div class="images-list">
+    <?php $images = $_formData->getMediaGallery();?>
+	<?php $images = $images['images']; ?>
+    <?php if( count($images) ) : ?>
+	    <table class="data-table" id="product-images-table">
+	        <col width="1" />
+	        <col width="1" />
+	        <col />
+	        <col width="1" />
+	        <col width="1" />
+	        <col width="1" />
+	        <thead>
+	            <tr>
+	                <th class="mp-id"><?php echo $this->__('#') ?></th>
+	                <th class="mp-image"><?php echo $this->__('Image') ?></th>
+	                <th class="mp-name"><?php echo $this->__('Label') ?></th>
+	                <th class="mp-col"><?php echo $this->__('Base Image') ?></th>
+	                <th class="mp-col"><?php echo $this->__('Small Image') ?></th>
+	                <th class="mp-col"><?php echo $this->__('Thumbnail Image') ?></th>
+	                <th class="mp-col"><?php echo $this->__('Exclude') ?></th>
+	                <th class="mp-col"><?php echo $this->__('Remove') ?></th>
+	                <th>&nbsp;</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <?php $i = 1 ?>
+	            <?php foreach ($images as $_item) : ?>
+	                <tr>
+	                    <td class="mp-id"><?php echo $i ?></td>
+	                    <td class="mp-image"><img class="thumb" src="<?php echo $_iHelper->init($_product, 'thumbnail', $_item['file'])->resize(50, 50); ?>" alt="<?php echo $this->htmlEscape($_item['label']) ?>" width="50"/></td>
+	                    <td class="mp-name"><span class="nobr">
+	                    	<input type="text" name="product_image_label[<?php echo $_item['value_id']; ?>]" value="<?php echo $_item['label'] ?>" /></span></td>
+	                    <td>
+	                    	<input type="radio" name="image" value="<?php echo $_item['file']; ?>"<?php if($_formData->getImage() == $_item['file']) {echo ' checked';} ?> />
+	                    </td>
+	                    <td>
+	                    	<input type="radio" name="small_image" value="<?php echo $_item['file']; ?>"<?php if($_formData->getSmallImage() == $_item['file']) {echo ' checked';} ?> />
+	                    </td>
+	                    <td>
+	                    	<input type="radio" name="thumbnail" value="<?php echo $_item['file']; ?>"<?php if($_formData->getThumbnail() == $_item['file']) {echo ' checked';} ?> />
+	                    </td>
+	                    <td>
+	                    	<input type="checkbox" name="product_image_exclude[]" value="<?php echo $_item['value_id']; ?>"<?php if($_item['disabled']) {echo ' checked';} ?> />
+	                    </td>
+	                    <td class="a-center mp-delete">
+	                        <input type="checkbox" name="product_image_remove[]" value="<?php echo $_item['value_id']; ?>" />
+	                    </td>
+	                </tr>
+	                <?php $i ++ ?>
+	            <?php endforeach; ?>
+	        </tbody>
+	    </table>
+    <?php endif; ?>
+    <div class="input-upload-file">
+    	<input id="product_image" name="product_image" class="input-file" type="file" accept="image/*" />
+    </div>
+</div>
