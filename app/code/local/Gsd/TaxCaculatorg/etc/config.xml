@@ -33,6 +33,27 @@
                     </sales_quote_collect_totals_after_taxcaculatorg>
                 </observers>
             </sales_quote_collect_totals_after>
+
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <sales_quote_collect_totals_before_taxcaculatorg>
+                        <type>singleton</type>
+                        <class>taxcaculatorg/observer</class>
+                        <method>salesQuoteCollectTotalsBefore</method>
+                    </sales_quote_collect_totals_before_taxcaculatorg>
+                </observers>
+            </sales_quote_collect_totals_before>
+
+            <sales_quote_save_before>
+                <observers>
+                    <sales_quote_save_before_taxcaculatorg>
+                        <type>singleton</type>
+                        <class>taxcaculatorg/observer</class>
+                        <method>salesQuoteSaveBefore</method>
+                    </sales_quote_save_before_taxcaculatorg>
+                </observers>
+            </sales_quote_save_before>
+
         </events>
     </frontend>
 </config>

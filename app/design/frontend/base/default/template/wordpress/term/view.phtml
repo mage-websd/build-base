@@ -1,0 +1,52 @@
+<?php
+/**
+ * @category		Fishpig
+ * @package		Fishpig_Wordpress
+ * @license		http://fishpig.co.uk/license.txt
+ * @author		Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $_term = $this->getTerm() ?>
+<?php if ($_term): ?>
+	<div class="page-title">
+		<h1><?php echo $this->escapeHtml($_term->getName()) ?>	</h1>
+	</div>
+	<?php if ($description = $_term->getDescription()): ?>
+		<div class="description"><?php echo $description ?></div>
+	<?php endif; ?>
+	<?php if ($postList = trim($this->getPostListHtml())): ?>
+		<?php echo $postList ?>
+		<script>
+			jQuery(document).ready(function($) {
+				$(document).on('click','.pager .pages li a',function(event) {
+					event.preventDefault();
+					$('.pager-ajax-loading').show();
+					$('.pager').remove();
+					href = $(this).attr('href');
+					$.ajax({
+						url: href,
+						type: 'get',
+						dataType: 'json',
+						success: function(data){
+							if(data.success) {
+								if(data.data) {
+									html = data.data;
+									if(html.post_list) {
+										$('#post-list').append(html.post_list);
+									}
+									if(html.pager) {
+										$('#post-list').after(html.pager);
+
+									}
+								}
+							}
+							$('.pager-ajax-loading').hide();
+						}
+					});
+				});
+			});
+		</script>
+	<?php else: ?>
+		<p class="note-msg"><?php echo $this->__('There are no posts matching your selection.') ?>
+	<?php endif; ?>
+<?php endif; ?>
