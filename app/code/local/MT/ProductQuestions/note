@@ -1,0 +1,21 @@
+questions/post: post question
+
+questions/question: form question
+
+page category:
+    addCategoryFilter into block
+
+code-----
+
+config.xml: add router
+
+change sql
+
+category collection : addstorefilter
+
+question controller: 
+    add breadcrum index: 'link' => Mage::getUrl(Mage::helper('productquestions/router')->getRouterSeo()),
+
+admin question
+    add field category
+

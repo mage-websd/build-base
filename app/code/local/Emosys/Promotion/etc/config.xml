@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Emosys
+ * @package     Emosys_Promotion
+ * @copyright   Copyright (c) 2015 Emosys Ltd. (http://www.emosys.com)
+ * @license     http://www.emosys.com/EMOSYS-LICENSE.txt
+ */
+-->
+<config>
+    <modules>
+        <Emosys_Promotion>
+            <version>0.1.0</version>
+        </Emosys_Promotion>
+    </modules>
+    <global>
+        <helpers>
+            <e_promotion>
+                <class>Emosys_Promotion_Helper</class>
+            </e_promotion>
+        </helpers>
+        <blocks>
+            <e_promotion>
+                <class>Emosys_Promotion_Block</class>
+            </e_promotion>
+        </blocks>
+        <models>
+            <e_promotion>
+                <class>Emosys_Promotion_Model</class>
+                <resourceModel>e_promotion_resource</resourceModel>
+            </e_promotion>
+            <e_promotion_resource>
+                <class>Emosys_Promotion_Model_resource</class>
+                <entities>
+                    <item>
+                        <table>emosys_promotion_item</table>
+                    </item>
+                </entities>
+            </e_promotion_resource>
+        </models>
+        <resources>
+            <emosys_promotion_setup>
+                <setup>
+                    <module>Emosys_Promotion</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </emosys_promotion_setup>
+            <emosys_promotion_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </emosys_promotion_write>
+            <emosys_promotion_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </emosys_promotion_read>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Emosys_Promotion before="Mage_Adminhtml">Emosys_Promotion_Adminhtml</Emosys_Promotion>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <cms>
+                <children>
+                    <e_promotion module="e_promotion">
+                        <title>Promotion</title>
+                        <sort_order>0</sort_order>
+                        <action>adminhtml/promotion_item</action>
+                    </e_promotion>
+                </children>
+            </cms>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <cms>
+                            <children>
+                                <e_promotion translate="title">
+                                    <title>Banner</title>
+                                    <sort_order>0</sort_order>
+                                </e_promotion>
+                            </children>
+                        </cms>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+<!--        <layout>
+            <updates>
+                <e_promotion>
+                    <file>emosys/banner.xml</file>
+                </e_promotion>
+            </updates>
+        </layout>-->
+    </adminhtml>
+</config> 
