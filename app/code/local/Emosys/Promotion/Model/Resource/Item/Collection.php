@@ -14,20 +14,24 @@ class Emosys_Promotion_Model_Resource_Item_Collection extends Mage_Core_Model_Re
 
     public function addStoreFilter($store=null){
         $stores = array(0);
-        if($store!==null){
-            $stores[] = $store;
+        if(!$store) {
+            $store = Mage::app()->getStore()->getId();
         }
+        $stores[] = $store;
         $this->addFieldToFilter('store',array('in'=>$stores));
         return $this;
     }
-    public function addStatusFilter($status){
+    public function addStatusFilter($status=null){
+        if(!$status) {
+            $status = 1;
+        }
         $this->addFieldToFilter('status',$status);
         return $this;
     }
     public function addDateFilter(){
         $date = date('Y-m-d');
-        $this->addFieldToFilter('start_date',array('gteq'=>$date));
-        $this->addFieldToFilter('end_date',array('lteq'=>$date));
+        $this->addFieldToFilter('start_date',array('lteq'=>$date));
+        $this->addFieldToFilter('end_date',array('gteq'=>$date));
         return $this;
     }
 }

@@ -30,7 +30,7 @@ class Emosys_Promotion_Adminhtml_Promotion_ItemController extends Mage_Adminhtml
         $this->_title($this->__("Edit Item"));
 
         $id = $this->getRequest()->getParam("id");
-        $model = Mage::getModel("e_promotionr/item")->load($id);
+        $model = Mage::getModel("e_promotion/item")->load($id);
         if ($model->getId()) {
             Mage::register("e_promotion_item_data", $model);
             $this->loadLayout();

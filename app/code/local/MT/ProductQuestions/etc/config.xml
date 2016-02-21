@@ -40,11 +40,11 @@
             <productquestions>
                 <class>MT_ProductQuestions_Block</class>
             </productquestions>
-            <review>
+<!--            <review>
                 <rewrite>
                     <helper>MT_ProductQuestions_Block_Helper</helper>
                 </rewrite>
-            </review>
+            </review>-->
         </blocks>
         <helpers>
             <productquestions>

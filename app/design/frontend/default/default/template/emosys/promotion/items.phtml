@@ -1,0 +1,58 @@
+<style>
+    .promotion-images.promotions-wrapper .promotion-image-item{
+        float: left;
+        width: 48%;
+    }
+    .promotion-images.promotions-wrapper .promotion-image-item.last{
+        float: right;
+    }
+    .promotion-images.promotions-wrapper .promotion-image-item.first{
+        clear: both;
+    }
+    .promotion-images.promotions-wrapper .pager{
+        clear: both;
+    }
+    .promotion-images.promotions-wrapper .promotion-image-item img{
+        max-width: 100%;
+    }
+</style>
+<?php
+$collection = $this->getCollection();
+if(!count($collection)) {
+    return;
+}
+$_column = 2;
+?>
+<div class="promotion-images promotions-wrapper">
+    <div class="promotion-list">
+        <?php $i = 0; ?>
+        <?php foreach ($collection as $item): ?>
+            <?php 
+            $i++; 
+            $_startDate = $item->getData('start_date');
+            $_endDate = $item->getData('end_date');
+            $date = DateTime::createFromFormat('Y-m-d', $_startDate);
+            $_startDate = $date->format('Y/m/d');
+            $date = DateTime::createFromFormat('Y-m-d', $_endDate);
+            $_endDate = $date->format('Y/m/d');
+            ?>
+            <div class="promotion-image-item <?php if($i%$_column==1) echo 'first'; elseif($i%$_column==0) echo 'last'; ?>">
+                <a href="<?php echo $item->getData('link_mini') ? $item->getData('link_mini') : '#'; ?> ">
+                    <?php if($_srcBanner = $item->getData('small_banner')): ?>
+                        <img src ="<?php echo Mage::getBaseUrl('media').$_srcBanner; ?>" />
+                    <?php endif; ?>
+                </a>
+                <p>
+                    <?php echo $this->__('Thời gian khuyến mại:'); ?>
+                    <strong><?php echo $this->__('%s - %s',$_startDate,$_endDate); ?></strong>
+                </p>
+            </div>
+        <?php endforeach; ?>
+    </div>
+    <?php echo $this->getChildHtml('pager'); ?>
+</div>
+
+<?php
+/*
+ * {{block type="e_promotion/item" name="e_promtion_banner"}}
+ */

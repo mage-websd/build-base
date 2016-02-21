@@ -27,7 +27,7 @@ class Emosys_Promotion_Block_Adminhtml_Item_Edit_Tab_Form extends Mage_Adminhtml
             "name" => "name",
         ));
 
-        $fieldset->addField("html", "editor", array(
+        /*$fieldset->addField("html", "editor", array(
             "label" => Mage::helper("adminhtml")->__("HTML"),
             "class" => "required-entry",
             "required" => false,
@@ -37,7 +37,6 @@ class Emosys_Promotion_Block_Adminhtml_Item_Edit_Tab_Form extends Mage_Adminhtml
             'wysiwyg'   => true,
         ));
 
-        /*
         $thumb = $fieldset->addField('banner', 'text', array(
             'label' => Mage::helper('adminhtml')->__('Banner'),
             'name' => 'banner',
@@ -74,7 +73,7 @@ class Emosys_Promotion_Block_Adminhtml_Item_Edit_Tab_Form extends Mage_Adminhtml
             "name" => "link_mini",
         ));
 
-        $fieldset->addField('bg_color', 'text', array(
+        /*$fieldset->addField('bg_color', 'text', array(
             'label' => Mage::helper('adminhtml')->__('Background Color'),
             'name' => 'bg_color',
             'note' => 'Color code (eg: #EE1C24)',
@@ -86,7 +85,7 @@ class Emosys_Promotion_Block_Adminhtml_Item_Edit_Tab_Form extends Mage_Adminhtml
             'name' => 'display',
             "class" => "required-entry",
             "required" => true,
-        ));
+        ));*/
 
         $fieldset->addField('start_date', 'date', array(
             'label' => Mage::helper('adminhtml')->__('Start Date'),
@@ -117,7 +116,7 @@ class Emosys_Promotion_Block_Adminhtml_Item_Edit_Tab_Form extends Mage_Adminhtml
 
         $fieldset->addField('store', 'select', array(
             'label' => Mage::helper('adminhtml')->__('Store'),
-            'values' => Emosys_Promotion_Block_Adminhtml_Item_Grid::getValueArray1(),
+            'values' => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),//Emosys_Promotion_Block_Adminhtml_Item_Grid::getValueArray1(),
             'name' => 'store',
             "class" => "required-entry",
             "required" => true,
