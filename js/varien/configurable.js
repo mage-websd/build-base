@@ -147,7 +147,12 @@ Product.Config.prototype = {
         }
         for(var i=0;i<element.options.length;i++){
             if(element.options[i].config){
-                element.options[i].text = this.getOptionLabel(element.options[i].config, element.options[i].config.price-selectedPrice);
+                if(element.options[i].config.price-selectedPrice == 0) {
+                    element.options[i].text = this.getOptionLabel(element.options[i].config, 0);
+                }
+                else {
+                    element.options[i].text = this.getOptionLabel(element.options[i].config, element.options[i].config.price);
+                }
             }
         }
     },

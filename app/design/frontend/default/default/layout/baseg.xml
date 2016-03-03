@@ -1,0 +1,28 @@
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addJs" ifconfig="baseg/js/jquery_enable">
+                <script>jquery/jquery-1.11.1.min.js</script>
+            </action>
+            <action method="addJs" ifconfig="baseg/js/jquery_enable">
+                <script>jquery/jquery-noconflict.js</script>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type><name>css/allpage.css</name>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type><name>js/allpage.js</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="data_base_url" template="baseg/base_url.phtml" before="-" />
+            <block type="core/template" name="ajax_loading" template="baseg/ajax_loading.phtml" before="-" />
+        </reference>
+        
+    </default>
+    <catalog_product_view>
+        <reference name="before_body_end">
+            <block type="catalog/product_view_type_configurable" template="catalog/product/media_js.phtml"/>
+        </reference>
+        </catalog_product_view>
+</layout>

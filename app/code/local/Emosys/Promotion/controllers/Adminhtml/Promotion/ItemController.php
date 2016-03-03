@@ -84,10 +84,6 @@ class Emosys_Promotion_Adminhtml_Promotion_ItemController extends Mage_Adminhtml
         $post_data = $this->getRequest()->getPost();
         if ($post_data) {
             try {
-                $collection = Mage::getModel("e_promotion/item")->getCollection()->addFieldToFilter('store',$post_data['store']);
-                foreach($collection as $item){
-                    $item->setStatus(0)->save();
-                }
                 $model = Mage::getModel("e_promotion/item")
                     ->addData($post_data)
                     ->setId($this->getRequest()->getParam("id"))
