@@ -1,0 +1,8 @@
+<?php   
+class JoomlArt_JmColorSwatch_Block_Index extends Mage_Core_Block_Template{   
+
+
+
+
+
+}

@@ -3,7 +3,7 @@ class Gsd_Baseg_IndexController extends Mage_Core_Controller_Front_Action
 {
     public function indexAction()
     {
-
+        var_dump(Mage::getRoot());
     }
     public function productAction()
     {

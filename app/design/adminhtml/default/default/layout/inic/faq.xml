@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<layout>
+    <adminhtml_faq_edit>
+        <update handle="editor"/>
+    </adminhtml_faq_edit>
+    <adminhtml_faq_new>
+        <update handle="editor"/>
+    </adminhtml_faq_new>
+</layout>

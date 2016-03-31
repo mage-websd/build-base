@@ -630,3 +630,25 @@ jQuery(document).ready(function($) {
     });
 });
 /*end collapse dom*/
+
+/* column responsive */
+(function($){
+    $.fn.columnReponsive = function(object) {
+        var defaultConfig = {
+            column: 5
+        },
+        config = $.extend(defaultConfig,object);
+        width = $(window).width();
+        if(width>960) {
+            columnSlider = config.column;
+        }
+        else if(width >480) {
+            columnSlider = parseInt(config.column/2);
+        }
+        else {
+            columnSlider = 1;
+        }
+        return columnSlider;
+    };
+})(jQuery);
+/* end column responsive */

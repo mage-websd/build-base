@@ -1,0 +1,50 @@
+<?php
+?>
+<ol>
+<?php foreach ($this->getItems() as $_item): ?>
+        <?php if ($_item->getCount()): ?>
+            <li<?php
+            if ($_item->getSelected()) {
+                echo ' class="active"';
+            }
+            ?>>
+                    <?php if (!$this->isShowLayerFilter()): ?>
+                <a href="<?php echo $this->htmlEscape($_item->getUrl()); ?>" title="<?php echo strip_tags($_item->getLabel()); ?>">
+                        <span class="item-label"><?php echo $_item->getLabel(); ?></span>
+                        <span class="item-count"><?php echo $_item->getCount(); ?></span>
+                    </a>
+                <?php else: ?>
+                    <?php
+                        $_imageSwatch = Mage::helper('swatchattrg')->getSwatchUrl($_item->getValueString());
+                        if(!$_imageSwatch && $this->getCode() == 'color') {
+                            $_bgSwatch = strtolower($_item->getLabel());
+                        }
+                        else {
+                            $_bgSwatch = false;
+                        }
+                    ?>
+                    <a href="<?php echo $this->htmlEscape($_item->getUrl()); ?>"  title="<?php echo strip_tags($_item->getLabel()); ?>">
+                        <img class="swatch-shopby" src="' . $theImage . '" title="' . $theLabel . '" alt="' . $theLabel . '" style="width:' . $width . 'px; height:' . $height . 'px;">
+                        <span class="item-count"><?php echo $_item->getCount(); ?></span>
+                    </a>
+                <?php endif; ?>
+            </li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</ol>
+<p class="float-clearer"></p> 
+
+
+<?php /*
+<ol>
+	<?php foreach ($this->getTheItems() as $_item): ?>
+		<?php if($_item['count']): ?>
+	   		<li<?php if($_item['is_selected']) { echo ' class="active"'; } ?>>
+	       		<?php echo Mage::helper('swatchattrg')->getShopByHtml($_item); ?>
+			</li>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</ol>
+<p class="float-clearer"></p> 
+ * 
+ */

@@ -1,5 +1,16 @@
 <?php
+
 class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml_Block_Widget_Form {
+
+    protected function _prepareLayout() {
+        parent::_prepareLayout();
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+            $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+            //$this->getLayout()->getBlock('head')->addJs('mage/adminhtml/browser.js');
+            //js/mage/adminhtml/browser.js
+        }
+    }
 
     protected function _prepareForm() {
 
@@ -20,10 +31,10 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'name' => 'title',
         ));
         $afterHtml = '';
-        if(Mage::registry('slider_data') && Mage::registry('slider_data')->getId()) {
+        if (Mage::registry('slider_data') && Mage::registry('slider_data')->getId()) {
             $code = Mage::registry('slider_data')->getCode();
-            $afterHtml = '<div><small>insert code \'<b>{{block type="sliderg/slider" name="your_block_name" slider_id="'.$code.'"}}</b>\' in content<br/>'.
-                'or \'<b>&lt;block type="sliderg/slider" name="your_block_name"&gt;&lt;action method="setSliderId"&gt;&lt;slider_id>'.$code.'&lt;/slider_id&gt;&lt;/action&gt;&lt;/block></b>\' in xml to show slider</small></div>';
+            $afterHtml = '<div><small>insert code \'<b>{{block type="sliderg/slider" name="your_block_name" slider_id="' . $code . '"}}</b>\' in content<br/>' .
+                    'or \'<b>&lt;block type="sliderg/slider" name="your_block_name"&gt;&lt;action method="setSliderId"&gt;&lt;slider_id>' . $code . '&lt;/slider_id&gt;&lt;/action&gt;&lt;/block></b>\' in xml to show slider</small></div>';
         }
         $fieldset->addField('code', 'text', array(
             'label' => $this->__('Code'),
@@ -35,11 +46,11 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
         $fieldset->addField('enable', 'select', array(
             'label' => $this->__('Enable'),
             'name' => 'enable',
-            'options'   => array('1'=>'Yes','0'=>'No'),
+            'options' => array('1' => 'Yes', '0' => 'No'),
         ));
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig();
-        $wysiwygConfig->addData(array('add_variables' => false,
+        $wysiwygConfig->addData(/*array('add_variables' => false,
             'add_widgets' => true,
             'add_images' => true,
             'directives_url' => Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/cms_wysiwyg/directive'),
@@ -48,7 +59,7 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
             'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/cms_wysiwyg_images/index'),
             'files_browser_window_width' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_width'),
             'files_browser_window_height' => (int) Mage::getConfig()->getNode('adminhtml/cms/browser/window_height')
-        ));
+        )*/);
         $fieldset->addField('description', 'editor', array(
             'name' => 'description',
             'label' => $this->__('Description'),
@@ -62,4 +73,5 @@ class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Tab_General extends Mage_Adminhtml
         $form->setValues($data);
         return parent::_prepareForm();
     }
+
 }

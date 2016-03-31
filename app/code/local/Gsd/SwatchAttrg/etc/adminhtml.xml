@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adminhtml>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <swatchattrg translate="title" module="swatchattrg">
+                                        <title>Color Selector+ Section</title>
+                                        <sort_order>60</sort_order>
+                                    </swatchattrg>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</adminhtml>

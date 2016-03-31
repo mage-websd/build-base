@@ -59,6 +59,9 @@ class Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute extends Mag
         $select->reset(Zend_Db_Select::FROM);
         if(Mage::helper('multifilterg')->getTypeShow() == Gsd_MultiFilterg_Model_Source_Config_Typeshow::SHOW_ORIGIN) {
             foreach ($joinAndFromExists as $key_tableAlias => $dataJoinFrom) {
+                if(!preg_match('/_index$/', $key_tableAlias) && $key_tableAlias != 'e') {
+                    continue;
+                }
                 if ($dataJoinFrom['tableName'] == 'catalog_product_index_eav') {
                     continue;
                 }
@@ -91,6 +94,9 @@ class Gsd_MultiFilterg_Model_Resource_Catalog_Layer_Filter_Attribute extends Mag
         else {
             $attributeCode = $filter->getAttributeModel()->getAttributeCode();
             foreach ($joinAndFromExists as $key_tableAlias => $dataJoinFrom) {
+                if(!preg_match('/_index$/', $key_tableAlias) && $key_tableAlias != 'e') {
+                    continue;
+                }
                 if ($dataJoinFrom['tableName'] == 'catalog_product_index_eav') {
                     $itemFilter = Mage::getSingleton('multifilterg/catalog_layer_filter_item');
                     if($itemFilter->isFilterSelected($attributeCode)) {

@@ -11,18 +11,11 @@ class Gsd_Sliderg_Block_Products_List extends Mage_Catalog_Block_Product_Abstrac
         if(!$this->_typeCollection) {
             return null;
         }
-        echo $this->getSkinFile();
         parent::_beforeToHtml();
         if(!$this->getTemplate()) {
-            $template = $this->helper('sliderg')->getTemplateFileProducts($this->_type);
-            $this->setTemplate($template);
+            $this->setTemplate('sliderg/swiper.phtml');
         }
         return $this;
-    }
-
-    public function getSkinFile()
-    {
-        return $this->helper('sliderg')->getSkinFile($this->_type);
     }
 
     protected function _getCollection() {

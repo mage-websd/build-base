@@ -1,6 +1,16 @@
 <?php
 class Gsd_Sliderg_Block_Adminhtml_Slider_Edit_Form extends Mage_Adminhtml_Block_Widget_Form {
-
+    
+    protected function _prepareLayout() {
+        parent::_prepareLayout();
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+            $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+            //$this->getLayout()->getBlock('head')->addJs('mage/adminhtml/browser.js');
+            //js/mage/adminhtml/browser.js
+        }
+    }
+    
     protected function _prepareForm() {
 
         if (Mage::registry('slider_data')) {
