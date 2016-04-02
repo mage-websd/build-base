@@ -104,11 +104,11 @@
             <swatchattrg>
                 <class>Gsd_SwatchAttrg_Helper</class>
             </swatchattrg>
-            <catalog>
+<!--            <catalog>
                 <rewrite>
                     <product>Gsd_SwatchAttrg_Helper_Catalog_Product</product>
                 </rewrite>
-            </catalog>
+            </catalog>-->
         </helpers>
         <cache>
             <types>
