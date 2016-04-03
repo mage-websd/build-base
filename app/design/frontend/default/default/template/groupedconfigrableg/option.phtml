@@ -1,0 +1,344 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2015 X.commerce, Inc. (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php /** if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+  <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+  <?php else: ?>
+  <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+  <?php endif; * */ ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<div class="grouped-items-list">
+    <div class="list-header"><?php echo $this->__('%s Collection Items', count($_associatedProducts)) ?></div>
+
+    <ul>
+        <?php if ($_hasAssociatedProducts): ?>
+            <?php foreach ($_associatedProducts as $_item): ?>
+                <li>
+                    <form action="<?php echo $this->helper('checkout/cart')->getAddUrl($_item) ?>" method="post" id="product_addtocart_form_<?php echo $_item->getId(); ?>">
+                        <div class="grouped-items-box item-info">
+                            <div class="item-name"><?php echo $this->htmlEscape($_item->getName()) ?></div>
+                            <div class="details" >Item #: <?php echo $_item->getData('sku') ?>
+                                <?php if ($this->getCanShowProductPrice($_product)): ?>
+                                    <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                        <?php echo $this->getPriceHtml($_item, false) ?>
+                                        <?php echo $this->getTierPriceHtml($_item) ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="grouped-items-box item-image">
+                            <a class="zoombox" href="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(600); ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>">
+                                <img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(80); ?>"/>
+                                <div class="zoom-over"></div>
+                            </a>
+                        </div>
+                        <div class="grouped-items-box item-select">
+                            <?php if ($_item->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE): ?>
+                                <?php
+                                $_configurable = Mage::getBlockSingleton('catalog/product_view_type_configurable')->setData('product', $_item);
+                                $_attributes = Mage::helper('core')->decorateArray($_configurable->getAllowAttributes());
+                                ?>
+                                <?php if ($_item->isSaleable() && count($_attributes)): ?>
+
+                                    <dl>
+                                        <?php foreach ($_attributes as $_attribute): ?>
+                                            <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
+                                            <dd<?php if ($_attribute->decoratedIsLast) { ?> class="last"<?php } ?>>
+                                                <div class="input-box">
+                                                    <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
+                                                        <option><?php echo $this->__('Choose an Option...') ?></option>
+                                                    </select>
+                                                </div>
+                                            </dd>
+                                        <?php endforeach; ?>
+                                    </dl>
+                                    <script type="text/javascript">
+                                        var spConfig = new Product.GroupedConfig(<?php echo $_configurable->getJsonConfig() ?>, <?php echo $_item->getId(); ?>);
+                                        spConfig.setOptionsPrice(new Product.OptionsPrice({"productId": "<?php echo $_item->getId(); ?>", "priceFormat":
+                                                    {"pattern": "$%s", "precision": 2, "requiredPrecision": 2, "decimalSymbol": ".", "groupSymbol": ",", "groupLength": 3, "integerRequired": 1},
+                                            "includeTax": "false", "showIncludeTax": false, "showBothPrices": false, "productPrice":<?php echo $_item->getFinalPrice(); ?>, "productOldPrice":<?php echo $_item->getPrice(); ?>, "skipCalculate": 1,
+                                            "idSuffix": "_clone", "oldPlusDisposition": 0, "plusDisposition": 0, "oldMinusDisposition": 0, "minusDisposition": 0}));
+                var spConfig = new Product.Config(<?php echo $_configurable->getJsonConfig() ?>);
+                                    </script>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+
+
+                        <div class="grouped-items-box item-cart">
+                            <?php if ($_item->isSaleable()) : ?>
+                                <?php $stockItem = Mage::getModel('cataloginventory/stock_item')->loadByProduct($_item->getId()) ?>
+                                <?php //SHOW DROPDOWN ?>
+                                <?php if ($stockItem->getEnableQtyIncrements() && $stockItem->getQtyIncrements() > 1): ?>
+                                    <label for="qty" class="label required"><em>*</em><?php echo $this->__('Qty:') ?></label>
+                                    <select class="required-entry" name="qty" id="qty">
+                                        <?php
+                                        $i = $this->getMinimalQty($_product);
+                                        $t = '0'
+                                        ?>
+                                        <?php do { ?>
+                                            <option value="<?php echo $i ?>">
+                                                <?php echo $i ?>
+                                                <?php
+                                                $i = $i + $stockItem->getQtyIncrements();
+                                                $t++
+                                                ?>
+                                            </option>
+                                        <?php } while ($t < 20 /* $i <= $this->getMaximalQty($_product) */) ?>
+                                    </select>
+                                <?php else: ?>
+                                    <label for="qty" class="label"><?php echo $this->__('Qty:') ?></label>
+                                    <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $_item->getQty() * 1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />
+                                <?php endif; ?>
+                                <br>
+                                <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="<?php echo 'productAddToCartForm' . $_item->getId() . '.submit()' ?>">
+                                    <span><span><?php echo $this->__('Add to Cart') ?></span></span>
+                                </button>
+                                <script type="text/javascript" >
+                                        // <![CDATA[
+                                        var productAddToCartForm<?php echo $_item->getId(); ?> = new VarienForm('product_addtocart_form_<?php echo $_item->getId(); ?>');
+                                        productAddToCartForm<?php echo $_item->getId(); ?>.submit = function () {
+                                            if (this.validator.validate()) {
+                                                this.form.submit();
+                                            }
+                                        }.bind(productAddToCartForm<?php echo $_item->getId(); ?>);
+                                        // ]]>
+                                </script>
+                            <?php else: ?>
+                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                            <?php endif; ?>
+                        </div>
+
+                    </form>
+                </li>
+            <?php endforeach; ?>
+
+        <?php else: ?>
+
+            <li>
+            <td colspan="<?php if ($_product->isSaleable()): ?>5<?php else : ?>4<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+            </li>
+        <?php endif; ?>
+    </ul>
+</div>
+<script type="text/javascript">decorateTable('super-product-table')</script>
+
+
+
+
+<?php return; //origin ?>
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magento.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magento.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2006-2016 X.commerce, Inc. and affiliates (http://www.magento.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php if ($this->displayProductStockStatus()): ?>
+    <?php if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+        <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+    <?php else: ?>
+        <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+    <?php endif; ?>
+<?php endif; ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<table class="data-table grouped-items-table" id="super-product-table">
+    <col />
+    <col />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th><?php echo $this->__('Product Name') ?></th>
+            <th><?php echo $this->__('Image') ?></th>
+            <?php if ($this->getCanShowProductPrice($_product)): ?>
+                <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <?php endif; ?>
+            <?php if ($_product->isSaleable()): ?>
+                <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <?php endif; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($_hasAssociatedProducts): ?>
+            <?php foreach ($_associatedProducts as $_item): ?>
+                <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($_item->getName()) ?></td>
+                    <td>
+                        <img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(80); ?>"/>
+                    </td>
+                    <?php if ($this->getCanShowProductPrice($_product)): ?>
+                        <td class="a-right">
+                            <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                <?php echo $this->getPriceHtml($_item, true) ?>
+                                <?php echo $this->getTierPriceHtml($_item) ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endif; ?>
+                    <?php if ($_product->isSaleable()): ?>
+                        <td class="a-center">
+                            <?php if ($_item->isSaleable()) : ?>
+                                <form action="<?php echo $this->helper('checkout/cart')->getAddUrl($_item) ?>" method="post" id="product_addtocart_form_<?php echo $_item->getId(); ?>">
+                                    <div class="grouped-items-box item-select">
+                                        <?php if ($_item->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE): ?>
+                                            <?php
+                                            $_configurable = Mage::getBlockSingleton('catalog/product_view_type_configurable')->setData('product', $_item);
+                                            $_attributes = Mage::helper('core')->decorateArray($_configurable->getAllowAttributes());
+                                            ?>
+                                            <?php if ($_item->isSaleable() && count($_attributes)): ?>
+                                                <dl>
+                                                    <?php foreach ($_attributes as $_attribute): ?>
+                                                        <dt><label class="required"><em>*</em><?php echo $_attribute->getLabel() ?></label></dt>
+                                                        <dd<?php if ($_attribute->decoratedIsLast) { ?> class="last"<?php } ?>>
+                                                            <div class="input-box">
+                                                                <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">
+                                                                    <option><?php echo $this->__('Choose an Option...') ?></option>
+                                                                </select>
+                                                            </div>
+                                                        </dd>
+                                                    <?php endforeach; ?>
+                                                </dl>
+                                                <script type="text/javascript">
+                                                    var spConfig = new Product.GroupedConfig(<?php echo $_configurable->getJsonConfig() ?>, <?php echo $_item->getId(); ?>);
+                                                    spConfig.setOptionsPrice(new Product.OptionsPrice({"productId": "<?php echo $_item->getId(); ?>", "priceFormat":
+                                                                {"pattern": "$%s", "precision": 2, "requiredPrecision": 2, "decimalSymbol": ".", "groupSymbol": ",", "groupLength": 3, "integerRequired": 1},
+                                                        "includeTax": "false", "showIncludeTax": false, "showBothPrices": false, "productPrice":<?php echo $_item->getFinalPrice(); ?>, "productOldPrice":<?php echo $_item->getPrice(); ?>, "skipCalculate": 1,
+                                                        "idSuffix": "_clone", "oldPlusDisposition": 0, "plusDisposition": 0, "oldMinusDisposition": 0, "minusDisposition": 0}));
+                                                </script>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <?php
+                                    $_itemQty = $_item->getQty();
+                                    if (!$_itemQty) {
+                                        $_itemQty = 1;
+                                    }
+                                    ?>
+                                    <div class="grouped-custom-qty">
+                                        <input type="text" name="super_group[<?php echo $_item->getId() ?>]" maxlength="12" value="<?php echo $_itemQty * 1 ?>" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Qty')) ?>" class="input-text qty" />
+                                    </div>
+                                    <div class="grouped-custom-action">
+                                        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button btn-cart" onclick="<?php echo 'productAddToCartForm' . $_item->getId() . '.submit()' ?>">
+                                            <span><span><?php echo $this->__('Add to Cart') ?></span></span>
+                                        </button>
+                                    </div>
+                                </form>
+                                <script type="text/javascript" >
+                                            // <![CDATA[
+                                            var productAddToCartForm<?php echo $_item->getId(); ?> = new VarienForm('product_addtocart_form_<?php echo $_item->getId(); ?>');
+                                            productAddToCartForm<?php echo $_item->getId(); ?>.submit = function () {
+                                                if (this.validator.validate()) {
+                                                    this.form.submit();
+                                                }
+                                            }.bind(productAddToCartForm<?php echo $_item->getId(); ?>);
+                                            // ]]>
+                                </script>
+                            <?php else: ?>
+                                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                                    <?php endif; ?>
+                        </td>
+                    <?php endif; ?>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+            </tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+<script type="text/javascript">decorateTable('super-product-table')</script>

@@ -4,6 +4,7 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
 
     protected $_swatchAttributes;
     protected $_imageSize;
+    protected $_swatchJson;
 
     public function isEnable() {
         return $this->isModuleOutputEnabled('Gsd_SwatchAttrg') &&
@@ -576,6 +577,137 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
         return FALSE;
     }
 
+    /*
+     public function getSwatchHtml($attributeCode, $atid, $_product) {
+        $storeId = Mage::app()->getStore();
+        $frontendlabel = 'null';
+        $urloption = '';
+        $html = '';
+        $cnt = 1;
+        $_option_vals = array();
+        $_colors = array();
+        $zoomenabled = Mage::getStoreConfig('swatchattrg/zoom/enabled');
+        $hide = Mage::getStoreConfig('swatchattrg/general/hidedropdown', $storeId);
+        $frontText = Mage::getStoreConfig('swatchattrg/general/dropdowntext', $storeId);
+        $swatchsize = Mage::helper('swatchattrg')->getSwatchSize($attributeCode);
+        $sizes = explode("x", $swatchsize);
+        $width = $sizes[0];
+        $height = $sizes[1];
+
+        if (isset($_GET[$attributeCode])) {
+            $urloption = $_GET[$attributeCode];
+        }
+
+
+        $html = $html . '<div class="swatchesContainer"><ul id="ul-attribute' . $atid . '">';
+        $_collection = Mage::getResourceModel('eav/entity_attribute_option_collection')->setPositionOrder('asc')->setAttributeFilter($atid)->setStoreFilter(0)->load();
+
+        foreach ($_collection->toOptionArray() as $_option) {
+            $_option_vals[$_option['value']] = array(
+                'internal_label' => $_option['label'],
+                'order' => $cnt
+            );
+            $cnt++;
+        }
+
+        $configAttributes = $_product->getTypeInstance(true)->getConfigurableAttributesAsArray($_product);
+        foreach ($configAttributes as $attribute) {
+            if ($attribute['attribute_code'] == $attributeCode) {
+                foreach ($attribute["values"] as $value) {
+                    array_push($_colors, array(
+                        'id' => $value['value_index'],
+                        'frontlabel' => $value['store_label'],
+                        'adminlabel' => $_option_vals[$value['value_index']]['internal_label'],
+                        'order' => $_option_vals[$value['value_index']]['order']
+                    ));
+                }
+                break;
+            }
+        }
+
+        $_color_swatch = Mage::helper('swatchattrg')->getSortedByPosition($_colors);
+        $_color_swatch = array_values($_color_swatch);
+
+        foreach ($_color_swatch as $key => $val) {
+            $sortSingle[$key] = $_color_swatch[$key]['order'];
+        }
+
+        asort($sortSingle);
+        reset($sortSingle);
+
+        while (list ($singleKey, $singleVal) = each($sortSingle)) {
+            $newArr[] = $_color_swatch[$singleKey];
+        }
+
+        $_color_swatch = $newArr;
+
+        foreach ($_color_swatch as $_inner_option_id) {
+            $zoomStuff = '';
+            $theId = $_inner_option_id['id'];
+            $adminLabel = $_inner_option_id['adminlabel'];
+            $altText = $_inner_option_id['frontlabel'];
+            if ($frontText == 0) {
+                $frontendlabel = $altText;
+            } else {
+                $frontendlabel = 'null';
+            }
+            preg_match_all('/((#?[A-Za-z0-9]+))/', $adminLabel, $matches);
+
+            if (count($matches[0]) > 0) {
+                $color_value = $matches[1][count($matches[0]) - 1];
+                $findme = '#';
+                $pos = strpos($color_value, $findme);
+
+                $product_base = $this->decodeImages($_product);
+                $product_image = $this->findColorImage($theId, $product_base, 'color', 'image'); //returns url for base image
+                $product_full_image = $this->findColorImage($theId, $product_base, 'color', 'full'); //returns url for base image
+
+                /*
+                  if($zoomenabled && $product_image):
+                  $product_image_full = Mage::helper('swatchattrg')->findColorImage($theId, $product_base, 'color', 'full');
+                  $product_gallery = Mage::helper('swatchattrg')->getGalUrl(Mage::helper('swatchattrg')->findColorImage($theId, $product_base, 'color', 'id'), $_product->getId());
+                  $rel = Mage::helper('swatchattrg')->getZoomRel($product_gallery, $product_image, $frontendlabel);
+                  $zoomStuff = '<a id="anchor'.$theId.'" href="'.$product_image_full.'" '.$rel.'>';
+                  endif;
+                 * /
+
+                if ($urloption == $altText) {
+                    $html = $html . '<script type="text/javascript">Event.observe';
+                    $html = $html . "(window, 'load', function() {";
+                    $html = $html . "colorSelected('attribute" . $atid . "','" . $theId . "','" . $product_image . "','" . $frontendlabel . "','" . $product_full_image . "');clicker(" . $theId . ");});</script>";
+                }
+
+                $imageSwatch = $this->getSwatchUrl($theId);
+                if (!$imageSwatch && $attributeCode == 'color') {
+                    $bgSwatch = strtolower($frontendlabel);
+                } else {
+                    $bgSwatch = false;
+                }
+                if ($_product->getData('swatchattrg_useimages') == 1 && $imageSwatch) {
+                    $html = $html . '<li class="swatchContainer">';
+                    $html = $html . '<img src="' . $imageSwatch . '" id="swatch' . $theId . '" class="swatch" alt="' . $altText . '" title="' . $altText . '" ';
+                    $html = $html . 'onclick="colorSelected';
+                    $html = $html . "('attribute" . $atid . "','" . $theId . "','" . $product_image . "','" . $frontendlabel . "','" . $product_full_image . "')";
+                    $html = $html . '" />';
+                    $html = $html . '</li>';
+                } 
+                else{
+                    $html = $html . '<li class="swatchContainer">';
+                    $html = $html . '<span class="swatch item-label'. ($bgSwatch ? ' swatches-has-bg' : '').'"';
+                    $html = $html . ''.($bgSwatch ? ' style="background-color: '.$bgSwatch.'"' : '');
+                    $html = $html . ' id="swatch' . $theId.'"' . ' alt="' . $altText . '" title="' . $altText . '"';
+                    $html = $html . 'onclick="colorSelected';
+                    $html = $html . "('attribute" . $atid . "','" . $theId . "','" . $product_image . "','" . $frontendlabel . "','" . $product_full_image . "')";
+                    $html = $html .'">';
+                    $html = $html .''. $frontendlabel .'</span>';
+                    $html = $html . '</li>';
+                }
+            }
+        }
+        $html = $html . '</ul></div><p class="float-clearer"></p>';
+        return $html;
+    } */
+    
     public function getSwatchHtml($attributeCode, $atid, $_product) {
         $storeId = Mage::app()->getStore();
         $frontendlabel = 'null';
@@ -681,22 +813,27 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
                 } else {
                     $bgSwatch = false;
                 }
+                $this->_swatchJson[$theId] = array(
+                    'attributeId' => $atid,
+                    'optionId' => $theId,
+                    'label' => $frontendlabel,
+                    'imageBase' => $productImage,
+                    'imaegFull' => $product_full_image,
+                );
                 if ($_product->getData('swatchattrg_useimages') == 1 && $imageSwatch) {
                     $html = $html . '<li class="swatchContainer">';
-                    $html = $html . '<img src="' . $imageSwatch . '" id="swatch' . $theId . '" class="swatch" alt="' . $altText . '" title="' . $altText . '" ';
-                    $html = $html . 'onclick="colorSelected';
-                    $html = $html . "('attribute" . $atid . "','" . $theId . "','" . $product_image . "','" . $frontendlabel . "','" . $product_full_image . "')";
-                    $html = $html . '" />';
+                    $html = $html . '<img data-option="'.$theId.'" src="' . $imageSwatch . '" id="swatch' . $theId . '" class="swatch" alt="' . $altText . '" title="' . $altText . '" ';
+                    $html = $html . 'onclick="colorSelected('.$theId.');"';
+                    $html = $html . ' />';
                     $html = $html . '</li>';
                 } 
                 else{
                     $html = $html . '<li class="swatchContainer">';
-                    $html = $html . '<span class="swatch item-label'. ($_bgSwatch ? ' swatches-has-bg' : '').'"';
+                    $html = $html . '<span data-option="'.$theId.'" class="swatch item-label'. ($bgSwatch ? ' swatches-has-bg' : '').'"';
                     $html = $html . ''.($bgSwatch ? ' style="background-color: '.$bgSwatch.'"' : '');
                     $html = $html . ' id="swatch' . $theId.'"' . ' alt="' . $altText . '" title="' . $altText . '"';
-                    $html = $html . 'onclick="colorSelected';
-                    $html = $html . "('attribute" . $atid . "','" . $theId . "','" . $product_image . "','" . $frontendlabel . "','" . $product_full_image . "')";
-                    $html = $html .'">';
+                    $html = $html . 'onclick="colorSelected('.$theId.');"';
+                    $html = $html . ' />';
                     $html = $html .''. $frontendlabel .'</span>';
                     $html = $html . '</li>';
                 }
@@ -704,6 +841,10 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
         }
         $html = $html . '</ul></div><p class="float-clearer"></p>';
         return $html;
+    }
+    
+    public function getSwatchJson() {
+        return json_encode($this->_swatchJson);
     }
 
     public function getSwatchImg($option) {
