@@ -197,7 +197,7 @@ function colorSelected(optionId) {
         return;
     }
     if (optionId) {
-        if ($('swatch' + optionId).hasClassName('disabledSwatch') || 
+        if ($('swatch' + optionId).hasClassName('disabledSwatch') ||
                 $('swatch' + optionId).hasClassName('swatchSelected')) {
             return;
         }
@@ -356,13 +356,8 @@ function colorSelected(optionId) {
     }
     // Not sure if this is still needed
     //this.reloadPrice();
-    getProductSwatches(optionId);
 }
 
-function getProductSwatches(optionId) {
-    
-    
-}
 function doPreSelection()
 {
     if (spConfigIndex >= spConfig.settings.length) {
@@ -417,3 +412,74 @@ Array.prototype.contains = function (obj) {
     }
     return false;
 }
+
+jQuery(document).ready(function ($) {
+    if (jsonOptionProduct === undefined) { /*option => products*/
+        return;
+    }
+    if (jsonAttribute === undefined) { /*order all attribute*/
+        return;
+    }
+    if (swatchJson === undefined) { /*from option id => attribute id*/
+        return;
+    }
+    
+    var productTem = new Array(),
+    productTemReturn;
+    $(document).on('click', '.swatches-option', function (event) {
+        event.preventDefault();
+        var breakClick = false;
+        if($(this).hasClass('swatch-selected-info')) {
+            breakClick = true;
+        }
+        else {
+            $(this).parent().siblings().find('.swatches-option').removeClass('swatch-selected-info');
+            $(this).addClass('swatch-selected-info');
+        }
+        if ($(this).hasClass('disabledSwatch')) {
+            breakClick = true;
+        }
+        if(breakClick) {
+            
+        }
+        else {
+            var optionId = $(this).data('option');
+            $productId = getProductIdSwatch(optionId);
+            console.log($productId);
+        }
+    });
+    function getProductIdSwatch(optionId) {
+        if (jsonOptionProduct[optionId] === undefined) {
+            return false;
+        }
+        var productReturn = false;
+        jsonAttribute[swatchJson[optionId]['attributeId']] = jsonOptionProduct[optionId];
+        var flagToCurrent = false;
+        var flagCheckFullData = true;
+        for(attributeIdTem in jsonAttribute) {
+            if(flagToCurrent) {
+                jsonAttribute[attributeIdTem] = false;
+                flagCheckFullData = false;
+            }
+            if(attributeIdTem == swatchJson[optionId]['attributeId']) {
+                flagToCurrent = true;
+            }
+        }
+        if(flagCheckFullData) {
+            for(attributeIdTem in jsonAttribute) {
+                if(!productReturn) {
+                    productReturn = jsonAttribute[attributeIdTem];
+                }
+                else {
+                    productReturn = productReturn.filter(function (element) {
+                        return jsonAttribute[attributeIdTem].indexOf(element) != -1;
+                    });
+                }
+            }
+            if(productReturn && productReturn.length == 1) {
+                return productReturn[0];
+            }
+        }
+        return false;
+    }
+});

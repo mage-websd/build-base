@@ -30,7 +30,7 @@ else:
     $installer->getConnection()->addColumn($installer->getTable('catalog/product_super_attribute_label'), 'preselect', 'INT(10) unsigned');
 endif;
 
-$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
+/*$setup = new Mage_Eav_Model_Entity_Setup('core_setup');
 $setup->addAttribute('catalog_product', 'swatchattrg_useimages', array(
     'group' => 'Images',
     'input' => 'select',
@@ -53,5 +53,5 @@ $setup->addAttribute('catalog_product', 'swatchattrg_useimages', array(
     'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
     'note' => 'Do you want to use the products "Base Image For" image as the swatch?'
 ));
-
+*/
 $installer->endSetup();

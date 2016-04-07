@@ -2,7 +2,8 @@
 
 class Gsd_SwatchAttrg_Block_Catalog_Product_View_Type_Configurable extends Mage_Catalog_Block_Product_View_Type_Configurable {
     protected $_jsonOptionProduct;
-    
+    protected $_jsonAttribute;
+
     public function getJsonConfig() {
         //$config = parent::getJsonConfig();
         $config = $this->getJsonConfigParent();
@@ -57,6 +58,7 @@ class Gsd_SwatchAttrg_Block_Catalog_Product_View_Type_Configurable extends Mage_
                 
                 /*more core*/
                 $this->_jsonOptionProduct[$attributeValue][] = $productId;
+                $this->_jsonAttribute[$productAttributeId] = false;
             }
         }
 
@@ -171,6 +173,9 @@ class Gsd_SwatchAttrg_Block_Catalog_Product_View_Type_Configurable extends Mage_
     
     public function getJsonOptionProduct() {
         return Mage::helper('core')->jsonEncode($this->_jsonOptionProduct);
+    }
+    public function getJsonAttribute() {
+        return Mage::helper('core')->jsonEncode($this->_jsonAttribute);
     }
 
 }

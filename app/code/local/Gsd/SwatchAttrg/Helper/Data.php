@@ -5,6 +5,7 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
     protected $_swatchAttributes;
     protected $_imageSize;
     protected $_swatchJson;
+    protected $_productImagesDecode;
 
     public function isEnable() {
         return $this->isModuleOutputEnabled('Gsd_SwatchAttrg') &&
@@ -501,9 +502,14 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     public function decodeImages($_product) {
+        if(!$_product || !$_product->getId()) {
+            return null;
+        }
+        if($this->_productImagesDecode[$_product->getId()]) {
+            return $this->_productImagesDecode[$_product->getId()];
+        }
         $_gallery = $_product->getMediaGalleryImages();
         $theSizes = $this->getImageSizes();
-
         if (count($_gallery) > 1) {
             $product_base = array();
             foreach ($_gallery as $_image) {
@@ -518,6 +524,7 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
                 $product_base['id'][] = $_image['value_id'];
                 $product_base['defaultimg'][] = $_image['defaultimg'];
             }
+            $this->_productImagesDecode[$_product->getId()] = $product_base;
             return $product_base;
         }
         return '';
@@ -817,19 +824,19 @@ class Gsd_SwatchAttrg_Helper_Data extends Mage_Core_Helper_Abstract {
                     'attributeId' => $atid,
                     'optionId' => $theId,
                     'label' => $frontendlabel,
-                    'imageBase' => $productImage,
+                    'imageBase' => $product_image,
                     'imaegFull' => $product_full_image,
                 );
-                if ($_product->getData('swatchattrg_useimages') == 1 && $imageSwatch) {
+                if ($imageSwatch) {
                     $html = $html . '<li class="swatchContainer">';
-                    $html = $html . '<img data-option="'.$theId.'" src="' . $imageSwatch . '" id="swatch' . $theId . '" class="swatch" alt="' . $altText . '" title="' . $altText . '" ';
+                    $html = $html . '<img data-option="'.$theId.'" src="' . $imageSwatch . '" id="swatch' . $theId . '" class="swatch swatches-option" alt="' . $altText . '" title="' . $altText . '" ';
                     $html = $html . 'onclick="colorSelected('.$theId.');"';
                     $html = $html . ' />';
                     $html = $html . '</li>';
                 } 
                 else{
                     $html = $html . '<li class="swatchContainer">';
-                    $html = $html . '<span data-option="'.$theId.'" class="swatch item-label'. ($bgSwatch ? ' swatches-has-bg' : '').'"';
+                    $html = $html . '<span data-option="'.$theId.'" class="swatch swatches-option item-label'. ($bgSwatch ? ' swatches-has-bg' : '').'"';
                     $html = $html . ''.($bgSwatch ? ' style="background-color: '.$bgSwatch.'"' : '');
                     $html = $html . ' id="swatch' . $theId.'"' . ' alt="' . $altText . '" title="' . $altText . '"';
                     $html = $html . 'onclick="colorSelected('.$theId.');"';
