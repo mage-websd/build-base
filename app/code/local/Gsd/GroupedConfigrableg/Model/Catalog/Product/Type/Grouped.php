@@ -33,4 +33,17 @@ class Gsd_GroupedConfigrableg_Model_Catalog_Product_Type_Grouped extends Mage_Ca
         }
         return $this->getProduct($product)->getData($this->_keyAssociatedProducts);
     }
+    
+    public function isSalable($product = null)
+    {
+        $salable = parent::isSalable($product);
+        if ($salable) {
+            return $salable;
+        }
+        $salable = false;
+        foreach ($this->getAssociatedProducts($product) as $associatedProduct) {
+            $salable = $salable || $associatedProduct->isSalable();
+        }
+        return $salable;
+    }
 }
