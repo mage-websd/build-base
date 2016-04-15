@@ -1,0 +1,112 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+    $_collection = $this->getCollection();
+    $_countCollection = count($_collection);
+    if(!$_countCollection) {
+        return;
+    }
+    $_helper = $this->helper('catalog/output');
+    $_width = 270;
+    $_height = 200;
+    $suffix = md5(microtime() . mt_rand());
+    $_columnCount = $this->getColumn();
+?>
+<div class="categor-products products-slider">
+    <h3 class="slider-title"><?php echo $this->__($this->getTitle()); ?></h3>
+    <div class="slider-container">
+        <?php if ( $_countCollection > $_columnCount) : ?>
+            <div class="bx-container-controller">
+                <span class="bx-prev bx-prev-<?php echo $suffix; ?>"></span>
+                <span class="bx-next bx-next-<?php echo $suffix; ?>"></span>
+            </div>
+        <?php endif; ?>
+        <div class="product-list-slider grid-column-<?php echo $_columnCount; ?>">
+            <div class="bxslider bxslider-<?php echo $suffix; ?>">
+                <?php foreach ($_collection as $_product): ?>
+                    <div class="slider item">
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image">
+                            <img id="product-collection-image-<?php echo $_product->getId(); ?>"
+                                 src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($_width,$_height); ?>"
+                                 alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+                        </a>
+                        <div class="product-info">
+                            <h2 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h2>
+                            <?php echo $this->getPriceHtml($_product, true) ?>
+                            <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+                            <div class="actions">
+                                <button type="button" title="<?php echo $this->quoteEscape($this->__('Add to Cart')) ?>" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+                                    <span>
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span><?php echo $this->__('Add to Cart') ?></span>
+                                    </span>
+                                </button>
+                                <ul class="add-to-links">
+                                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                                        <li><a href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist" title="<?php echo $this->__('Add to Wishlist') ?>">
+                                            <i class="fa fa-heart-o"></i>
+                                            </a></li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        <script type="text/javascript">
+        //<![CDATA[
+        jQuery(document).ready(function($) {
+            var bxslider_<?php echo $suffix; ?> = $('.bxslider-<?php echo $suffix; ?>').bxSlider({
+                mode: 'horizontal',
+                speed: 500,
+                <?php if ( $_countCollection > $_columnCount) : ?>
+                    infiniteLoop: true,
+                <?php else: ?>
+                    infiniteLoop: false,
+                <?php endif; ?>
+                auto: false,
+                pause: 4000,
+                moveSlides: 1,
+                slideMargin: 10,
+                slideWidth: <?php echo $_width; ?>,
+                minSlides: 1,
+                maxSlides: <?php echo $_columnCount; ?>,
+                <?php if ( $_countCollection > $_columnCount) : ?>
+                    nextSelector: '.bx-next-<?php echo $suffix; ?>',
+                    prevSelector: '.bx-prev-<?php echo $suffix; ?>',
+                    controls: true,
+                <?php else: ?>
+                    controls: false,
+                <?php endif; ?>
+                pager: false
+            });
+        });
+        //]]>
+        </script>
+    </div>
+</div>

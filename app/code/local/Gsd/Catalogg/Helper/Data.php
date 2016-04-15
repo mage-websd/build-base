@@ -43,6 +43,10 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     public function getCategoryChildren($categoryId,$limit=null) {
+      /*$path = $category->getPath();
+      $ids = explode('/', $path);
+      if(isset($ids[2])) {//category level 2 id}
+      */
       if(is_object($categoryId)) {
         $categoryId = $categoryId->getId();
       }
@@ -57,4 +61,42 @@ class Gsd_Catalogg_Helper_Data extends Mage_Core_Helper_Abstract
         return $collection;
     }
 
+    public function getChildCategory($categoryId,$limit=null) {
+      	if(is_object($categoryId)) {
+        	$categoryId = $categoryId->getId();
+      	}
+        $collection = Mage::getModel('catalog/category')
+        	->getCollection()
+			->addAttributeToSelect(array('name','url_key'))
+			->addAttributeToFilter('is_active',1)
+			->addAttributeToFilter('parent_id',$categoryId)
+			->addAttributeToSort('position');
+        if($limit) {
+   		    $collection->setPageSize($limit);
+        }
+        return $collection;
+    }
+
+    public function getChildCategoryRecursive($category,$limit=null) {
+      	if(!is_object($category)) {
+        	$category = Mage::getModel('catalog/category')->load($category);
+        	if(!$category->getId()) {
+        		return null;
+        	}
+      	}
+      	$path = $category->getPath();
+    	$ids = explode('/', $path);
+    	$lengIds = count($ids);
+    	if(!$lengIds) {
+    		return null;
+    	}
+    	$lengIds -= 1;
+    	for($i = $lengIds; $i >=2 ; $i--) {
+    		$collection = $this->getChildCategory($ids[$i],$limit);
+    		if(count($collection)) {
+    			return $collection;
+    		}
+    	}
+    	return null;
+    }
 }
