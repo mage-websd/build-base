@@ -10,9 +10,9 @@
             <action method="addItem">
                 <type>skin_css</type><name>css/allpage.css</name>
             </action>
-            <action method="addItem">
+            <!-- <action method="addItem">
                 <type>skin_js</type><name>js/allpage.js</name>
-            </action>
+            </action> -->
         </reference>
         <reference name="content">
             <block type="core/template" name="data_base_url" template="baseg/base_url.phtml" before="-" />
