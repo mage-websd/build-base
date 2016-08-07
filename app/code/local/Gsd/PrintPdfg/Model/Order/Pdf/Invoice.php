@@ -32,7 +32,7 @@ class Gsd_PrintPdfg_Model_Order_Pdf_Invoice extends Mage_Sales_Model_Order_Pdf_I
         
         $lines[0][] = array(
             'text'  => Mage::helper('sales')->__('Short description'),
-            'feed'  => 300,
+            'feed'  => 330,
             'align' => 'right'
         );
 

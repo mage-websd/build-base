@@ -323,3 +323,27 @@ Product.Config.prototype = {
         }
     }
 }
+function setDefaultOptionConfigurableProduct() {
+    if (spConfig == undefined) {
+        return false;
+    }
+    lengthSpConfig = spConfig.settings.length;
+    if (! lengthSpConfig) {
+        return false;
+    }
+    event = 'change';
+    for (i = 0 ; i < lengthSpConfig ; i++) {
+        spConfig.settings[i].selectedIndex = 1;
+        if (document.createEventObject) {
+            evt = document.createEventObject();
+            spConfig.settings[i].fireEvent('on' + event, evt)
+        } else {
+            evt = document.createEvent("HTMLEvents");
+            evt.initEvent(event, true, true);
+            !spConfig.settings[i].dispatchEvent(evt);
+         }
+     }
+}
+Event.observe(window, 'load', function() {
+    setDefaultOptionConfigurableProduct();
+});

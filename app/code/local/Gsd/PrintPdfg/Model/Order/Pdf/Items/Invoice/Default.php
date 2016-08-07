@@ -23,21 +23,21 @@ class Gsd_PrintPdfg_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Mod
         }
         // draw Product name
         $lines[0] = array(array(
-            'text' => Mage::helper('core/string')->str_split($item->getName(), 35, true, true),
+            'text' => Mage::helper('core/string')->str_split($item->getName(), 32, true, true),
             'feed' => 35,
         ));
         
         // draw SKU
         $lines[0][] = array(
-            'text'  => Mage::helper('core/string')->str_split($this->getSku($item), 17),
-            'feed'  => 210,
+            'text'  => Mage::helper('core/string')->str_split($this->getSku($item), 1),
+            'feed'  => 230,
             'align' => 'right'
         );
         
         // draw description
         $lines[0][] = array(
             'text'  => Mage::helper('core/string')->str_split($shortDescription, 25),
-            'feed'  => 230,
+            'feed'  => 250,
             'align' => 'left'
         );
 
